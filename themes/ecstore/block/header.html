@@ -1,0 +1,340 @@
+<!-- 头部信息栏 -->
+<div id="header" class="page-header">
+  <div class="inner-wrap">
+    <div class="header-left"   >
+    </div>
+    
+    <div class="header-main">
+       <a href="<{link app=b2c ctl=site_index act=index}>">
+           <img src="/public/images/pcimg/index-logo.png" />
+       </a>
+   </div>
+    
+    <div class="header-right">
+     <ul>
+     	<li class="r-user">
+     		<div class="c-icon-user"> 
+                <a href="<{link app=b2c ctl=site_member act=index}>"><i></i></a>
+     		</div>
+     		<div class="head-dropdown">
+     			  <dl>
+     			  	<dt class="fore-name nologin">
+                        <a href="<{link app=b2c ctl=site_passport act=login}>">登录</a> / 
+                        <a href="<{link app=b2c ctl=site_passport act=signup}>"> 注册</a>
+                        <a class="uname logined"></a>
+                    </dt>
+                    <dt class="fore-name logined">
+                       <a class="uname logined"></a>
+                    </dt>
+     			  	<dd class="first-d"><a href="<{link app=b2c ctl=site_member act=orders}>">我的订单</a></dd>
+     			  	<dd><a href="<{link app=b2c ctl=site_member act=receiver}>">地址管理</a></dd>
+     			  	<dd><a href="<{link app=b2c ctl=site_member act=refundlist}>">申请退款</a></dd>
+     			  	<dd><a href="<{link app=aftersales ctl=site_member act=afterlist}>">申请退换货</a></dd>
+     			  	<dd><a href="<{link app=b2c ctl=site_member act=coupon}>">我的优惠券</a></dd>
+     			  	<dd class="last-d logined">
+                      <a href="<{link app=b2c ctl=site_passport act=logout}>"><{t app='b2c'}>退出<{/t}></a>
+                    </dd>
+     			  	
+     			  </dl>
+     		</div>
+     	</li>
+     	<li class="r-enjoy">
+     		<div class="c-icon-enjoy">
+                <a href="<{link app=b2c ctl=site_member act=favorite}>"><i onmouseover="showFavGoods()"></i></a>
+     		</div>
+     	   <div class="head-dropdown"></div>
+     	</li>
+     	<li class="r-cart">
+     		<div class="c-icon-cart">
+                <a href="<{link app=b2c ctl=site_cart act=index}>"><i onmouseover="showCartGoods()"></i></a>
+     		</div>
+     		<div class="head-dropdown"></div>     	 
+     	</li>
+     	<div style="clear: both;"></div>
+     </ul>
+   
+    
+   
+    </div>
+    <div style="clear: both;"></div>
+    
+  </div>
+</div>
+
+
+<!-- 页面导航栏 -->
+<div id="nav" class="page-nav">
+  <div class="inner-wrap">
+     <div class="page-nav-left">
+     	<ul class="page-navs" id="page-navs">
+     		<li class="ttbar-navs  ">
+     			<div class="dt cw-icon"><a href="<{link app=b2c ctl=site_index act=index}>">宇配商品</a></div>
+     			<div class="dd dropdown-layer"></div>
+     		</li>
+     		<li class="li-rongtong ">
+     			<div class="dt cw-icon"><a href="">宇融通
+                </a></div>
+     			  <div class="dd dropdown-layer">
+     				<div class="inner-wrap">
+     					<div class="rongtong-item-01">
+     						<ul>
+     							<li><a><i class="rt-01"></i></a></li>
+     							<li class="r-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+     						  <li><a><i class="rt-02"></i></a></li>
+     						  	<li class="r-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+     						  <li><a><i class="rt-03"></i></a></li>
+     						  	<li class="r-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+     						  <li><a><i class="rt-04"></i></a></li>
+     						 <div style="clear: both;"></div>
+     						</ul>
+     							
+     						
+     					</div>
+     					<div class="rongtong-item-02">
+     						<p><b>宇速采</b>全球货物随意购</p>
+     						<p><b>宇融品</b>运输仓储任性融</p>
+     						<p><b>宇快贷 </b>应收账款保理快捷贷</p>
+     						<p><b>宇未来</b>货物仓储监管便利融</p>
+     					</div>
+     			  </div>
+     			  </div>
+     		</li>
+     		<li class="li-storage ">
+     			
+     			<div class="dt cw-icon"><a href="http://cwms.yupeiwang.com/cwms-qt/home.shtml" target="_blank">云仓储</a></div> 
+      			  <div class="dd dropdown-layer">
+      			  	 
+     				<div class="inner-wrap">
+     					<div class="storage-item-01">
+     						<ul>
+     							 <li><a  href="http://cwms.yupeiwang.com/cwms-qt/member/memberCenter.shtml?flag=zxzc" target="_blank"> <i class="sto-01"></i></a></li>
+                                <li class="s-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+                               
+                                <li><a href=" http://cwms.yupeiwang.com/cwms-qt/member/memberCenter.shtml?flag=crksq&showFlag=0" target="_blank"><i class="sto-02"></i></a></li>
+                                <li class="s-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+
+                                <li><a href="http://cwms.yupeiwang.com/cwms-qt/member/memberCenter.shtml?flag=crksq&showFlag=1" target="_blank"><i class="sto-03"></i></a></li>
+                                <li class="s-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+
+                                <li><a href="http://cwms.yupeiwang.com/cwms-qt/member/memberCenter.shtml?flag=crkddgz" target="_blank"><i class="sto-04"></i></a></li>
+                                
+     							<!--<li class="s-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+     							<li><a><i class="sto-05"></i></a></li>-->
+     							<div style="clear: both;"></div>
+     						</ul>
+     						
+     					</div>
+     					
+     					
+     					<div class="storage-item-02">
+     						 <p><b>在线找仓&nbsp;&nbsp;&nbsp;</b>宇培全国冷链仓在线随心选</p>
+     						 <p><b>快速签约&nbsp;&nbsp;&nbsp;</b>线下沟通定制个性化方案再签约</p>
+     						 <p><b>即刻使用&nbsp;&nbsp;&nbsp;</b>签约后即刻出入库申请、出入库订单跟踪、在库库存查询</p>
+     						 <p><b>仓配一体&nbsp;&nbsp;&nbsp;</b>提供全程冷链配送服务，云仓储与云物流打通</p>
+     						 <button class="detail-btn" id="get-detail-s">了解更多</button>
+     					</div>
+     		
+     					<div class="storage-item-03">
+     						 <p class="title-s">云仓储服务</p>
+     						 <p class="content-s">全球化冷链园区网络布局，50个国内园区，8个海外园区，11个自贸区全覆盖，冷链仓储设施面积达158万平方米，
+     						 	多温区设置（冷冻、冷藏、恒温、常温）保障不同客户的需求。</p>
+     					 
+     						 	<img src="/public/images/pcimg/index/map-03.png" />
+     					</div>
+     		 
+     					
+     			  </div>
+     			  </div>    		
+     		
+     		</li>
+     		<li class="li-logistics ">
+     			<div class="dt cw-icon"><a href="http://ctms.yupeiwang.com/ctms-qt/home.shtml" target="_blank">云物流</a></div> 
+      			  <div class="dd dropdown-layer">
+     				<div class="inner-wrap">
+     					<div class="logistics-item-01">
+     						<ul>
+     							   <li><a  href="http://ctms.yupeiwang.com/ctms-qt/member/memberCenter.shtml?flag=yfsxcx " target="_blank"><i class="log-01"></i></a></li>
+                                <li class="l-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+
+                                <li ><a  href="http://ctms.yupeiwang.com/ctms-qt/member/memberCenterByMenu.shtml?flag=wyxd" target="_blank"><i class="log-02"></i></a></li>
+                                <li class="l-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+
+                                <li><a  href="http://ctms.yupeiwang.com/ctms-qt/member/memberCenter.shtml?flag=ddgz" target="_blank"><i class="log-03"></i></a></li>
+                                <!--<li class="l-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>-->
+     							<!--<li class="l-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+     						  <li><a><i class="log-04"></i></a></li>-->
+     						  <div style="clear: both;"></div>
+     						</ul>
+     					</div>
+     					
+     					<div class="logistics-item-02">
+     						<p><b>在线运费时效查询</b>输入提货点收货点查询宇培运费和时效</p>
+     						<p><b>在线下单</b>先选服务再下单，100%确保订单执行</p>
+     						<p><b>在线跟踪</b>实时跟踪订单运输状态</p>
+     						<p><b>线下服务线上化</b>客户线下下单也可线上跟踪</p>
+     						<button class="detail-btn-02" id="detail-btn-02">了解更多</button>
+     					</div>
+     					
+     					<div class="logistics-item-03">
+     						  <p>云物流冷链配送</p>
+     						  <img src="/public/images/pcimg/index/wuliu.png" />
+     						</div>
+     					
+     			  </div>
+     			  </div>    		
+     		
+     		</li>
+     		<li class="li-qingguan ">   			
+     			<div class="dt cw-icon"><a href="http://ccs.yupeiwang.com/ccs-qt/gotologin.shtml" target="_blank">云清关</a></div> 
+        		<div class="dd dropdown-layer">
+     				<div class="inner-wrap">
+     					<div class="qingguan-item-01">
+      						<ul>
+     							<!--<li><a><i class="qing-01"></i></a></li>    	
+     							<li class="q-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>-->
+     						  <li><a href="http://ccs.yupeiwang.com/ccs-qt/gotologin.shtml" target="_blank"><i class="qing-02"></i></a></li> 
+     						  <li class="q-line"><a><img src="/public/images/pcimg/index/c-line.png" /></a></li>
+     						  <li><a href="http://ccs.yupeiwang.com/ccs-qt/gotologin.shtml" target="_blank"><i class="qing-03"></i></a></li> 
+     						  <div style="clear: both;"></div>
+     					</div>
+     					<div class="qingguan-item-02">
+     						<p><b>在线下单</b>用户仅报关资料上传，系统自动获取所有报关信息</p>
+     						<p><b>无缝对接</b>与海关系统无缝对接，信息及时，数据可靠</p>
+     						<p><b>在线跟踪</b>实时跟踪报关订单通关状态</p>
+     						<p><b>云存储</b>用户历史报关资料长期留存</p>
+     					  <button class="detail-btn-03" id="detail-btn-03">了解更多</button>
+     					</div>     					
+      					<div class="qingguan-item-03">
+      						<p>进口清关流程</p>
+      						<img src="/public/images/pcimg/index/qingguan.png"/>
+     					  </div>    					
+     			  </div>
+     			  </div>  			
+     		</li>
+     	</ul>
+     </div>
+     <div class="page-nav-right">
+     	<!-- <input class="seach-input"  type="text" placeholder="搜索" /> -->
+        <form action="<{link app=b2c ctl=site_search act=result }>" method="post" id="headerPageSearch">
+            <input type="text" name="search_keywords" placeholder="搜索" class="seach-input"  />
+            <i class="i-search-btn" onclick="j('#headerPageSearch').submit()"></i>
+        </form>
+
+     </div>
+  </div>
+</div>
+<div class="yp-overlay"></div>
+<script>
+j(function(){
+	var _height = j(document).height()-185;
+    j(".yp-overlay").css('height', _height);
+    //导航栏
+    j("#page-navs li").hover(function(){
+    	j(".yp-overlay").show();
+        //j(this).find('.dropdown-layer').show();
+        j(this).addClass('show');
+
+        //下拉数据
+        if (j(this).hasClass('ttbar-navs')) {
+            FCdownload();
+        }
+    	
+    })
+    j("#page-navs li").mouseleave(function(){
+    	j(".yp-overlay").hide();
+    	j(this).removeClass('show');
+    })
+    
+    j(".header-right ul li").hover(function(){
+    	
+    	j(this).addClass('show');
+    })
+     
+    j(".header-right ul li").mouseleave(function(){
+    	
+    	j(this).removeClass('show');
+    }) 
+    //云仓储详情
+    j("#get-detail-s").click(function(){
+    	 j(".storage-item-03").show();
+    	 j(this).hide();
+    })
+    //云物流
+    j("#detail-btn-02").click(function(){
+    	 j(".logistics-item-03").show();
+    	 j(this).hide();
+    })
+    //云清关
+    j("#detail-btn-03").click(function(){
+    	 j(".qingguan-item-03").show();
+    	 j(this).hide();
+    })
+    //购物车数据总数显示
+    acartNum = j.cookie('S[CART_COUNT]');
+    if(acartNum){
+        j('.cartNum').show().text(acartNum);
+    }
+
+    // var cartGoodsUrl = '<{link app=b2c ctl=site_tools act=getCartGoods}>';
+    // j.getJSON(cartGoodsUrl,null,function(res){
+    //     if (res.error == 0 && res.data > 0) {
+    //         j('.cartNum').show().text(res.data);
+    //     }
+    // });
+
+    var uname = Cookie.read('UNAME') || '';
+    if (j('.nologin').length && j('.logined').length ) {
+        if(uname){
+            j('.nologin').hide();
+            j('.logined').show();
+            j('.uname').html(uname);
+        }else{
+            j('.nologin').show();
+            j('.logined').hide();
+        }
+    }
+
+});
+
+//购物车列表显示
+function showCartGoods(){
+    var fillBox = j('.r-cart .head-dropdown');
+    if(fillBox.html() != ''){
+        return;
+    }
+    var cartGoodsUrl = '<{link app=b2c ctl=site_cart act=view}>';
+    fillBox.html('<div class="textl">加载中...</div>');
+    j.get(cartGoodsUrl,null,function(data){
+        fillBox.html(data);
+    },'html');
+}
+
+
+//收藏列表显示
+function showFavGoods(){
+    var fillBox = j('.r-enjoy .head-dropdown');
+    if(fillBox.html() != ''){
+        return;
+    }
+    var cartGoodsUrl = '<{link app=b2c ctl=site_cart act=favorite}>';
+    fillBox.html('<div class="textl">加载中...</div>');
+    j.get(cartGoodsUrl,null,function(data){
+        fillBox.html(data);
+    },'html');
+}
+
+//分类&&国家下拉框显示
+function FCdownload(){
+    var fillBox = j('.ttbar-navs .dropdown-layer');
+    if(fillBox.html() != ''){
+        return;
+    }
+    var cartGoodsUrl = '<{link app=b2c ctl=site_news act=FCdownload}>';
+    fillBox.html('<div class="textl">加载中...</div>');
+    j.get(cartGoodsUrl,null,function(data){
+        fillBox.html(data);
+    },'html');
+}
+
+</script>
+ 

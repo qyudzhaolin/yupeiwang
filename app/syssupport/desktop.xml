@@ -1,0 +1,11 @@
+<desktop>
+    <!--<adminpanel group="desktop_setting" permission="shopsetting" controller="appmgr" display='true' order="20">应用中心</adminpanel>-->
+    <permissions>
+        <permission id="syssupport.support" display='true' workground='support.wrokground.theme'>获取技术支持</permission>
+    </permissions>
+    <workground name="技术支持" id="syssupport.support" app="syssupport" controller="support" action="index" order="8">
+        <menugroup name="支持中心">
+            <menu controller='support' action='index' permission='syssupport.support' display='true' order="5">支持中心</menu>
+        </menugroup>
+    </workground>
+</desktop>

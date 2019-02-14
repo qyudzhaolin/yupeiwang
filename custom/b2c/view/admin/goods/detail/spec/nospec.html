@@ -1,0 +1,324 @@
+<{if $goods.product}>
+<{assign var=product value=$goods.product|current}>
+<{/if}>
+<input type='hidden' name='goods[product][0][status]' value='true'/>
+<input type='hidden' name='goods[product][0][product_id]' value='<{$product.product_id}>'>
+<input type='hidden' name='goods[product][0][unitEn]' value='<{$product.unitEn}>' class="yp-unit-en">
+
+<table border="0" cellpadding="0" cellspacing="0" id="nospec_body"  class="advui">
+<tbody>
+  <tr>
+    <th><{t}>宇培管库：<{/t}></th>
+    <td>
+      <input onclick="yp_store_set(1)" class="is_yp_store" type="radio" name="goods[product][0][is_yp_store]"<{if $product.is_yp_store == '1' }> checked="checked"<{/if}> value="1" ><{t}>是<{/t}>
+      <input onclick="yp_store_set(0)" class="is_yp_store" type="radio" name="goods[product][0][is_yp_store]"<{if $product.is_yp_store <= 0 }> checked="checked"<{/if}> value="0" ><{t}>否<{/t}>
+    </td>
+  </tr>
+
+  <tr>
+    <th><{t}>销售价：<{/t}></th>
+    <td>
+      <{permission perm_id='editprice'}>
+      <{input vtype="unsigned" key="price" class="inputstyle" value=$product.price.price.price name="goods[product][0][price][price][price]" style="width:60px" maxlength="25" }>
+      <{/permission}>
+        <{permission perm_id='editmemberlevelprice'}>
+        <{button type="button" label=$___b2c="编辑会员价格"|t:'b2c' onclick="goodsEditor.mprice.bind(goodsEditor)(this)" icon="btn_edit.gif" app='desktop'}>
+        <{/permission}>
+        <span>
+    <{foreach from=$mLevels item=lv }>
+    <input type="hidden" key="member_lv_price_<{$lv.member_lv_id}>" name="goods[product][0][price][member_lv_price][<{$lv.member_lv_id}>]" level="<{$lv.member_lv_id}>" value="<{if $product.price.member_lv_price[$lv.member_lv_id][custom] == 'true'}><{$product.price.member_lv_price[$lv.member_lv_id][price]}><{/if}>" type="money" vtype="mprice" />
+      <{/foreach}>
+      </span><!--tag_foreign_nospec-->
+      </td>
+  </tr>
+   <tr>
+  <th><{t}>销售标准价：<{/t}></th>
+    <td>
+    <{input vtype="unsigned" key="sales_price" name="goods[product][0][price][sales_price][price]" maxlength="30" style="width:60px" value=$product.price.sales_price.price}>
+    </td>
+  </tr>
+   <tr>
+ <th><{t}>商品成本单价：<{/t}></th>
+    <td>
+    <{input vtype="unsigned" key="merchandisecost" id="merchandisecost" class="chenben" name="goods[product][0][price][merchandisecost][price]" maxlength="30" style="width:60px" value=$product.price.merchandisecost.price|cur_odr:'':true}>
+    </td>
+ 
+  <th><{t}>包装成本单价：<{/t}></th>
+    <td>
+    <{input vtype="unsigned" key="packingcost" id="packingcost" class="chenben" name="goods[product][0][price][packingcost][price]" maxlength="30" style="width:60px" value=$product.price.packingcost.price|cur_odr:'':true}>
+    </td>
+  
+  <th><{t}>商品成本总价：<{/t}></th>
+    <td>
+      <{permission perm_id='editcostprice'}>
+    <{input vtype="unsigned"  id="costprice" readonly="readonly" key="cost" name="goods[product][0][price][cost][price]" maxlength="30"  style="width:60px; background: #EFEFEF" value=$product.price.cost.price|cur_odr:'':true }>
+    <{/permission}>
+    </td>
+  </tr>
+  <!--  readonly="readonly"  -->
+  
+  <tr>
+    <th><{t}>市场价：<{/t}></th>
+    <td>
+    <{permission perm_id='editmktprice'}>
+    <{input vtype="unsigned" key="mktprice" name="goods[product][0][price][mktprice][price]" maxlength="30" style="width:60px" value=$product.price.mktprice.price }>
+    <{/permission}>
+    </td>
+  </tr>
+  <tr>
+    <th><{t}>货号：<{/t}></th>
+    <td><{input type="text" value=$product.bn key="bn" name="goods[product][0][bn]" maxlength="30" }></td>
+  </tr>
+  <tr>
+    <th><{t}>重量：<{/t}></th>
+    <td><{input type="unsigned" key="weight" value=$product.weight name="goods[product][0][weight]" style="width:60px" maxlength="25" }><{t}>克(g)<{/t}></td>
+  </tr>
+  <{if $goods.type.is_physical || $gtype.0.is_physical}>
+  <tr>
+    <th><{t}>库存：<{/t}></th>
+    <td>
+    <span class="yp-disabled-cover store"><{$product.store}></span>
+    <{permission perm_id='editstore'}>
+    <{input class="yp-disabled yp-store" type="unsigned" key="store" value=$product.store name="goods[product][0][store]" style="width:60px" maxlength="25" }>
+    <{input type="hidden"  value=$product.freez name="goods[product][0][freez]" style="width:60px" maxlength="25" }>
+    <{if $product.freez}>
+    <span class="notice-inline"><{t}>当前冻结库存<{/t}> <font size="3" color="red"><{$product.freez}></font> ，库存不能小于冻结库存</span></td>
+    <{/if}>
+    <{/permission}>
+    </td>
+  </tr>
+  <{/if}>
+    <{if $storeplace == 'true'}>
+    <tr>
+        <th><{t}>货位：<{/t}></th>
+        <td><{input type="text" key="store_place" value=$goods.store_place name="goods[product][0][store_place]" maxlength="25" }></td>
+    </tr>
+    <{/if}>
+
+    <tr class="yp_store_set">
+      <th>仓库：</th>
+      <td>
+          <{input type="select" class="storehouseSelect" name="goods[product][0][storehouse_id]" required="true" nulloption="1" rows=$storehouseData valueColumn="ebpjId" labelColumn="ebpjWhName" value=$product.storehouse_id}>
+      </td>
+    </tr>
+
+    <tr class="yp_store_set">
+      <th>货主：</th>
+      <td>
+        <div class="fl">
+        <{button app="desktop" onclick="manage.selectCloudOwners()" class="cloudOwnersButton"  label=$___b2c="设置货主"|t:'b2c' icon="btn_edit.gif"}>
+        <{input type="hidden" class="owner_code ownerSelect" name="goods[product][0][owner_code]" value=$product.owner_code }>
+        <span class="selectedBox ownerCodeSelectedBox">
+          <{if !empty($product.owner_code)}>
+            <{$ownerDatas[$product.owner_code]}>
+          <{else}>
+            暂未设置
+          <{/if}>
+        </span>
+        </div>
+      </td>
+    </tr>
+
+    <tr class="yp_store_set">
+      <th>WMS商品编号：</th>
+      <td>
+        <div class="fl">
+        <{button app="desktop" onclick="manage.selectCloudGoods()" class="cloudGoodsButton"  label=$___b2c="设置WMS商品编号"|t:'b2c' icon="btn_edit.gif"}>
+        <{input type="hidden" class="sku_code" name="goods[product][0][sku_code]" value=$product.sku_code }>
+        <span class="selectedBox skuCodeSelectedBox">
+          <{if !empty($goods.sku_code)}>
+            <{$goods.sku_code}>
+          <{else}>
+            暂未设置
+          <{/if}>
+        </span>
+        </div>
+      </td>
+    </tr>
+
+<{script src="global.js" app="desktop"}>
+<script>
+function yp_store_set(is_yp_store){
+    //如果是宇培管库则显示仓库、货主、wms商品&&冻结计量单位、库存
+    if (is_yp_store == '1') {
+        j('tr.yp_store_set').show();
+        j('.yp-disabled-cover').show();
+        j('.yp-disabled').hide();
+    }else{
+        j('tr.yp_store_set').hide();
+        j('.yp-disabled-cover').hide();
+        j('.yp-disabled').show();
+    }
+
+}
+j(function(){
+    //点击货主联动wms商品
+    // j('.ownerSelect').change(function(){
+    //     var ownerCode = j(this).val();//货主编码
+    //     var projectId = j('.storehouseSelect').val();//仓库ID参数
+    //     if(ownerCode == '' || projectId <= 0) return;
+    //     var url = '<{link app=b2c ctl=admin_goods act=getCloudGoods}>';
+    //     var prams= {ownerCode:ownerCode, projectId:projectId};
+    //     j.getJSON(url,prams,function(data){
+    //         if (!data.error) {
+    //             console.log(data);
+    //         }
+    //     });
+    // });
+    yp_store_set("<{$goods.is_yp_store}>");
+
+});
+</script>
+
+
+<{if $spec}>
+  <tr>
+    <th><{t}>规格：<{/t}></th>
+    <td style="padding:4px 0">
+        <{button icon="btn_add.gif" label=$___b2c="开启规格"|t:'b2c' app="desktop" id="open_spec" }>
+        <span class="notice-inline"><{t}>开启规格前先填写以上价格等信息，可自动复制信息到货品<{/t}></span>
+    </td>
+  </tr>
+  <{/if}>
+</tbody>
+</table>
+<div style="display:none;">
+<h2 class="head-title"><{t}>规格<{/t}></h2>
+<div class="goods-spec-detail">
+    <{button label="label" label=$___b2c="编辑"|t:'b2c' app="desktop" class="selectspec"}>
+    <div class="goods-spec-selected">
+        <dl>
+            <dt>已经启动的规格项:</dt>
+            <{foreach from=$goods.used_spec item=u_spec}>
+            <dd><{$u_spec.spec_name}>(<{$u_spec.nums}>)</dd>
+            <{/foreach}>
+        </dl>
+        <p class="goods-num">
+              已生成货品(<{$goods.product_num}>)
+        </p>
+    </div>
+    <{button label="label" label=$___b2c="关闭"|t:'b2c' class="closespec"}>
+</div>
+</div>
+<input name="new_goods_spec" type='hidden' id='new_goods_spec' value=''/>
+<script>
+  j(function(){
+    j('.chenben').keyup(function(){
+        a =document.getElementById("merchandisecost").value;
+      if(a){
+        if( j.isNumeric(a)==false){
+          alert("商品成本单价输入值必须是数字") ;
+          return false;
+        }  
+        $result=number_check(a);
+          if($result==false){
+            $alength=a.toString().split(".")[1].length;
+            if($alength==3){
+               a =Number(a).toFixed(2);
+              document.getElementById("merchandisecost").value=a
+            }
+            
+          }
+      }
+       b =document.getElementById("packingcost").value;
+      if(b){
+        if( j.isNumeric(b)==false){
+         alert("包装成本单价输入值必须是数字") ;
+         return false;
+        } 
+          $resultz=number_check(b);
+          if($resultz==false){
+               $blength=b.toString().split(".")[1].length;
+               if($blength==3){
+                 b = Number(b).toFixed(2);
+                 document.getElementById("packingcost").value=b
+               }
+          }
+      }
+      var c=Number(a)+Number(b);
+      c = c.toFixed(2);
+      document.getElementById("costprice").value=c;
+    });
+  });
+ 
+function number_check(number){
+    
+      var reg =/^([1-9]\d*|[0-9])(\.\d{1,2})?$/;
+      if(!reg.test(number)){
+           $alength=number.toString().split(".")[1].length;
+            if($alength!=0){
+            alert("如果小数不能超过两位");
+            }
+        return  false;
+      }else{
+        return  true;
+      }
+
+}
+  
+function toJSON(element, string) {
+    var json = {};
+    element.getElements('input,select,textarea').each(function(el){
+        if((el.type == 'checkbox' || el.type=='radio') && !el.checked || !el.name || !el.value || el.disabled) return;
+        json[el.name] = el.value;
+    });
+    return string ? JSON.encode(json) : json;
+}
+<{if $spec}>
+var activeProduct = <{$activeProduct|default:'false'}>;
+var type_id = $('gEditor-GType-input').value;
+$('open_spec').addEvent('click',function(e){
+    if(activeProduct) return alert('此商品尚有未处理的订单，不能开启规格。')
+    if($('gEditor-GType-input').getValue()=='1'){
+        alert('请先选择商品类型！');
+        $('gEditor-GType-input').focus();
+        return false;
+    }
+    var hsspec=new Hash();
+    $ES('#nospec_body input[key]').each(function(ipt){
+        if(ipt.value.trim().length)
+        hsspec.set(ipt.get('key'),ipt.value);
+    });
+    $('goods-spec').store('hsspec',hsspec);
+    var url = 'index.php?app=b2c&ctl=admin_products&act=set_spec_index&nospec=1&'+$$('.pic-area')[0].toQueryString()+'&type_id=' + type_id + '&'+$('goods-spec').toQueryString();
+    var goods_id = '<{$goods.goods_id}>';
+    if(goods_id){
+        url = url + '&goods_id=' + goods_id;
+    }
+    window.open(url,'new');
+});
+
+    $$('.goods-spec-detail .selectspec')[0].addEvent('click',function(e){
+        window.open('index.php?app=b2c&ctl=admin_products&act=set_spec_index&nospec=0&'+$$('.pic-area')[0].toQueryString()+'&type_id=' + type_id + '&goods_id=<{$goods.goods_id}>','edit');
+    });
+    $$('.goods-spec-detail .closespec')[0].removeEvents('click').addEvent('click',function(e){
+       if(e&&!confirm('<{t}>关闭后现有已添加的货品数据将全部丢失，确定要关闭规格吗？<{/t}>'))return;
+       new Request.HTML({
+       url:'index.php?app=b2c&ctl=admin_goods_editor&act=nospec',method:'post',
+       update:'goods-spec',data:'goods_id=<{$goods.goods_id}>&type_id='+type_id}).send();
+    });
+
+<{/if}>
+function isNew(data){
+        var goodsNum,specJson;
+
+        goodsNum = JSON.decode(data).productNum;
+        specJson = JSON.decode(data).used_spec;
+
+        $$('#goods-spec table.advui').setStyle('display','none');
+        $$('#goods-spec table.advui').getNext().setStyle('display','block');
+
+        $('new_goods_spec').set('value',data);
+
+        $$('.goods-spec-detail .goods-spec-selected p')[0].innerHTML = "已生成货品("+goodsNum+")";
+
+
+        $$('.goods-spec-detail .goods-spec-selected dl dd').destroy();
+
+        specJson.each(function(item){
+            new Element('dd',{
+                html:item.spec_name+'('+item.nums+')'
+            }).inject($$('.goods-spec-detail .goods-spec-selected dl dt')[0],'after');
+        });
+}
+</script>

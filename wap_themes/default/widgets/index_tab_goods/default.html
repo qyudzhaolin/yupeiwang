@@ -1,0 +1,39 @@
+<div class="home-hot" style="padding:0px 15px">
+    <div class="cat_more nodisplay">
+        <span>热门产品</span>
+    </div>
+    <div class="swiper-wrapper">
+        <{foreach from=$data.goodsRows item=row key=gid name=goodsrow}>
+        <div class="swiper-slide">
+            <{assign var=pickey value=$setting.gpic_size|default:'goodsPicS' }>
+            <a href="<{$row.goodsLink}>">
+                <div class="goodsimg">
+                    <img src="<{$row[$pickey]}>" alt="<{$row.goodsName}>" />
+                </div>
+                <div class="goodsName">
+                    <{$row.goodsName}>
+                </div>
+                <div class="goodsName area">
+                    产地：<{$row.areaName|default:'无'}>
+                </div>
+                <div class="goodsName spec" style="display: none;">
+                    规格：<{$row.products.0.spec_info}>
+                </div>
+                <div class="price">
+                    <{$row.goodsSalePrice|cur}>
+                </div>
+            </a>
+        </div>
+        <{/foreach}>
+    </div>
+</div>
+
+<script>
+    var swiper1 = new Swiper('.home-hot', {
+      slidesPerView: 3,
+      spaceBetween: 10,
+      slidesPerGroup: 3,
+      loop: false,
+      loopFillGroupWithBlank: true
+    });
+</script>

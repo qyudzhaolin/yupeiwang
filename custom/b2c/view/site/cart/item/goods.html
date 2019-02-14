@@ -1,0 +1,121 @@
+<{if $aCart.object.goods}>
+<{foreach from=$aCart.object.goods item=goods key=_obj_key}>
+<{assign var=product value=$goods.obj_items.products.0}>
+ <tbody class="cart-item">
+    <!-- 主商品 -->
+    <tr class="cart-product<{if !$goods.adjunct}> last<{/if}>">
+      <td class="paddingL10">
+        <input class="cartGoodsItem hide" type="checkbox" />
+        <input type="hidden" name="obj_type" value="goods">
+        <input type="hidden" name="goods_ident" value="<{$goods.obj_ident}>">
+        <input type="hidden" name="goods_id" value="<{$product.goods_id}>">
+        <input type="hidden" name="min" value="1"/>
+        <input type="hidden" name="max" value="<{$goods.store.real}>"/>
+        <input type="hidden" name="stock" value="<{$goods.store.store}>"/>
+        <div class="p-pic">
+          <a href="<{link app=b2c ctl=site_product act=index arg0=$product.product_id}>" target="_blank"><img src="<{$product.default_image.thumbnail|default:$env.conf.site.default_thumbnail_pic|storager:'s'}>" alt="<{$product.name}>"></a>
+        </div>
+      </td>
+      <td class="p-info">
+        <div class="p-title">
+            <p><a target="_blank" href="<{link app=b2c ctl=site_product arg0=$product.product_id}>"><{$product.name}>
+            </a></p>
+            <{if $product.sales_price > 0}>
+                <p><{$product.sales_price|cur_odr}>/500g</p>
+            <{/if}>
+            <p><{$product.price.price|cur_odr}><{if !empty($product.unit)}>/<{$product.unit}><{/if}></p>
+            
+            <{if $product.min_buy > 0}>
+            <p>起发量：<{$product.min_buy}><{$product.unit}></p>
+            <{/if}>
+
+        </div>
+      </td>
+      <td class="p-discount">
+        <{if !empty($product.spec_info)}>
+        <div>
+            <{foreach from='、'|explode:$product.spec_info item=spec_item}>
+            <p><{$spec_item}></p>
+            <{/foreach}>
+        </div>
+        <{/if}>
+      </td>
+
+      <td class="p-price"><{$product.price.price|cur_odr}></td>
+      <td>
+        <div class="p-quantity">
+          <a  href="javascript:void(0);" class="btn-decrease">-</a>
+          <input type="text" class="modify_quantity" name="modify_quantity[<{$goods.obj_ident}>][quantity]" value="<{$goods.quantity}>">
+          <a href="javascript:void(0);" class="btn-increase">+</a>
+          <{if $goods.store.store > 0}>
+          <span class="warn-message cart-store-note hide"><{t}>有货<{/t}></span>
+          <{else}>
+          <span class="warn-message cart-store-note hide"><{t}>采购中<{/t}></span>
+          <{/if}>
+        </div>
+
+      </td>
+      <td class="p-subtotal"><{$goods.subtotal_prefilter_after|cur_odr}></td>
+      <td class="p-action">
+        <!-- <{if $login=='nologin'}>
+        <a  href="<{link app=b2c ctl=site_passport act=login}>" class="btn-fav hide">收藏</a>
+        <{else}>
+        <a href="javascript:void(0);" class="btn-fav hide" rel="_addfav_" data-gid="<{$product.goods_id}>">收藏</a>
+        <{/if}>
+        <i class="hide">|</i> -->
+        <a href="javascript:void(0);" class="btn-delete">删除</a>
+      </td>
+    </tr>
+    <!-- 配件 -->
+    <{foreach from=$goods.adjunct item=adjunct key=key name=adjunct}>
+    <tr class="p-adjunct<{if $smarty.foreach.adjunct.last}> last<{/if}>">
+      <td>
+        <input type="hidden" name="obj_type" value="goods">
+        <input type="hidden" name="min" value="<{$adjunct.store.min_buy_store}>"/>
+        <input type="hidden" name="max" value="<{$adjunct.store.real}>"/>
+        <input type="hidden" name="stock" value="<{$adjunct.store.store}>"/>
+        <div class="p-adjunct-icon"><{t}>配件<{/t}><br><{t}>商品<{/t}></div>
+      </td>
+      <td class="p-info">
+        <div class="p-pic">
+            <a target="_blank" href="<{link app=b2c ctl=site_product arg0=$adjunct.product_id}>"><img src="<{$adjunct.default_image.thumbnail|default:$env.conf.site.default_thumbnail_pic|storager:'s'}>" alt="<{$adjunct.name}>,<{$adjunct.spec_info}>"></a>
+        </div>
+        <div class="p-title"><a target="_blank" href="<{link app=b2c ctl=site_product arg0=$adjunct.product_id}>"><{$adjunct.name}>,<{$adjunct.spec_info|spec_desc}></a></div>
+      </td>
+      <td class="p-price"><{$adjunct.json_price.price|cur_odr}></td>
+      <td>
+        <div class="p-quantity">
+          <a href="javascript:void(0);" class="btn-decrease">-</a>
+          <input type="text" name="modify_quantity[<{$goods.obj_ident}>][adjunct][<{$adjunct.group_id}>][<{$adjunct.product_id}>][quantity]" id="" value="<{if $adjunct.store.store == 0}>0<{else}><{$adjunct.quantity}><{/if}>">
+          <a href="javascript:void(0);" class="btn-increase">+</a>
+        </div>
+        <{if $adjunct.store.store == 0}>
+          <span class="warn-message"><{t}>库存不足<{/t}></span>
+        <{elseif $adjunct.store.store <= 5}>
+          <span class="warn-message"><{t}>余量有限<{/t}></span>
+        <{/if}>
+      </td>
+      <td class="p-discount"><{($adjunct.json_price.price-$adjunct.price.price)*$adjunct.quantity|cur_odr}></td>
+      <td class="p-integral">
+          <{if ($adjunct.gain_score * $adjunct.quantity)}>
+              <{($adjunct.gain_score * $adjunct.quantity)}>
+          <{else}>
+              -
+          <{/if}>
+      </td>
+      <td class="p-subtotal"><{$adjunct.subtotal|cur_odr}></td>
+      <td class="p-action">
+        <{if $login=='nologin'}>
+        <a href="<{link app=b2c ctl=site_passport act=login}>" class="btn-fav">收藏</a>
+        <{else}>
+        <a href="javascript:void(0);" class="btn-fav" rel="_addfav_" data-gid="<{$adjunct.goods_id}>">收藏</a>
+        <{/if}>
+        <i>|</i>
+        <a href="javascript:void(0);" class="btn-delete">移除</a>
+      </td>
+    </tr>
+    <{/foreach}>
+  </tbody>
+  <{/foreach}>
+<{/if}>
+

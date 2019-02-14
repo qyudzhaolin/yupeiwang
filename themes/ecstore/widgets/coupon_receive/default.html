@@ -1,0 +1,73 @@
+<div class="sys-widget coupon-widget">
+    <div class="coupon-content">
+        <input type='hidden' id='coupons_status_url' value='<{$data.coupons_status_url}>'/>
+        <{if $setting.showtype=='1'}>
+        <ul class="act-coupons coupons-list-type1">
+            <{else}>
+            <ul class="act-coupons coupons-list-type2">
+                <{/if}>
+                <{foreach from=$data.coupons item=coupon name="coupon"}>
+                <{if $coupon.receiveStatus == '1'}>
+                <li class="cp-item " data-cid="<{$coupon.cpns_id}>">
+                    <{else}>
+                <li class="cp-item act" data-cid="<{$coupon.cpns_id}>">
+                    <{/if}>
+                    <div class="cp-left">
+                        <h3 class="title"><{$coupon.cpns_name}></h3>
+                        <{if $setting.showtype=='2'}>
+                        <p class="name"><{$env.conf.wap.wap.shopname}></p>
+                        <{/if}>
+                    </div>
+                    <div class="cp-right">
+                        <a class="cp-btn J-getCoupon"><{$coupon.receiveStatusName}></a>
+                    </div>
+                </li>
+                <{/foreach}>
+            </ul>
+    </div>
+</div>
+<script>
+    $$('.J-getCoupon').addEvent('click', function () {
+        var that = this;
+        var req = new Request({
+            url: '<{link app=b2c ctl=site_passport act=ajax_check_login}>',
+            method: 'post',
+            evalScripts: true,
+            onSuccess: function (responseText) {
+                re = eval("(" + responseText + ")");
+                if (re.status) {
+                    var card = that.getParent(".cp-item");
+                    if (card.hasClass('act')) return;
+                    var cid = card.dataset.cid;
+                    var postdata = "cpns_id=" + cid;
+                    var req = new Request({
+                        url: '<{link app=b2c ctl=site_member act=coupon_receive}>',
+                        data:postdata,
+                        method: 'post',
+                        evalScripts: true,
+                        onSuccess: function (responseTexts) {
+                            res = eval("(" + responseTexts + ")");
+                            if (res.status === "success") {
+                                alert("领取成功");
+                                card.addClass('act');
+                            } else if (res.status === "fail") {
+                                alert(res.msg);
+                                card.removeClass('act');
+                            }
+                        },
+                        onFailure: function () {
+                            alert('领取失败！');return;
+                        }
+                    }).send();
+            } else {
+                alert('您还没有登录');
+        location.href = re.url;
+    }
+    },
+        onFailure: function () {
+            alert('您还没有登录');
+            location.href = re.url;
+        }
+    }).send();
+    });
+</script>

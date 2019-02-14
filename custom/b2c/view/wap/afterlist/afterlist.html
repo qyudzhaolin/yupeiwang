@@ -1,0 +1,171 @@
+ <{css src="mui/mui.min.css" app="wap" }>
+ <{css src="mobile.css" app="wap"}>
+<div class="full-screen">
+    <!-- <header>
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+                         售后申请
+        </div>
+    </div>
+    </header> -->
+ <div class="top-box">
+      <div class="common-search-box" onclick="location.href='/wap/search-searchpage.html'">
+          <i class="icon iconfont icon-search"></i>
+          <div class="search-ele">请搜索您感兴趣的商品</div>
+      </div>
+  </div> 
+<!--    售后-->
+    <div class="customer-sevice-box">
+        <div class="customer-sevice-tab">
+            <div id="segmentedControl" class="mui-segmented-control ">
+                <a class="mui-control-item mui-active" href="#customer-service">
+                    <span>售后申请</span>
+                 
+                </a>
+                <a class="mui-control-item" href="#service-record">
+                    <span>售后记录</span>
+ 
+                </a>
+         
+            </div>
+        </div> 
+    
+        <div class="customer-service-content">
+            <div id="customer-service" class="mui-control-content mui-active">
+             <{foreach from=$orders item="order" name=orders key="key"}>
+                <ul class="service-goods-list">
+                <{if $order.is_afterrec==1}>
+                     <{foreach from=$order.goods_items item=item_goods name=goods_item}>
+                         <{if $item_goods.is_apply!=2}>
+                    <li>
+                        <div class="order-num">
+                            <p><b>订单号：</b><{$order.order_id}></p>
+                        </div>
+                        <div class="service-main">
+                            <div class="service-left">
+                                <img src="<{$item_goods.product.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager:'s'}>"/>
+                            </div>
+                            <div class="service-right">
+                                <p class="goods-name"><{$item_goods.product.name}></p>
+                                <span class="pt-number">×<{$item_goods.product.quantity}></span>
+                                <button class="service-btn"><a href="<{link app=b2c ctl=wap_member act=add_aftersales arg0=$order.order_id arg1=$item_goods.product.item_id}>">申请售后</a></button>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+                    </li>
+                         <{/if}>
+                     <{/foreach}>
+                 <{/if}>
+                </ul>
+             <{/foreach}>
+            </div>
+
+            <div id="service-record" class="mui-control-content">
+            <{foreach from=$orders item="order" name=orders key="key"}>        
+                <ul class="record-goods-list">
+                    <{foreach from=$order.goods_items item=item_goods name=goods_item}>
+                    <{if $item_goods.is_apply==2}>
+                    <li>
+                        <div class="record-header">
+                            <span><b>订单号:</b><{$order.order_id}></span>
+                            <span class="r-time"><b>申请时间:</b><{$order.received_time}></span>
+                        </div>
+                        <div class="service-main">
+                            <div class="service-left">
+                                <img src="<{$item_goods.product.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager:'s'}>"/>
+                            </div>
+                            <div class="service-right">
+                                <p class="goods-name"><{$item_goods.product.name}></p>
+                                <p class="r-num">申请数量：<{$item_goods.product.quantity}></p>
+                                <p>
+                                <span class="r-state">状态:<{switch from=$order.status}>
+                                    <{case value=1}><{t}>申请中<{/t}>
+                                    <{case value=2}><{t}>审核中<{/t}>
+                                    <{case value=3}><{t}>审核通过<{/t}>
+                                    <{case value=4}><{t}>完成<{/t}>
+                                    <{case value=5}><{t}>审核未通过<{/t}>
+                                <{/switch}></span>
+                                <button class="record-btn r-search-btn"><a href="<{link app=b2c ctl=wap_member act=afterrec_info arg0=$order.return_id}>">查看</a></button>
+                                <div style="clear: both;"></div>                                
+                                </p>
+                              <{if $order.status == '3' && !$order.customer_logistics}>
+                                <button id="Logistics" class="record-btn logistics-btn " onclick="logistics('<{$order.order_id}>','<{$order.return_id}>')">填写物流信息</button>  
+                               <{/if}>
+                            </div>
+                                <div style="clear: both;"></div>
+                        </div>                      
+                    </li>
+                    <{/if}>
+                    <{/foreach}>                
+            </ul>
+            <{/foreach}>   
+
+        </div>          
+        </div>      
+    </div>   
+</div>
+
+
+<!--售后end-->   
+<div class="yp-overlay"></div>
+<div class="ypmodal-container logistics-fill">
+    
+     <div class="logistics-title-box">
+        <span>填写物流信息</span>
+        <button class="l-check-btn" order_id="<{$order.order_id}>" return_id="<{$order.return_id}>"  >确定</button>
+     
+     </div>
+     <div class="log-from-box">
+        <div class="l-select-div">
+            <i class="i-select"></i>
+        <select class="l-select" id="logistics_company_name_" >
+    <option value="">请选择</option>
+     <{foreach from=$dlycorps item=dlycorp_info}>
+     <option value="<{$dlycorp_info.name}>"><{$dlycorp_info.name}></option>
+     <{/foreach}>
+            
+        </select>
+        </div>
+        <input type="text" id="logistics_no" placeholder="请输入物流单号" />
+     </div>         
+</div>   
+    
+<{script src="mui/mui.min.js" app="wap"}>
+<{wap_pagers data=$pager}>
+
+
+<script>
+    var _height = j(document).height();
+    j(".yp-overlay").css('height', _height);
+ 
+    // j(".logistics-btn").click(function(){
+      
+    //     j(".yp-overlay,.ypmodal-container").addClass('active');
+    // })
+     
+       function  logistics($order_id,$return_id){
+         window.order_id = $order_id;
+          window.return_id = $return_id;
+           j(".yp-overlay,.ypmodal-container").addClass('active'); 
+        }
+        //填写物流信息
+    $('.l-check-btn').bind('click',function(e){
+        var logistics_company_name = $('#logistics_company_name_').val();
+        var logistics_no = $('#logistics_no').val();
+        var data = 'return_id='+return_id+'&order_id='+order_id+'&logistics_company_name='+logistics_company_name+'&logistics_no='+logistics_no;
+        $.post('<{link app=b2c ctl=wap_member act=save_logistics_info}>',data,function(re){
+            var o = JSON.parse(re);
+            if(o.success){
+                layer.msg('操作成功');
+                j(".yp-overlay,.ypmodal-container").removeClass('active');
+            }else{
+                layer.msg(o.err_msg);
+            }
+        });
+        return false;
+    });
+</script>

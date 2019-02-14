@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+	<head>
+		<{header}>
+		<link rel="stylesheet" href="images/styles.css?v=1.2">
+		<link rel="stylesheet" href="/public/app/wap/statics/css/swiper.min.css">
+		<script type="text/javascript" src="/public/app/wap/statics/js/swiper.min.js"></script>
+	</head>
+	<body data-lazyload-config="{
+  onAfter:function(img){
+    try{if(img.get('data-img-zoom') == 'true') fixImageSize(img);}catch(e){}
+  }
+}">
+<!-- 顶部导航 -->
+<div id="topbar" class="page-topbar">
+  <div class="inner-wrap">
+    <div class="topbar-left">
+           <p class="news-title">公告 <{$articlRow.title}></p>
+           <a href="<{link app=b2c ctl=site_news act=detail arg0=$articlRow.article_id}>">点击查看</a>
+    </div>
+    <div class="topbar-right">
+          <img onclick="j(this).closest('#topbar').hide();" class="close-top" src="/public/images/pcimg/close.png" />
+        <div style="clear: both;"></div>
+    </div>
+  </div>
+</div>
+<{require file="block/header.html"}>
+	<!-- 主内容区 -->
+	<div id="container" class="page-container clearfix">
+		
+		<div class="clearfix index_banner">
+			<{widgets id="main_slider"}>
+			
+		</div>
+		<div class="inner-wrap yp-index-box">
+			<{widgets id="two_left"}>
+			<{widgets id="two_right"}>		 
+		</div>
+		<!--推荐-->
+		<!--<div class="border-white-2"></div>-->
+		<div class="inner-wrap yp-index-floor-01">
+			<{widgets id="one_block"}>
+		</div>
+		<!--推荐end-->
+		<!--楼层1-->
+		<!--<div class="border-white-2"></div>-->
+		<div class="inner-wrap yp-index-floor-02">
+	       <{widgets id="two_left2"}>
+	       <{widgets id="two_right2"}>
+	       <div style="clear: both;"></div>
+		</div>
+		<!--  楼层1end-->
+		<!--楼层2-->
+	<!--	<div class="border-white-2"></div>-->
+		<div class="inner-wrap yp-index-floor-03">
+			<{widgets id="three_left"}>
+			<{widgets id="three_main"}>
+			<{widgets id="three_right"}>
+		</div>		
+		<!--楼层2end-->  
+	</div>                  
+<{require file="block/footer.html" }>
+</body> 
+<script>
+ 
+	j('.buy-button').hover(function(){	 
+		j(this).text('立即选购');
+	})
+	j('.buy-button').mouseleave(function(){
+	    var name=j(this).attr("name")
+	    if(name){
+			j(this).text(name);
+		}else{
+			j(this).text('立即选购');
+		}
+	})
+</script>
+</html>

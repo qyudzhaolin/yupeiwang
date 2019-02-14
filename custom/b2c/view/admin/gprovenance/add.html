@@ -1,0 +1,144 @@
+<form method="POST" action="index.php?app=b2c&ctl=admin_gprovenance&act=add" class="tableform" id="attr_add">
+  <input type="hidden" name="provenance_id" value="<{$gInfo.provenance_id}>">
+
+<div class="division"><table width="100%" border="0" cellpadding="0" cellspacing="0" id='attr_table'>        
+    <tr>
+    <th><em class="red">*</em><{t}>原产国:<{/t}></th>
+    <td><{input type="text" name="gcountry_of_origin" required="true" vtype="required" value=$gInfo.gcountry_of_origin}></td>
+  </tr>
+  <tr>
+    <th><em class="red">*</em><{t}>原产地:<{/t}></th>
+    <td><{input type="text" name="gsource_area" required="true" vtype="required" value=$gInfo.gcountry_of_origin}></td>
+  </tr>
+
+  <tr>
+    <th><{t}>是否推荐:<{/t}></th>
+    <td>
+        <{input type="bool" name='is_hot'}>
+    </td>
+  </tr>
+
+  <tr>
+    <th><{t}>作为原产国:<{/t}></th>
+    <td>
+        <{input type="bool" name='is_country'}>
+    </td>
+  </tr>
+
+  <tr>
+    <th><{t}>排序:<{/t}></th>
+    <td>
+        <input type="number" required placeholder="越小越靠前" name="ordernum">
+    </td>
+  </tr>
+
+   <tr>
+    <th><{t}>进口资料配备（1）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_1" value=$gInfo.gimport_information_1 }></td>
+  </tr>
+   <tr>
+    <th><{t}>资料配备（2）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_2" value=$gInfo.gimport_information_2 }></td>
+  </tr>
+   <tr>
+    <th></em><{t}>资料配备（3）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_3"  value=$gInfo.gimport_information_3}></td>
+  </tr>
+   <tr>
+    <th><{t}>资料配备（4）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_4" value=$gInfo.gimport_information_4 }></td>
+  </tr>
+    </div>
+     </table>
+     
+        <!-- <!-- <table width="100%">
+           <table width="100%">
+            <{foreach from=$attr item=item name="item" key='row'}>
+            <tr><th><{if $item.attr_required eq 'true'}><em class="red">*</em><{/if}><{$item.attr_name}>：</th><td><{if $item.attr_type =='date'}>
+                    <{if $item.attr_value != '0-0-0'}>
+                    <{if $item.attr_required eq 'true'}>
+                    <{input type='date' vtype="required&&date" name=$item.attr_column value=$item.attr_value}>
+                    <{else}>
+                    <{input type='date' name=$item.attr_column value=$item.attr_value}>
+                    <{/if}>
+                    <{else}>
+                    <{if $item.attr_required eq 'true'}>
+                    <{input type="date" vtype="required&&date" name=$item.attr_column}>
+                    <{else}>
+                    <{input type="date" vtype="date" name=$item.attr_column}>
+                    <{/if}>
+                    <{/if}>
+                    <{/if}>
+                    <!-- 增加判断如果地区是非必选就不要必须选择@lujy -->
+     <!--                <{if $item.attr_type =='region'}>
+                    <{if $item.attr_required eq 'true'}>
+                    <{input app=ectools type="region" name=$item.attr_column vtype='area' }>
+                    <{else}>
+                    <{input app=ectools type="region" name=$item.attr_column }>
+                    <{/if}>
+                    <{/if}>
+
+                    <{if $item.attr_type =='gender'}>
+                    <{input type='gender' name=$item.attr_column value=$item.attr_value }>
+                    <{/if}>
+
+                    <{if $item.attr_type =='select'}>
+                    <select name='<{$item.attr_column}>' <{if $item.attr_required eq 'true'}>class='_x_ipt' vtype='required'<{/if}>>
+                        <option value='' <{if $item.attr_value == ''}>selected='true'<{/if}>><{t}>- 请选择 -<{/t}></option>
+                        <{foreach from=$item.attr_option item=option name="option"}>
+                        <option value='<{$option}>' <{if $item.attr_value == $option}>selected='true'<{/if}>><{$option}></option>
+                        <{/foreach}>
+                    </select>
+                    <{/if}>
+
+                    <{if $item.attr_type =='checkbox'}>
+
+                    <{foreach from=$item.attr_option item=checkbox name="checkbox" }>
+                    <input type='checkbox' name=box:<{$item.attr_column}>[] value='<{$checkbox}>'><label><{$checkbox}></label><br/>
+                    <{/foreach}>
+                    <input type='hidden' name='<{$item.attr_column}>[]' value='%no%'>
+                    <{if $item.attr_required eq 'true'}>
+                    <input type='hidden' class='_x_ipt' vtype='requiredcheckbox'/>
+                    <{/if}>
+                    <{/if}>
+
+
+                    <{if $item.attr_type == 'text'}>
+                    <input type='text' name=<{$item.attr_column}> value='<{$item.attr_value}>' vtype='<{if $item.attr_required eq 'true'}>required&&<{/if}><{$item.attr_valtype}>' />
+                    <{/if}>
+
+                    <{if $item.attr_type == 'number'}>
+                    <input type='text' name=<{$item.attr_column}> value='<{$item.attr_value}>' vtype='<{if $item.attr_required eq 'true'}>required&&<{/if}><{$item.attr_valtype}>' />
+                    <{/if}>
+
+                    <{if $item.attr_type == 'alpha'}>
+                    <input type='text' name=<{$item.attr_column}> value='<{$item.attr_value}>' vtype='<{if $item.attr_required eq 'true'}>required&&<{/if}><{$item.attr_type}>' />
+                    <{/if}></td></tr>
+            <{/foreach}>
+        </table>
+        </table>  -->
+    <div class="table-action">
+    <{button label=$___b2c="保存"|t:'b2c' type="submit"}>
+    <{button class="btn-secondary"  type="button" label=$___b2c="取消"|t:'b2c' isCloseDialogBtn="true"}>
+</div>
+</form>
+<script>
+
+
+        $('attr_add').store('target',{
+            onComplete:function(){
+//                if($('attr_add').getParent('.dialog'))
+//                $('attr_add').getParent('.dialog').retrieve('instance').close();
+            },
+            onSuccess:function(response){
+                var hash_res_obj = JSON.decode(response);
+            if (hash_res_obj.success != undefined && hash_res_obj.success != "")
+            {
+                if($('attr_add').getParent('.dialog'))
+                $('attr_add').getParent('.dialog').retrieve('instance').close();
+            }    
+            }        
+        });
+
+</script>
+

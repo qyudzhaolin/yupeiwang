@@ -1,0 +1,93 @@
+<!-- 顶部导航 -->
+<div id="topbar" class="page-topbar">
+  <div class="inner-wrap">
+    <div class="topbar-left">
+      尊敬的顾客您好，欢迎来到宇配网！
+    </div>
+    <div class="topbar-right">
+          <{widgets id="tbl"}>
+        <span class="top-login-box">
+            <a href="<{link app=b2c ctl=site_passport act=login}>"><{t app='b2c'}>登录<{/t}></a> | 
+            <a href="<{link app=b2c ctl=site_passport act=signup}>"><{t app='b2c'}>注册<{/t}></a>|  
+            <a href="<{link app=b2c ctl=site_member act=index}>" >会员中心</a>
+        </span>
+    
+        <!--<a href="<{link app=b2c ctl=site_member act=index}>">会员中心</a>-->
+    </div>
+  </div>
+</div>
+<!-- 头部信息栏 -->
+<div id="header" class="page-header">
+  <div class="inner-wrap">
+    <div class="header-left"   >
+      <!--<{widgets id="hl"}>-->
+<div class="logo areaBox">
+  
+  <a href="./"><img class="yp-logo" src="/public/images/pcimg/pc_logo.png" alt="宇配网"></a>
+   
+</div>
+    </div>
+    <div class="header-main">
+      <{widgets id="hm"}>
+    </div>
+    <div class="header-right">
+      <img src="/public/images/pcimg/weixin_shop.png"/  >
+      <!-- <{widgets id="hr"}> -->
+<!--        <ul>
+            <a href="<{link app=b2c ctl=site_cart act=index}>">
+                <li>
+                <img src="/public/images/pcimg/icon_cart.png"/>
+                <span>我的购物车</span>
+                <i class="cartNum op-cart-count"></i>
+              </li>
+             </a>
+ 
+          <li class="myerweima" onmouseover="j(this).addClass('current');" onmouseout="j(this).removeClass('current');">
+            <img src="/public/images/pcimg/icon_01.png"/><span>微信商城</span>
+                <div class="con">
+                <img src="/public/images/pcimg/header_erweima.png"/>
+                </div>        
+          </li>
+            <div style="clear: both;"></div>
+      </ul> -->
+    </div>
+  </div>
+</div>
+<!-- 页面导航栏 -->
+<div id="nav" class="page-nav">
+  <div class="inner-wrap">
+    <div class="nav-left">
+      <{widgets id="navl"}>
+    </div>
+    <div class="nav-main">
+      <{widgets id="navm"}>
+    </div>
+    <div class="nav-right">
+        <!--  <{widgets id="navr"}>-->
+        <span class="hide22">
+            我的购物车
+            <a href="<{link app=b2c ctl=site_cart act=index}>">
+            <img src="/public/images/pcimg/icon_cart_03.png"/> <i class="icon-cart cartNum" style="display: none;"></i>
+            </a>
+        </span> 
+    </div>
+  </div>
+</div>
+
+<script>
+j(function(){
+    //购物车数据显示
+    acartNum = j.cookie('S[CART_COUNT]');
+    if(acartNum){
+        j('.cartNum').show().text(acartNum);
+    }
+
+    // var cartGoodsUrl = '<{link app=b2c ctl=site_tools act=getCartGoods}>';
+    // j.getJSON(cartGoodsUrl,null,function(res){
+    //     if (res.error == 0 && res.data > 0) {
+    //         j('.cartNum').show().text(res.data);
+    //     }
+    // });
+});
+</script>
+ 

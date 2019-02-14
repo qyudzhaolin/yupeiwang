@@ -1,0 +1,107 @@
+<form method="POST" action="index.php?app=b2c&ctl=admin_contract&act=toset" class="tableform" id="tosetContract">
+    <input type="hidden" name="contract_id" value="<{$data.contract_id}>">
+	<div class="division">
+		<div class="notice">
+		说明：已完成的结算阶段暂不可修改
+		</div>	
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" id='attr_table'>
+			
+			<tr>
+			<th><{t}>物流状态更新:<{/t}></th>
+			<td><{input type="select" name="ship_status" rows=$ship_status valueColumn="id" labelColumn="name" value=$data.ship_status}></td>
+			</tr>
+			
+			<tr>
+			<th><{t}>阶段开启:<{/t}></th>
+			<td>
+				<span class="setBox accountStepBox">
+					<table>
+						<thead>
+							<tr>
+								<th>阶段名</th>
+								<th>阶段付款截止日期</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<{if !empty($accountStepRows)}>
+							<{foreach from=$accountStepRows item=item key=key}>
+								<tr>
+									<td>
+										<{$item.title}>
+										<input name="step[<{$key}>][step_id]" value="<{$item.step_id}>" type="hidden">
+										<input name="step[<{$key}>][fee_ids]" value="<{$item.fee_ids}>" type="hidden">
+									</td>
+									<td>
+										<{$item.end_time}>
+									</td>
+									<td>
+										<{if $item.payed=='1'}>
+										<span class="c-green">已完成</span>
+										<{else}>
+										<select name="step[<{$key}>][state]">
+											<{foreach from=$step_state_arr item=stateName key=stateValue}>
+											<option <{if $item.state == $stateValue}>selected<{/if}> class="optionlevels" value="<{$stateValue}>"><{$stateName}></option>
+											<{/foreach}>
+										</select>
+										<{/if}>
+									</td>
+								</tr>
+							<{/foreach}>
+							<{/if}>
+						</tbody>
+					</table>
+					<div class="editStep">
+						<a href="<{$editStepUrl}>" target="_blank">编辑阶段</a>
+					</div>
+				</span>
+
+			</td>
+			</tr>
+			<tr class="hide">
+			<th><{t}>支付:<{/t}></th>
+			<td>
+				<{button app="desktop"  label="支付" icon="btn_edit.gif"}>
+				<span class="payment"></span>
+			</td>
+			</tr>
+			
+			<tr>
+			<th><{t}>付款状态:<{/t}></th>
+			<td><{$data.pay_status}></td>
+			</tr>
+			
+			<tr>
+			<th><{t}>合约处理:<{/t}></th>
+			<td>
+				<select name="state">
+					<{foreach from=$contract_state_arr item=contractStateName key=contractStateValue}>
+					<option <{if $data.state == $contractStateValue}>selected<{/if}> class="optionlevels" value="<{$contractStateValue}>"><{$contractStateName}></option>
+					<{/foreach}>
+				</select>
+			</td>
+			</tr>
+		</table>
+	</div>
+          
+	<div class="table-action">
+		<{button label=$___b2c="保存"|t:'b2c' type="submit"}>
+		<{button class="btn-secondary"  type="button" label=$___b2c="取消"|t:'b2c' isCloseDialogBtn="true"}>
+	</div>
+  </form>
+<script>
+$('tosetContract').store('target',{
+	onComplete:function(){
+	},
+	onSuccess:function(res){
+		var data = JSON.decode(res);
+		if (data.success != undefined && data.success != "")
+		{
+			if($('tosetContract').getParent('.dialog'))
+			$('tosetContract').getParent('.dialog').retrieve('instance').close();
+		}
+	}
+});
+</script>
+  
+  

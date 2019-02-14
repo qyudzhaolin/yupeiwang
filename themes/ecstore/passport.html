@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<{header}>
+<link rel="stylesheet" href="images/styles.css" />
+</head>
+<body>
+<{require file="block/passport_header.html"}>
+<div id="container" class="page-container clearfix">
+    <div class="inside-wrap">
+    <{main}>
+    </div>
+</div>
+<{require file="block/footer.html"}>
+<script type="text/javascript">
+window.onload = function(){
+    var oXinput = document.querySelectorAll(".x-input");
+    var nXinputLen = oXinput.length;
+    for( var i = 0 ; i < nXinputLen ; i++){
+        oXinput[i].onblur = function(){
+            var re = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
+            var mail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+            if(this.value != ""){
+                if(mail.test(this.value)){
+                }else if(!re.test(this.value)){
+                    alert("请勿输入非法字符");
+                    this.value="";//将最后输入的字符去除
+                };
+            };
+        };
+    };
+};
+</script>
+</body>
+</html>

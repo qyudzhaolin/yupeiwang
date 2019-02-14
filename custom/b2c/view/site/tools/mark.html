@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css"> 
+
+
+body { 
+font: normal 11px auto Arial, Helvetica, sans-serif; 
+color: #4f6b72; 
+background: #E6EAE9; 
+} 
+
+a { 
+color: #c75f3e; 
+} 
+
+#mytable { 
+padding: 0; 
+margin: 10px; 
+} 
+table tr:hover td{background:#ececec;}
+
+caption { 
+padding: 0 0 5px 0; 
+width: 700px; 
+font: italic 11px Arial, Helvetica, sans-serif; 
+text-align: right; 
+} 
+
+th { 
+font: bold 11px Arial, Helvetica, sans-serif; 
+color: #4f6b72; 
+border-right: 1px solid #C1DAD7; 
+border-bottom: 1px solid #C1DAD7; 
+border-top: 1px solid #C1DAD7; 
+letter-spacing: 2px; 
+text-transform: uppercase; 
+text-align: left; 
+padding: 6px 6px 6px 12px; 
+background: #CAE8EA  no-repeat; 
+} 
+
+th.nobg { 
+border-top: 0; 
+border-left: 0; 
+border-right: 1px solid #C1DAD7; 
+background: none; 
+} 
+
+td { 
+border-right: 1px solid #C1DAD7; 
+border-bottom: 1px solid #C1DAD7; 
+background: #fff; 
+font-size:13px; 
+padding: 6px 6px 6px 12px; 
+color: #4f6b72; 
+} 
+
+
+tr.alt td { 
+background: #F5FAFA; 
+color: #797268; 
+} 
+
+th.spec { 
+border-left: 1px solid #C1DAD7; 
+border-top: 0; 
+background: #fff no-repeat; 
+font: bold 10px Arial, Helvetica, sans-serif; 
+} 
+
+th.specalt { 
+border-left: 1px solid #C1DAD7; 
+border-top: 0; 
+background: #f5fafa no-repeat; 
+font: bold 10px Arial, Helvetica, sans-serif; 
+color: #797268; 
+} 
+/*---------for IE 5.x bug*/ 
+html>body td{ font-size:13px;} 
+body,td,th { 
+font-size: 12px; 
+} 
+</style> 
+</head>
+<body>
+	<table id="mytable">
+	  <tr>
+		<th>num</th>
+		<th width="180">time</th>
+		<th>content</th>
+	  </tr>
+	  
+	  <{foreach from=$datas item=item key=key}>
+	  <tr class="<{if $key%2 == '0'}>alt<{/if}>">
+		<td><{$key+1}></td>
+		<td><{$item.ctime}></td>
+		<td><{if $item.isobj == '1'}><{$item.content|ee:0}><{else}><{$item.content}><{/if}></td>
+	  </tr>
+	  <{/foreach}>
+	  
+	</table>
+</body>
+</html>

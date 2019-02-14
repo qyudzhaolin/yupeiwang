@@ -1,0 +1,172 @@
+ <{css src="mobile.css" app="wap"}>
+ <{css src="uploadimg/gloable.css" app="wap"}>
+ <{script src="loader.js" app="desktop"}>
+<!--申请售后页面-->
+<div class="full-screen">
+   <!--  <header>
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+            申请售后
+        </div>
+    </div>
+    </header> -->
+    <div id="apply-sale-box">
+        <form action="<{link app=b2c ctl=wap_member act=return_save}>"  method="post"  >
+    <div class="m-after">
+        <!--类型-->
+        <div class="apply-sale-section-01 ">
+            <div class="type-left">
+                <p>选择售后类型</p>
+            </div>
+            <div class="type-right">
+
+                <a id="goodsone" onclick="exchange2()" class="active">退货</a>
+                <a id="goodstwo" onclick="exchange()">换货</a>
+            </div>
+        </div>
+        <!--类型end-->
+        <!--商品-->
+        <div class="apply-sale-goods margin-t-10">
+             <{foreach from=$order.items item=item key=key name=name}>
+             <input type="hidden" name="item_id" value="<{$item.item_id}>">
+            <input type="hidden" name="order_id" value="<{$order_id}>">
+             <input type="hidden" id="s_reset" class="s-input" name="type"  value="1"  >
+             <input type="hidden" value="<{$item.quantity}>" class="max-g" >
+             <input type="hidden" name="product_name[<{$item.products.product_id}>]" value="<{$item.name}>" >
+            <input type="hidden" name="product_price[<{$item.products.product_id}>]" value="<{$item.price}>" >  
+            <input type="hidden" id="Check[[<{$item.products.product_id}>]" name="product_bn[<{$item.products.product_id}>]" value='<{$item.bn}>' class="s-input ">
+            <div class="sale-goods-img">
+                <img src="<{$item.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager:'s'}>" />
+            </div>
+            <div class="sale-goods-right">
+                <p class="sale-goods-title"><{$item.name}></p>
+                <span class="sale-goods-spec">×<{$item.quantity}></span>
+               <div class="gnumber sale-num" style="width: 77px;">
+                                <span class="gminus g-btn">-</span>
+                                <div class="gnum">
+                                    <input type="text" name="product_nums[<{$item.products.product_id}>]"  class="ipt" value="1" id=""  onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " />
+                                </div>
+                                <span class="gmaxus g-btn">+</span>
+                            </div>
+                        </div>
+                <div style="clear: both;"></div>
+            </div>
+              <{/foreach}>
+        </div>
+        
+        <!--商品end-->
+        
+        <div class="apply-sale-reason margin-t-10">
+            <div class="reason-title">申请原因</div>
+            <div class="reason-text">
+                <textarea name="title" id="" cols="30" rows="10" class="text-info" placeholder="请在此描述原因"></textarea>
+            </div>
+            
+        </div>
+        <div  class="apply-sale-reason margin-t-10">
+            <div class="reason-title">问题描述</div>
+            <div class="reason-text">
+            <textarea name="content" id="" cols="30" rows="10" placeholder="请在此描述问题"></textarea>
+            </div>
+        </div>
+ <!--上传图片-->
+        <div  style="padding: 0px 15px;">
+        <ul class="upload-ul clearfix">
+        <li class="upload-pick">
+        <div class="webuploader-container clearfix" id="goodsUpload"><div class="webuploader-pick"></div><div id="rt_rt_1croiv72nk7r1i8d1cg45hh1or61" style="position: absolute; top: 0px; left: 0px; width: 120px; height: 90px; overflow: hidden; bottom: auto; right: auto;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept=""><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"></label></div></div>
+        </li>
+        </ul>
+ 
+        </div>          
+<!--上传图片end-->    
+            <p><input type="checkbox"  id="gCheck-a"  name="agree" class="s-input">我已阅读并同意遵守<a href="<{link app=b2c ctl=wap_member act=read}>">《售后服务协议》</a></p>
+        </div>
+        <div style="height: 80px;width: 100%;"></div>
+        <div class="apply-sale-btn-box">
+        <div class="apply-sale-tips">
+            <p>提交申请后,运营专员可能与您电话沟通,请保持手机畅通</p>
+        </div>
+        <button class="apply-sale-btn b-btn"  type="submit" data-submit="1">提交申请</button>
+        </div>
+    </form>
+    </div>
+ 
+</div>
+ <{script src="uploadimg/webuploader.min.js" app="wap" }>
+ <{script src="uploadimg/diyUpload.js" app="wap" }> 
+ <script type="text/javascript">
+       function exchange(){
+        j('a#goodstwo').addClass('active').siblings().removeClass('active')
+        document.getElementById("s_reset").value=2;
+   
+  };
+  function exchange2(){
+        j('a#goodsone').addClass('active').siblings().removeClass('active')
+           document.getElementById("s_reset").value=1;
+   
+   
+  };
+$(".gmaxus").click(function(event) { 
+    var that = $(this).siblings('.gnum').children('.ipt')
+    var gmaxs = parseInt($(".max-g").val());    
+      num =that.val(); 
+      num++; 
+      if(num > gmaxs){
+        num = gmaxs;        
+      }  
+      that.val(num);
+  });
+  $(".gminus").click(function(event) {
+    var that = $(this).siblings('.gnum').children('.ipt')
+      num=that.val(); 
+      if(num==1){
+         that.val(1);
+      }else{
+      num--;
+      that.val(num);     
+      };
+  });
+   $(".btn").click(function(event) {
+    var ipt = $(".ipt").val();
+    var lastch = $("#gCheck-a").attr("checked");
+    var textval = $(".text-info").val();
+    var checkes = $("form").find('input[type="checkbox"]');
+    var len = $("form").find('input[type="checkbox"]').length;
+    var radios = $("#s_reset").attr("checked");
+    var radioc = $("#s_change").attr("checked");
+    var clen =  $("input[type='checkbox']:checked").length;
+    for(var i=0 ;i<len-1; i++){
+        if(radioc == false && radios == false){
+        alert("请选择售后方式！")
+        return false;
+        }else if(clen < 0){
+        alert("请您选择申请数量！");
+        return false;
+        }else if(ipt<1){
+        alert("请您输入正确数量！");
+        return false;
+        }else if(textval == ""){
+        alert("请您输入申请理由！");
+        return false;
+        }else if(lastch == false){
+        alert("请您勾选《售后服务协议》！")
+        return false;
+        }else{
+                var interval;          
+                $(function () {   
+                interval = setTimeout(
+                    function(){
+                    window.close();
+                    }
+                ,"2000"); 
+            });
+        }
+    }
+  });
+
+
+ </script>

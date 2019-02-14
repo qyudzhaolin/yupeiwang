@@ -1,0 +1,5 @@
+<services>
+    <service id="desktop_menu">
+        <class>syssupport_service_view_menu</class>
+    </service>
+</services>

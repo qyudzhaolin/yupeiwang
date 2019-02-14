@@ -1,0 +1,65 @@
+<div class="notice"><{t}>获取技术支持仅限于正式生产环境<{/t}></div>
+
+<div class="tableform tableform-tabs">
+  <{tabber}>
+  <{tab name="系统信息"|t:'entermembercenter'}>
+  <div class="clear division">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th><{t}>节点号:<{/t}></th>
+        <td><{$params.node_id}></td>
+      </tr>
+      <tr>
+        <th><{t}>证书号:<{/t}></th>
+        <td><{$params.certificate_id}></td>
+      </tr>
+      <tr>
+        <th><{t}>企业账号:<{/t}></th>
+        <td><{$params.shopex_id}></td>
+      </tr>
+      <tr>
+        <th><{t}>激活码:<{/t}></th>
+        <td><{$params.active_key}></td>
+      </tr>
+      <tr>
+        <th><{t}>首页地址:<{/t}></th>
+        <td><{$params.url}></td>
+      </tr>
+      <tr>
+        <th><{t}>产品版本号:<{/t}></th>
+        <td><{$params.version}></td>
+      </tr>
+      <tr>
+        <th><{t}>产品名称:<{/t}></th>
+        <td><{$params.product_name}></td>
+      </tr>
+      <tr>
+        <th><{t}>二开目录:<{/t}></th>
+        <td><{$params.custom_dir}></td>
+      </tr>
+    </table>
+
+    <form method='POST' action='<{$url}>' target='_blank'>
+      <input type='hidden' name='product' value='<{$product}>'>
+      <input type='hidden' name='code' value='<{$code}>'>
+      <div class="table-action">
+        <{if $checked }>
+        <{button label="获得帮助" class="btn-primary" type="submit"}>
+        <{else}>
+        <div class="notice"><{t}>当前缺失部分认证数据，无法获取支持<{/t}></div>
+        <{/if}>
+      </div>
+    </form>
+
+  </div>
+  <{/tab}>
+  <{/tabber}>
+</div>
+<{if $checked }>
+<script>
+    window.setInterval(function(){
+        location.href = location.href;
+    }, 300000);
+</script>
+<{/if}>
+

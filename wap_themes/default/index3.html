@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="images/styles.css?v=<{$ctime}>" />
+<{css src="swiper.min.css" app="wap"}>
+<{wapheader}>
+<{script src="swiper.min.js" app="wap"}>
+<{script src="jquery.cookie.js" app="wap"}>
+
+<!-- 配送范围 -->
+<{css src="LArea.css" app="wap"}>
+<{script src="LArea.js?v=1" app="wap"}>
+<style type="text/css">
+    .nodisplay{display: block;}
+    .gizle {top: -90px;}
+    .sabit {top:0;}
+    .goods_cat_list{padding-left: 5px;}
+</style>
+</head>
+<body>
+<!-- head搜索 -->
+<div class="head headBox">
+  <div class="searchAll">
+    <div class="search-inner">
+      <div class="location">
+        <i class="icon iconfont icon-location"></i>
+        <b>送货至</b>
+        <span class="locationShow">未设置</span>
+      </div>
+      <div class="search-box"><i class="icon iconfont icon-search"></i>
+        <div class="search-ele" onclick="location.href='/index.php/wap/search-searchpage.html'">请搜索您感兴趣的商品</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page pagebox">
+    <!-- 活动图 -->
+    <{wap_widgets id="main_slide"}>
+    <!-- 四个展区 -->
+    <div class="exharea">
+        <{foreach from=$exharea item=item}>
+        <a href="<{$item.link}>">
+            <div class="item">
+                <span><img src="<{$item.img}>"/></span>
+                <div class="ptitle"><{$item.name}></div>
+            </div>
+            <{/foreach}>
+        </a>
+        <div style="clear: both;"></div>
+    </div>
+    <!-- 自定义广告商品 -->
+    <{wap_widgets id="custom_html"}>
+    <!-- 自定义促销商品 -->
+    <{wap_widgets id="hot_goods"}>
+
+    <!-- 商品按分类展示 -->
+    <{wap_widgets id="index_goods"}>
+    <{wap_widgets id="index_goods2"}>
+    <{wap_widgets id="index_goods3"}>
+    <{wap_widgets id="index_goods4"}>
+    <{wap_widgets id="index_goods5"}>
+    <{wap_widgets id="index_goods6"}>
+    <{wap_widgets id="index_goods7"}>
+
+
+</div>
+<script>
+    j(function(){
+        //兼容一下可视化编辑
+        j('.nodisplay').hide();
+
+        //配送范围
+        var url = '/index.php/tools-getwapareas.html';
+        j.getJSON(url,{},function(data){
+            if (data.error == 0) {
+                var LAreaData = data.data;
+                var area = new LArea();
+                area.init({
+                    'trigger': '.location',//触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+                    'valueTo':'',//选择完毕后id属性输出到该位置
+                    'keys':{id:'id',name:'name'},//绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+                    'type':1,//数据源类型
+                    'data':LAreaData,//数据源
+                    'callback':function(obj){
+                        j('.locationShow').text(obj.locationText);
+                        //设置cookie
+                        j.cookie('shiparea', obj.locationValue, {path:'/', expires: 100 });
+                        j.cookie('shipareaName', obj.locationText, {path:'/', expires: 100 });
+
+                        j.cookie('shiparea', obj.locationValue, {expires: 100 });
+                        j.cookie('shipareaName', obj.locationText, {expires: 100 });
+                        //重载页面
+                        location.reload();
+                    }
+                });
+
+                //这里必须在异步加载完成之后
+                //设置默认配送区域cookie[如果用户还没选择配送区域],若用户设置过则用用户设置的区域显示
+                // j.cookie('shiparea', '',{path:'/'});j.cookie('shipareaName', '',{path:'/'});//清空cookie
+                if (!j.cookie('shiparea')) {
+                    j('.location').click();
+                }else{
+                    //显示区域名称
+                    var shipareaName = j.cookie('shipareaName');
+                    var shiparea = j.cookie('shiparea');
+                    j('.locationShow').text(shipareaName);
+                }
+            }
+        });
+
+
+        //滑动
+        var cubuk_seviye = j(document).scrollTop();
+        var header_yuksekligi = j('.headBox').outerHeight();
+        j(window).scroll(function() {
+            var kaydirma_cubugu = j(document).scrollTop();
+            if (kaydirma_cubugu > header_yuksekligi){j('.headBox').addClass('gizle');} 
+            else {j('.headBox').removeClass('gizle');}
+            if (kaydirma_cubugu > cubuk_seviye){j('.headBox').removeClass('sabit');} 
+            else {j('.headBox').addClass('sabit');}                
+            cubuk_seviye = j(document).scrollTop(); 
+         });
+    });
+</script>
+<{wap_require file="block/footer.html"}>
+</body>
+</html>

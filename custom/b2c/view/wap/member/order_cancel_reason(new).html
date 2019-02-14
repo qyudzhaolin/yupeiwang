@@ -1,0 +1,63 @@
+<{css src="/mui/mui.min.css" app="wap"}>
+<div class="full-screen">
+    <header>
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+            取消订单
+        </div>
+    </div>
+    </header>
+    <div class="order-cancel-box">
+    <form class="form" action="<{link app=b2c ctl=wap_member act=docancel}>" method="post">
+     <div class="reason-title">
+     	请选择取消订单原因
+     </div>
+    
+    <ul class="reason-list">
+         
+     		<li >
+				不想要了 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>
+     		<li class=" ">
+				支付不成功 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>			
+     		<li class=" ">
+			   价格较贵 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>	
+     		<li class=" ">
+			   缺货 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>			
+     		<li class=" ">
+			   等待时间过长 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>			
+			
+     		<li class=" ">
+			   拍错了 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>			
+     		<li class=" ">
+			   拍错了 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>				
+			
+     		<li class=" ">
+			   订单信息填写错误 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>				
+			
+    		<li class=" ">
+			   其它 <input name="checkbox" class="aui-checkbox"  type="checkbox">
+			</li>			
+			
+			
+			
+			
+     </ul>
+     <div style="height: 50px;"></div>
+     <div class="fixed-bottom-div">
+     	<button class="cancel-order-btn">确认</button>
+     </div>
+  </form>
+   </div>
+</div> 

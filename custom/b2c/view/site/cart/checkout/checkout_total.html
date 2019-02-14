@@ -1,0 +1,96 @@
+<div id="order_remark" class="order-remark order_remark_new">
+<label for="">订单备注：</label>
+<textarea name="memo" class="action-remark-textarea" cols="60" rows="3" placeholder="请在此填写您对该订单或商品的特殊要求或说明，最多300字。"></textarea>
+</div>
+<div class="inner">
+<ul>
+  <li class="goods">
+  <span class="label"><em><{if $buyType == 'contract'}>履约金额<{else}>商品总金额<{/if}>：</em></span>
+    <span class="price">
+	<em class="rmb">￥</em><{if $buyType == 'contract'}>
+		<{$aCart.contract_goods.total|cur_odr:'':true}>
+	<{else}>
+		<{$order_detail.cost_item|cur_odr:'':true}>
+	<{/if}>
+	</span>
+  </li>
+  <li class="">
+    <span class="label"><em><{t}>运费<{/t}>：</em></span>
+	<{if $buyType == 'contract'}>
+		<span class="price do-offline">线下单独结算</span>
+	<{else}>
+		<span class="price"><em class="rmb">￥</em><{$order_detail.cost_freight|cur_odr:'':true}></span>
+	<{/if}>	
+  </li>
+
+  <{if $order_detail.cost_protect > 0}>
+  <li class="">
+  <span class="label"><em><{t}>配送保价费<{/t}>：</em></span>
+  <span class="price"><em class="rmb">￥</em><{$order_detail.cost_protect|cur_odr:'':true}></span>
+  </li>
+  <{/if}>
+  <{if $order_detail.pmt_order && $order_detail.promotion_type != 'prepare'}>
+  <li class="discount">
+  <span class="label"><em><{t}>订单优惠金额<{/t}>：</em></span>
+  <span class="price"><b><em class="rmb">￥</em><{if $order_detail.pmt_order < 0}>+<{(0-$order_detail.pmt_order)|cur_odr:'':true}><{else}>-<{$order_detail.pmt_order|cur_odr:'':true}><{/if}></b></span>
+  </li>
+  <{/if}>
+  <{if $order_detail.cost_payment > 0}>
+  <li class="">
+  <span class="label"><em><{t}>客户承担支付手续费<{/t}>：</em></span>
+  <span class="price"><em class="rmb">￥</em><{$order_detail.cost_payment|cur_odr:'':true}></span>
+  </li>
+  <{/if}>
+  <{if $order_detail.cost_tax>0}>
+  <li class="">
+  <span class="label"><em><{t}>开发票所需税金<{/t}>：</em></span>
+  <span class="price"><em class="rmb">￥</em><{$order_detail.cost_tax|cur_odr:'':true}></span>
+  </li>
+  <{/if}>
+  <{if $order_detail.totalConsumeScore <> 0 && $order_detail.promotion_type != 'prepare'}>
+  <li class="">
+  <span class="label"><em><{t}>消费积分<{/t}>：</em></span>
+  <span class="price"><{$order_detail.totalConsumeScore}></span>
+  </li>
+  <{/if}>
+  <{if $order_detail.promotion_type != 'prepare'}>
+    <!--<li class="total">
+    <span class="label">
+        <{if $order_detail.totalGainScore <> 0}>
+        <i>(订单可得积分<{$order_detail.totalGainScore}>)</i>
+        <{/if}>
+        <em>总金额：</em></span>
+      <span class="price"><b><em class="rmb">￥</em><{$order_detail.total_amount|cur_odr:'':true}></b></span>
+    </li>-->
+  <{/if}>
+  <{if $order_detail.promotion_type == 'prepare' && $order_detail.prepare.preparesell_price < $order_detail.prepare.promotion_price}>
+	<li class="total hide">
+		<span class="label">
+			<span>订单总金额：</span>
+		</span>
+		<span class="price">
+			<em class="rmb">￥</em><{$order_detail.total_amount|cur_odr:'':true}>
+		</span>
+	</li>
+	
+    <li class="total">
+    <span class="label">
+        <span>预付订金：</span></span>
+    <span class="price">
+       <em class="rmb">￥</em><{$order_detail.prepare.preparesell_price |cur_odr:'':true}>
+      </span>
+
+    </li>
+  <{/if}>
+</ul>
+</div>
+<div style="clear: both;"></div>
+ <div class="place-order-submit">
+	<span class="total-price">总金额：<b><em class="rmb">￥</em><{if $buyType == 'contract'}>
+		<{$aCart.contract_goods.total|cur_odr:'':true}>
+	<{else}>
+		<{$order_detail.total_amount|cur_odr:'':true}>
+	<{/if}>	
+	</b></span>
+	<{button type="submit" rel="_request" class="btn check-btn action-submit-order" label=$___b2c="提交订单"|t:'b2c'}>	
+ </div>

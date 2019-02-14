@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>chart</title>
+	<style>
+	   html,body{overflow:visible;padding:0;margin:0;}
+	</style>
+	<{script src="highcharts6/jquery-1.8.3.min.js" app="desktop"}>
+	<{script src="highcharts6/highcharts.js" app="desktop"}>
+	<{script src="highcharts6/exporting.js" app="desktop"}>
+	<{script src="highcharts6/highcharts-zh_CN.js" app="desktop"}>
+	<{script src="global.js" app="desktop"}>
+
+    <!-- 单选框的选择 -->
+
+     <{if $type ==1}>
+ <select class="catdata" name='cat_name'>
+ <{foreach from=$resultsname item=option name="option"  }>
+ <option value='<{$option.cat_name}>'><{$option.cat_name}></option>
+ <{/foreach}>
+ </select>
+ <div class="table-action selectButton">
+    <{button label=$___b2c="查询"|t:'b2c' type="submit"}>
+  </div>
+   <{/if}>
+<style>
+.chartContainer{height: 250px; margin: 1em auto;border:1px solid #2f7ed8;}
+.twochartsRight{float:right;}
+.twochartsLeft{float:left;}
+.showdata{text-align: right;color: #8c8c8c;font-size: 12px;margin: 5px 13px 0 0;}
+.showdata input{vertical-align:middle;margin: 0 3px 4px 0;}
+
+</style> 
+
+</head>
+<body>
+<{if $target != 'areaSupplierNum'}>
+<div class="showdata"><input onclick="manage.showChartsData(this,{'#container':chartConfig})" type="checkbox" name="showdata" value="" />显示数据</div>
+<{/if}>
+<div id="container" class="chartContainer" ></div>
+<div id="container2" class="chartContainer" style="display:none"></div>
+
+<script>
+
+$(function () {
+
+$('.selectButton').click(function(){
+    var url = 'index.php?app=ectools&ctl=admin_analysis&act=chart_view_supplier&target=areaSupplierGoodsNumcate';
+    var time_from="<{$time_from}>";
+    var time_to="<{$time_to}>";
+    var cat_name=$('.catdata').val();
+    $.getJSON(url,{cat_name:cat_name,time_from:time_from,time_to:time_to},function(datas){
+          if (datas.xdatas!='') {
+         chartConfig.xAxis[0].categories=datas.xdatas;
+         chartConfig.series[0].data=datas.areaSupplierGoodsNumcate[0];
+      
+        }else{
+         alert("暂时没有数据");
+        }
+        
+        $('#container').highcharts(chartConfig);
+    });
+});
+
+
+
+
+
+	<{if $target=='areaSupplierNum'}>
+    $('#container').addClass('twochartsLeft').css('width','35%');
+    $('#container2').show().addClass('twochartsRight').css('width','63%');;
+    $('#container').highcharts(chartConfig={
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '宇配网供应商区域分配数'
+        },
+        tooltip: {
+            headerFormat: '{series.name}<br>',
+            pointFormat: '<b>{point.name}</b>数量: <b>{point.num}</b><br> <b>{point.name}</b>占比: <b>{point.percentage:.1f}%</b><br>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y:.f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+				showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '详细情况',
+            data: <{$datas[0]|array_values|json_encode}>
+        }]
+    });
+	 $('#container2').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '宇配网供应商区域商品数'
+        },
+        tooltip: {
+            headerFormat: '{series.name}<br>',
+            pointFormat: '<b>{point.name}</b>数量: <b>{point.num}</b><br> <b>{point.name}</b>占比: <b>{point.percentage:.1f}%</b><br>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y:.f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '详细情况',
+            data: <{$datas[0]|array_values|json_encode}>
+        }]
+    });
+	<{elseif $target=='areaSupplierGoodsNum'}>
+   $('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+        title: {text: '全国供应商top10'},
+        xAxis: [{
+            categories: <{$xdatas|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+        colors: ['#2f7ed8'],//定义颜色
+        series: [{
+            name: '商品数量',
+            type: 'column',
+            data: <{$datas[0]|array_values|json_encode}>,
+            tooltip: {valueSuffix: ''}
+
+        }]
+    });
+   <{elseif $target=='areaSupplierGoodsNumtopone'}>
+   $('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+        title: {text: '供应商销量top10'},
+        xAxis: [{
+            categories: <{$xdatas|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+        colors: ['#2f7ed8'],//定义颜色
+        series: [{
+            name: '商品销售量',
+            type: 'column',
+            data: <{$datas[0]|array_values|json_encode}>,
+            tooltip: {valueSuffix: ''}
+
+        }]
+    });
+    <{elseif $target=='areaSupplierGoodsNumtoptwo'}>
+   $('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+        title: {text: '供应商销售金额top10'},
+        xAxis: [{
+            categories: <{$xdatas|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+        colors: ['#2f7ed8'],//定义颜色
+        series: [{
+            name: '销售额',
+            type: 'column',
+            data: <{$datas[0]|array_values|json_encode}>,
+            tooltip: {valueSuffix: ''}
+
+        }]
+    });
+    <{elseif $target=='areaSupplierGoodsNumtopthree'}>
+   $('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+        title: {text: '供应商销售单量top10'},
+        xAxis: [{
+            categories: <{$xdatas|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+        colors: ['#2f7ed8'],//定义颜色
+        series: [{
+            name: '销单量',
+            type: 'column',
+            data: <{$datas[0]|array_values|json_encode}>,
+            tooltip: {valueSuffix: ''}
+
+        }]
+    });
+    <{elseif $target=='areaSupplierGoodsNumcate'}>
+   $('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+        title: {text: '供应商按一级分类所在省份集中度统计:'},
+        xAxis: [{
+            categories: <{$xdatas|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+        colors: ['#2f7ed8'],//定义颜色
+        series: [{
+            name: '数量',
+            type: 'column',
+            data: <{$datas[0]|array_values|json_encode}>,
+            tooltip: {valueSuffix: ''}
+
+        }]
+    });
+	<{/if}>
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<div class="tableform contractform feebox">
+	<a class="hide stepRow"><{$stepRow|default:''}></a>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <th><em><font color='red'>*</font></em><{t}>阶段名：<{/t}></th>
+            <td>
+			<input name="step_id" value="<{$data.step_id|default:''}>" type="hidden">
+			<{input type="text" class="inputstyle" name="step_title" vtype='required' value="{$data.title}"}>
+			</td>
+        </tr>
+        <tr>
+            <th><{t}>阶段付款截至日期：<{/t}></th>
+            <td><{input type="text" name="end_time" class="layDateFee" vtype="required" readonly="readonly" value="{$data.end_time}"}></td>
+        </tr>
+    </table>
+    <h3>费种列表</h3>
+    <table class="feeList">
+        <thead>
+            <tr>
+                <th style="width: 10%;">可多选</th>
+                <th style="width: 28%;"><{t}>费用种类<{/t}></th>
+                <th style="width: 62%;"><{t}>公式<{/t}></th>
+                <th style="width: 10%;" class="hide">是否单选</th>
+            </tr>
+        </thead>
+        <tbody>
+            <{foreach from=$feeRows item=item}>
+            <tr>
+            <td>
+			<input class="feeItem <{$item.no}>" no="<{$item.no}>" <{if (isset($data.fee_ids) && in_array($item.fee_id,$data.fee_ids)) || (in_array($item.fee_id,[9]) && $data.extra == '1')}>checked="checked"<{/if}> isone="<{$item.isone}>" name="fees[<{$item.fee_id}>]" title="<{$item.title}>" type="checkbox" expFormat="<{$item.method_format}>" feeId="<{$item.fee_id}>"/>
+			</td>
+            <td><{$item.title}></td>
+            <td><{$item.method_format}></td>
+            <td  class="hide"><{$item.isone_format}></td>
+            </tr>
+            <{/foreach}>
+        </tbody>
+    </table>
+</div>

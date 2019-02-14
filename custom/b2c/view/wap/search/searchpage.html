@@ -1,0 +1,18 @@
+<div class="page pagebox" style="width: 100%;">
+    <div class="searchBox">
+        <form action="/index.php/wap/search-result.html" method="post">
+          <div class="s-left"><span onclick="history.back(-1)"></span></div>
+          <div class="s-middle">
+              <input type="text" id="search_keywords" name="search_keywords" placeholder="请输入您要搜索的商品">
+          </div>
+          <div class="s-right">
+              <button class="submit" type="submit">搜索</button>
+          </div>
+        </form>
+    </div>
+  </div>
+  <script>
+  j(function () {
+    j('#search_keywords').focus();
+  });
+  </script>

@@ -1,0 +1,48 @@
+<div class="tableform">
+    <div class="division">
+        <table  width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <th><{t app="b2c"}>导航名称:<{/t}></th>
+                <td>
+                    <{if isset($setting.one.linktitle) }>
+                    <input name="one[linktitle]" value="<{$setting.one.linktitle}>">
+                    <{else}>
+                    <input name="one[linktitle]" value="在线客服">
+                    <{/if}>
+                </td>
+                <th><{t app="b2c"}>链接地址:<{/t}></th>
+                <td>
+                    <input name="one[linktarget]" value="<{$setting.one.linktarget}>">
+                </td>
+            </tr>
+            <tr>
+                <th><{t app="b2c"}>导航名称:<{/t}></th>
+                <td>
+                    <{if isset($setting.two.linktitle) }>
+                    <input name="two[linktitle]" value="<{$setting.two.linktitle}>">
+                    <{else}>
+                    <input name="two[linktitle]" value="帮助中心">
+                    <{/if}>
+                </td>
+                <th><{t app="b2c"}>链接地址:<{/t}></th>
+                <td>
+                    <input name="two[linktarget]" value="<{$setting.two.linktarget}>">
+                </td>
+            </tr>
+            <tr>
+                <th><{t app="b2c"}>导航名称:<{/t}></th>
+                <td>
+                    <{if isset($setting.three.linktitle) }>
+                    <input name="three[linktitle]" value="<{$setting.three.linktitle}>">
+                    <{else}>
+                    <input name="three[linktitle]" value="网站导航">
+                    <{/if}>
+                </td>
+                <th><{t app="b2c"}>链接地址:<{/t}></th>
+                <td>
+                    <input name="three[linktarget]" value="<{$setting.three.linktarget}>">
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

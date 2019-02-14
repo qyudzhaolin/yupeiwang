@@ -1,0 +1,20 @@
+<app>
+    <name>中金对账</name>
+    <type>core</type>
+    <description>中金支付对账查询</description>
+
+    <author>
+        <name>shopex开发团队</name>
+        <email>dev@shopex.cn</email>
+        <url>http://www.shopex.cn</url>
+    </author>
+
+    <version>0.1</version>
+    <license>shopex license</license>
+
+	<depends>
+		<app>desktop</app>
+	</depends>
+
+    <optional app="syssupport">查询中金支付账单</optional>
+</app>

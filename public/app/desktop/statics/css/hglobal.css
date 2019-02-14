@@ -1,0 +1,181 @@
+/*合约*/
+.formEditBox .inputstyle{width:40%;}
+.contract_goods_box .row .row-line span.title{display: inline-block;width:200px;overflow: hidden;}
+.contract_goods_box .row .row-line input{width:60px;}
+
+.tableform.contractform th{text-align: left;}
+.tableform.accountParamsform th{text-align: right;}
+.tableform.accountParamsform td .tips{color:red;}
+.contractform h3 {
+    font-size: 14px;
+    color: #222222;
+    height: 22px;
+    line-height: 22px;
+    padding: 5px 7px;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.setBox {
+    display: inline-block;
+    color: #666;
+    font-size: 12px;
+    padding: 2px 0;
+    border: 1px solid #D6D6D6;
+    margin: 3px 0 0 0;
+    background: #EFEFEF;
+    border-radius: 3px;
+}
+.setBox.accountParamsBox {
+    display: block;
+    width: 85%;
+}
+.setBox.accountStepBox {
+    display: block;
+    width: 85%;
+    background: #fff;
+    padding: 0;
+
+}
+.setBox.accountStepBox table  th,.setBox.accountStepBox table  td{padding:3px;text-align: center;vertical-align: middle;border:1px solid #ddd;}
+.setBox.accountStepBox table  th {
+    background: #EFEFEF;
+}
+
+.setBox.fullTablebox {
+    display: block;
+    background: #fff;
+    padding: 6px;
+    border: none;
+}
+.setBox.fullTablebox table  th,.setBox.fullTablebox table  td{padding:3px;text-align: center;vertical-align: middle;border:1px solid #ddd;}
+.setBox.fullTablebox table  th {
+    background: #EFEFEF;
+}
+
+.setBox b{font-weight: normal;margin-right: 8px;display: inline-block;width: 30%;padding-left: 5px;}
+.setBox .opt{padding:0;cursor: pointer;color:#1969ae;}
+.setBox .opt:hover{color:red;}
+.background_yellow{background:yellow;}
+
+.contract_goods_box .row .row-line span{
+    display: inline-block;
+    border-right: 1px solid #ddd;
+    text-align: center;
+    padding: 0 6px;
+    margin-right: 0px;
+    overflow: hidden;
+    font-size: 12px;
+}
+.contract_goods_box .row .row-line span.t-n1{
+    width:171px;
+}
+.contract_goods_box div.row .row-line {
+    width: 1001px;
+}
+.contract_goods_box .row .row-line span.t-n2{
+    width:50px;
+}
+.contract_goods_box .row .row-line span.t-n3{
+    width:110px;
+}
+
+.contract_goods_box .row .row-line span.t-n3{
+    width:50px;
+}
+
+.contract_goods_box .row .row-line span.t-n4{
+    width:70px;
+}
+
+.contract_goods_box .rows-body .span-auto.row-h.row-title,.contract_goods_box .rows-body .span-auto.row-h.row-del {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 1px solid #ddd;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    /* white-space:normal; *//*超出换行显示*/
+}
+.contract_goods_box .rows-body .span-auto.row-h.row-title{
+    width:110px;
+}
+.contract_goods_box .rows-body .span-auto.row-h span.row-del{
+    width:50px;
+}
+.contract_goods_box div.row{padding: 0;display: inline-block;overflow: hidden;border-top:none;border-left:1px solid #ddd;border-right:1px solid #ddd;border-bottom:1px solid #ddd;height: 20px;line-height: 20px;}
+.contract_goods_box .row .row-line input {
+    vertical-align:middle;
+}
+.contract_goods_box div.row.row-head{background: #EFEFEF;border:1px solid #ddd;}
+.setBox.accountStepBox table tr td{word-break: break-all;}
+.setBox.fullTablebox table tr td{word-break: break-all;}
+.editStep{text-align: right;margin-bottom: -25px;}
+.editStep a{color:#1969ae!important;line-height: 25px!important;}
+.bkmark{background-color: #e6ecf2;}
+.selectedBox {
+    display: inline-block;
+    color: #666;
+    font-size: 12px;
+    padding: 2px 5px;
+    border: 1px solid #D6D6D6;
+    margin: 3px 0 0 0;
+    background: #EFEFEF;
+    border-radius: 3px;
+}
+
+.top-box{text-align: right;margin-bottom: 5px;}
+.top-box input{
+    border: 1px solid #cccccc;
+    padding: 3px 5px;
+    font-size: 12px;
+    width: 180px;
+}
+.top-box span{
+    border-color: #1E9FFF;
+    background-color: #1E9FFF;
+    color: #fff;
+    height: 24px;
+    line-height: 24px;
+    margin: 5px 5px 0;
+    padding: 0 15px;
+    border: 1px solid #dedede;
+    border-radius: 2px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+.top-box span:hover {
+    opacity: .9;
+    text-decoration: none;
+}
+.yp_store_set{
+    display: none;
+    background-color: #e6ecf2;
+}
+.bgray{background: #ddd;}
+.yp-disabled-cover{
+    background: #ddd;
+    display: inline-block;
+    width: 71px;
+    height: 25px;
+    vertical-align: middle;
+    line-height: 25px;
+    padding-left: 5px;
+    color: #797979;
+}
+.mwidth{width:360px;}
+.swidth{width:360px;}
+.networksareas{
+    line-height: 17px;
+    font-size: 12px;
+    padding: 3px 0;
+    max-height: 51px;
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
+.shipareaBox.networksareaBox{
+    display: block;
+}
+.picbox img{width: 90px;height: 90px;}

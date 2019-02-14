@@ -1,0 +1,12 @@
+<{if $page_product_basic.goods_marketable=='true' && $page_product_basic.product_marketable == 'true' }>
+<li class="product-buy-quantity">
+	<label class="item-label" for="for_quantity_input">预订数量：</label>
+	<span class="item-content">
+		<span class="p-quantity">
+			<a href="javascript:void(0);" class="btn-decrease">-</a><input type="text" name="goods[num]" id="for_quantity_input" class="action-quantity-input" value="1" min="1" max=""><a href="javascript:void(0);" class="btn-increase">+</a>	
+		</span> <em><{$page_product_basic.unit}></em>
+	</span>
+	<span class="stock">库存：<b><{$page_product_basic.store}></b></span>
+	<input type="hidden" name="stock" value="<{$product_store.store}>">	
+</li>
+<{/if}>

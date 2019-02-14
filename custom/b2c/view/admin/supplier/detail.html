@@ -1,0 +1,86 @@
+<style>
+.mwidth{width:360px;}
+.swidth{width:360px;}
+</style>
+
+<form id="supplierForm" action="index.php?app=b2c&ctl=admin_supplier&act=save"  method="POST" >
+  <input type="hidden" name="supplier_id" value="<{$supplierInfo.supplier_id}>">
+  <div class="tableform">
+    <div class="division">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>供应商简称：<{/t}></th>
+          <td><{input class="mwidth" type="text" name="shortname" vtype="required" value=$supplierInfo.shortname}></td>
+        </tr>
+        
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>供应商编号：<{/t}></th>
+          <td><{input class="mwidth" type="text" name="bn" vtype="required" value=$supplierInfo.bn}></td>
+        </tr>
+        
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>供应商全称：<{/t}></th>
+          <td><{input class="mwidth" type="text" name="supplier_name" vtype="required" value=$supplierInfo.supplier_name}></td>
+        </tr>
+        
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>企业地址：<{/t}></th>
+          <td>
+              <span class="form-act"><{input type="region" name="area" required="true" value=$supplierInfo.area app="ectools" callback="selectArea"}></span>
+              <{input placeholder="详细地址" type="text" name="addr" style="width:292px" value=$supplierInfo.addr}>
+              
+          </td>
+        </tr>
+        
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>企业电话：<{/t}></th>
+          <td><{input class="mwidth" type="text" name="tel" vtype="required" value=$supplierInfo.tel}></td>
+        </tr>
+        
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>企业联系人：<{/t}></th>
+          <td><{input class="mwidth" type="text" name="linkman" vtype="required" value=$supplierInfo.linkman}></td>
+        </tr>
+        
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>企业EMAIL：<{/t}></th>
+          <td><{input class="mwidth" type="text" name="email" vtype="required" value=$supplierInfo.email}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>企业账期：<{/t}></th>
+          <td><{input class="swidth" type="text" name="account_period" type="number" value=$supplierInfo.account_period|intval}></td>
+        </tr>
+        
+        <!--扩展字段 START-->
+        <!--扩展字段 END-->              
+                
+        <tr>
+          <th>企业LOGO</th>
+          <td><{input type="image" name="logo" value=$supplierInfo.logo width=160 height=90}>请上传企业LOGO</td>
+        </tr>
+        
+        <tr>
+          <th>企业营业执照</th>
+          <td><{input type="image" name="license" value=$supplierInfo.license width=160 height=90}>请上传企业营业执照</td>
+        </tr>
+         <tr>
+          <th><em><font color='red'>*</font></em><{t}>业务员：<{/t}></th>
+          <td><{input class="mwidth" type="text" name="salesman" vtype="required" value=$supplierInfo.salesman}></td>
+        </tr>
+      </table>
+    </div>
+    <!--delete end--> 
+    
+  </div>
+  <div class="table-action"> <{button type="submit"  label=$___b2c="保存"|t:'b2c'}> </div>
+</form>
+<script>
+$('supplierForm').store('target',{
+	onComplete:function(){
+		if(opener.finderGroup['<{$env.get._finder.finder_id}>'])
+		opener.finderGroup['<{$env.get._finder.finder_id}>'].refresh();
+		window.close();
+	}
+});
+</script> 

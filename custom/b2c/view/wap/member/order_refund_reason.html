@@ -1,0 +1,76 @@
+<{css src="/mui/mui.min.css" app="wap"}>
+<div class="full-screen">
+    <header class="hide">
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+            申请退款
+        </div>
+    </div>
+    </header>
+    <div class="order-cancel-box">
+    <form class="form" method="post">
+        <input type="hidden" name="order_id" value="<{$order_id}>">
+        <div class="reason-title">
+        	请选择申请退款原因
+        </div>
+    
+        <ul class="reason-list">
+        		<li >
+        		不想要了 <input name="refund_apply_reason" value="1" checked="checked" class="aui-checkbox"  type="radio">
+        	   </li>
+			
+        		<li class=" ">
+        	   价格较贵 <input name="refund_apply_reason" value="2" class="aui-checkbox"  type="radio">
+        	</li>	
+        		<li class=" ">
+        	   缺货 <input name="refund_apply_reason" value="3" class="aui-checkbox"  type="radio">
+        	</li>			
+        		<li class=" ">
+        	   等待时间过长 <input name="refund_apply_reason" value="4" class="aui-checkbox"  type="radio">
+        	</li>			
+        	
+        		<li class=" ">
+        	   拍错了 <input name="refund_apply_reason" value="5" class="aui-checkbox"  type="radio">
+        	</li>			
+        	
+        		<li class=" ">
+        	   订单信息填写错误 <input name="refund_apply_reason" value="6" class="aui-checkbox"  type="radio">
+        	</li>				
+        	
+        	<li class=" ">
+        	   其它 <input name="refund_apply_reason" value="7" class="aui-checkbox"  type="radio">
+        	</li>			
+        </ul>
+        <div style="height: 50px;"></div>
+        <div class="fixed-bottom-div">
+            <button class="cancel-order-btn refund-button" type="button">确认</button>
+        </div>
+  </form>
+   </div>
+</div> 
+<script>
+j(function(){
+    //申请退款
+    j('.refund-button').click(function(event){
+        var order_id = j('input[name=order_id]').val();
+        var refund_apply_reason = j('input[name=refund_apply_reason]:checked').val();;
+        var url = "<{link app=b2c ctl=wap_member act=do_refund_apply}>";
+        layer.confirm('您确定要申请退款吗？',function(){
+            var index = layer.load(1);
+            j.post(url,{order_id:order_id,refund_apply_reason:refund_apply_reason},function(o){
+                if(o.success){
+                    layer.msg(o.suc_msg);
+                    setTimeout(function(){history.go(-1)},2000);
+                }else{
+                    layer.msg(o.err_msg,{icon: 5});
+                }
+                layer.close(index);
+            },'json');
+        });
+    });
+});
+</script>

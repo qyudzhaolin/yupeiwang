@@ -1,0 +1,28 @@
+<!-- 商品清单 -->
+<table id="cart_main" class="cart-main place-order-pro <{if $step_type == 'other'}>hide<{/if}>" width="100%">
+  <caption><{t}>商品清单<{/t}></caption>
+    <tbody class="cart-item">
+    <tr>
+    <{if $promotion_type != 'prepare'}>
+        <th class="pro-name"><{t}>商品名称<{/t}></th>
+        <th><{t}>销售价<{/t}></th>
+        <th><{t}>数量<{/t}></th>
+        <th class="hide"><{t}>优惠金额<{/t}></th>
+        <th class="hide"><{t}>积分<{/t}></th>
+        <th><{t}>小计<{/t}></th>
+        <{elseif $promotion_type == 'prepare'}>
+        <th><{t}>商品名称<{/t}></th>
+        <th><{t}>销售价<{/t}></th>
+        <th><{t}>预售订金<{/t}></th>
+        <th><{t}>数量<{/t}></th>
+        <th><{t}>小计<{/t}></th>
+    <{/if}>    
+    </tr>
+  <!-- 购物车条目 -->
+  <{if $item_section}>
+      <{foreach from=$item_section item=section}>
+        <{include file=$section.file app=$section.app}>
+      <{/foreach}>
+  <{/if}>
+  </tbody>	
+</table>

@@ -1,0 +1,302 @@
+<form class="formEditBox" id="contract_form" name="contract_form" action="index.php?app=b2c&ctl=admin_contract&act=save_rule"  method="POST" >
+<input id="contract_id" type="hidden" name="data[base][contract_id]" value="<{$data.contract_id}>">
+<div class="tableform">
+<h3><{t}>编辑合约信息<{/t}></h3>
+<div class="division">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+
+<tr>
+    <th width="18%"><em><font color='red'>*</font></em><{t}>客户：<{/t}></th>
+    <td width="82%"><{*input type="object" object="members" name="data[member_id]" cols="name" textcol="login_name@account@pam"*}>
+        <{input type="text" name="data[base][login_name]" value=$data.login_name autocompleter="b2c_autocomplete_member:login_name,member_id" ac_options="{relative:false}" vtype="required"}>
+        &nbsp; <{help}><{t}>请输入客户手机号或者客户名称从下拉列表选择客户<{/t}><{/help}>
+    </td>
+</tr>
+
+<tr>
+  <th><em><font color='red'>*</font></em><{t}>合约号：<{/t}></th>
+  <td><{input type="text" class="" name="data[base][contract_no]" required="true" vtype='required' value=$data.contract_no}></td>
+</tr>
+
+<tr>
+  <th><em><font color='red'>*</font></em><{t}>生效日：<{/t}></th>
+  <td><{input type="text" name="data[base][begin_time]" class="layDate" value=$data.begin_time vtype="required" readonly="readonly"}></td>
+</tr>
+
+<tr>
+  <th><em><font color='red'>*</font></em><{t}>失效日：<{/t}></th>
+  <td><{input type="text" name="data[base][end_time]" class="layDate" value=$data.end_time vtype="required" readonly="readonly"}></td>
+</tr>
+
+<tr>
+  <th><em><font color='red'></font></em><{t}>服务内容：<{/t}></th>
+  <td><{input type="textarea" class="inputstyle" name="data[base][content]" value=$data.content rows="2"}></td>
+</tr>
+<tr>
+<th><em><font color='red'></font></em><{t}>结算方式：<{/t}></th>
+<td><{input type="textarea" class="inputstyle" name="data[base][accounts]" value=$data.accounts rows="2"}></td>
+</tr>
+
+<tr>
+    <th><em><font color='red'>*</font></em><{t}>启用状态：<{/t}></th>
+    <td>
+	<input name="data[base][state]" <{if $data.state == 'on'}>checked="checked"<{/if}> value="on" type="radio">
+	是
+	<input name="data[base][state]" <{if $data.state == 'off'}>checked="checked"<{/if}> value="off" type="radio">
+	否
+	</td>
+</tr>
+
+
+  <{if !empty($data) &&  !empty($data.contract_id) && !in_array($data.state,['off']) && !empty($products)}>
+  <tr>
+  <th><em><font color='red'>*</font></em><{t}>合约商品：<{/t}></th>
+	<td>
+	<span class="setBox accountStepBox">
+		<table>
+			<thead>
+				<tr>
+					<th>商品名称</th>
+					<th>商品编号</th>
+					<th>重量(kg)</th>
+					<th>计量单位</th>
+					<th>数量</th>
+					<th>当前库存</th>
+					<th>单价</th>
+					<th>仓库</th>
+				</tr>
+			</thead>
+			<tbody>
+			<{foreach from=$products item=item}>
+			<tr>
+				<td><{$item.name}></td>
+				<td><{$item.bn}></td>
+				<td><{$item.weight}></td>
+				<td><{$item.unit}></td>
+				<td><{$item.num}></td>
+				<td><{$item.store_left}></td>
+				<td><{$item.price}></td>
+				<td><{$item.storehouse}></td>
+			</tr>
+			<{/foreach}>
+			</tbody>
+		</table>				
+	</span>
+	</td>
+	</tr>
+	<{/if}>
+	<tr class="<{if !empty($data) &&  !empty($data.contract_id) && !in_array($data.state,['off']) && !empty($products)}>hide<{/if}>">
+	<th><em><font color='red'>*</font></em><{t}>设置合约商品：<{/t}></th>
+	<td class="contract_goods_box">
+		<{input class="hide" type="object" name="data[contract_pro]" object="products" app="b2c" select="checkbox" vtype="required" textcol="name" cols="name" filter=$filter view="b2c:admin/contract/contract/new_items.html"  multiple="true" key="product_id" extend=$products value=$product_ids}>
+	</td>
+	</tr>
+
+<tr>
+    <th><em><font color='red'>*</font></em><{t}>设置结算参数：<{/t}></th>
+    <td>
+        <{button app="desktop" class="accountParamsButton" onclick="fee.getAccountParamsData()" accountParams=$accountParams|array_keys|implode:',' label=$___b2c="设置结算参数"|t:'b2c' icon="btn_edit.gif"}>
+        <span class="setBox setStepBox accountParamsBox">
+            <{if !empty($params)}>
+                <{foreach from=$params item=item key=key}>
+                    <b no="<{$item.no}>" value="<{$item.value}>"><{$item.title}>：<{$item.value}><{if in_array($item.no, ['point','deposit_rate'])}>%<{/if}></b>
+                    <input name="data[params][<{$item.params_id}>]" value="<{$item.value}>" type="hidden">
+                <{/foreach}>
+            <{else}>
+            暂未设置
+            <{/if}>
+        </span>
+    </td>
+</tr>
+
+<tr>
+    <th><em><font color='red'>*</font></em><{t}>设置结算阶段：<{/t}></th>
+    <td>
+        <{button app="desktop" class="accountStepButton" onclick="fee.getFeeData()" accountStep=$accountStep|array_keys|implode:',' label=$___b2c="设置结算阶段"|t:'b2c' icon="btn_edit.gif"}>
+        <span class="setBox setStepBox accountStepBox">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:50px;">操作</th>
+                        <th><{t}>阶段名<{/t}></th>
+                        <th style="max-width:100px;"><{t}>适用<{/t}></th>
+                        <th style="width:420px;"><{t}>计算公式<{/t}></th>
+                        <th><{t}>阶段付款截止日期<{/t}></th>
+                        <th><{t}>是否立即开启<{/t}></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <{if !empty($step)}>
+                    <{foreach from=$step item=item key=key}>
+                        <{if $item.fee_ids != '8'}>
+                        <tr step_id="<{$item.step_id}>">
+                            <td>
+								<{if $item.payed=='0'}>
+                                <span class="opt" onclick="fee.deleteStep(this)">
+									删除
+								</span>
+								<span class="opt" onclick="fee.getFeeData(this)">
+									编辑
+									<a class="hide stepRow"><{$item|json_encode}></a>
+								</span>
+								<{/if}>
+                            </td>
+                            <td>
+                                <{$item.title}>
+                            <td>合约</td>
+                            <td>
+                                <{$item.expFormat}>
+                            <td>
+                                <{$item.end_time}>
+                            <td>
+                                <{if $item.payed=='1'}>
+                                已完成
+                                <{else}>
+                                <input name="data[step][<{$key}>][step_id]" value="<{$item.step_id}>" type="hidden">							
+                                <input name="data[step][<{$key}>][state]" <{if $item.state == 'on'}>checked="checked"<{/if}> value="on" type="radio">
+                                是
+                                <input name="data[step][<{$key}>][state]" <{if $item.state == 'off'}>checked="checked"<{/if}> value="off" type="radio">
+                                否
+                                <{/if}>
+                            </td>
+                        </tr>
+                        <{else}>
+                            <{foreach from=$item.products item=pro key=k}>
+                                <{if $k == '0'}>
+                                    <tr class="partial_service_charge" step_id="<{$item.step_id}>">
+                                        <td rowspan="<{$item.proNum}>">
+											<{if $item.payed=='0'}>
+											<span class="opt" onclick="fee.deleteStep(this)">
+												删除
+											</span>
+											<span class="opt" onclick="fee.getFeeData(this)">
+												编辑
+												<a class="hide stepRow"><{$item|json_encode}></a>
+											</span>
+											<{/if}>
+										</td>
+                                        <td rowspan="<{$item.proNum}>"><{$item.title}>
+                                        <td><{$pro.name}></td>
+                                        <td><{$item.expFormat}>
+                                        <td rowspan="<{$item.proNum}>">
+                                            <{$item.end_time}>
+                                        </td>
+                                        <td rowspan="<{$item.proNum}>">
+                                            <{if $item.payed=='1'}>
+                                            已完成
+                                            <{else}>
+                                            <input name="data[step][<{$key}>][step_id]" value="<{$item.step_id}>" type="hidden">
+                                            <input name="data[step][<{$key}>][state]" <{if $item.state == 'on'}>checked="checked"<{/if}> value="on" type="radio">
+                                            是
+                                            <input name="data[step][<{$key}>][state]" <{if $item.state == 'off'}>checked="checked"<{/if}> value="off" type="radio">
+                                            否
+                                            <{/if}>
+                                        </td>
+                                    </tr>
+                                <{else}>
+                                    <tr class="partial_service_charge" step_id="<{$item.step_id}>">
+                                        <td><{$pro.name}></td>
+                                        <td><{$item.expFormat}></td>
+                                    </tr>
+                                <{/if}>
+
+                            <{/foreach}>
+
+                        <{/if}>
+                    <{/foreach}>
+                    <{/if}>
+                </tbody>
+            </table>
+        </span>
+    </td>
+</tr>
+
+<tr>
+    <th style="padding-top:20px;"><em><font color='red'>*</font></em><{t}>出库限制条件：<{/t}></th>
+    <td>
+        每次出库合约商品总金额不能低于
+        <{input type="number" name="data[base][min_amount]"  value=$data.min_amount size="5"}>元<div style="height: 5px;"></div>
+        每次出库合约商品总数量不能少于
+        <{input type="unsignedint" name="data[base][min_num]"  value=$data.min_num size="5"}>
+    </td>
+</tr>
+</table>
+</div>
+</div>
+
+<{capture name='footbar'}>
+<table cellspacing="0" cellpadding="0" class="table-action">
+    <tbody><tr valign="middle">
+            <td>
+                <{assign var="___a"  value="关  闭"}>
+                <{assign var="___c"  value=$___b2c='确定退出?'|t:'b2c'}>
+                <{button label=$___b2c="保存并关闭窗口"|t:'b2c' class="btn-primary" type="button" id="submitForm" onclick="submitForm(event,2)"}>
+                <!--<{button label="保  存" class="btn-primary" onclick="submitForm(event,1)"}>-->
+                <{button label=$___content=$___a|t:'content' class="btn-secondary" type="button" onclick="if(confirm('{$___c}'))window.close()"}>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<{/capture}>
+</form>
+<{script src="contract.js?v=9" app="desktop"}>
+<script>
+j(function(){
+  j('.layDate').layDate({format: 'YYYY-MM-DD'});
+  fee.doAddedGoods();//设置合约商品表头部
+});
+
+    $$('.act-autoclose').addEvent('click', function(e){
+        if(this.value == 'true') {
+            $$('.timeout1').show();
+        }
+        else if(this.value == 'false') {
+            $$('.timeout1').hide();
+        }
+    });
+    $$('.act-custom').addEvent('click', function(e){
+        if(this.value == 'other') {
+            this.getNext('input[type=text]').show();
+        }
+        else {
+            this.getNext('input[type=text]').hide();
+        }
+    });
+    $$('.act-remind').addEvent('click', function(e){
+        console.log(this.value);
+        if(this.value == 'true') {
+            $$('.remind').show();
+        }
+        else {
+            $$('.remind').hide();
+        }
+    });
+    var submitForm = function (event,sign){
+        var _form=$('contract_form');
+        if (!fee.checkSubmitContent()) {
+            return false;
+        }
+        switch (sign){
+            case 1:
+            var target={
+                onComplete:function(){
+                    location.reload();
+            }};
+            break;
+            case 2:
+            var target={
+                onComplete:function(rs){
+                    if(rs&&!!JSON.decode(rs).success){
+                        try{
+                            window.opener.finderGroup['<{$env.get.finder_id}>'].refresh();
+                            window.close();
+                        }catch(e){}
+                    }
+            }};
+            break;
+        }
+        _form.store('target',target);
+        _form.fireEvent('submit',new Event(event));
+    };
+</script>
+

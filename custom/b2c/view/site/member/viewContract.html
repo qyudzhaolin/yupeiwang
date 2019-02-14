@@ -1,0 +1,200 @@
+<!-- 会员中心主内容区 -->
+<div class="page-article viewContract">
+<!--	查看合约-->
+  <div class="floor-viewcontract border-01" >
+ 	   <div class="viewcontract-title-02" >
+  	  <span class="margin-left-35"> 合约号： </span>
+  	  <span class="color-01"><{$contract.[0].contract_no}></span>
+	 	  <span class="margin-left-35">商品总金额（元）：</span> 
+	 	   	  <span class="color-01"> <{$contract.[0].amount|cur_odr:$order_detail.currency}> </span>
+	 	  <span class="margin-left-35">合约付款状态：<{$contract.[0].pay_status}></span> 	   	
+ 	   </div>
+      <div class="viewcontract-content">
+
+      </div>
+ </div>
+<!-- 合约基本信息-->
+   <div class="floor-viewcontract" >
+   	 	   <div class="viewcontract-title" >
+  	  <span>合约基本信息</span>
+    	
+ 	   </div>
+      <div class="viewcontract-content">
+		<span class="span-01">合约号：<{$contract.[0].contract_no}></span>
+		<span class="span-01">商品总金额；<{$contract.[0].amount|cur_odr:$order_detail.currency}></span>
+		<span class="span-01">合约效期：<{$contract.[0].begin_time}>-<{$contract.[0].end_time}></span>
+		<span class="span-01"> 合约服务内容：<{$contract.[0].content}></span>
+		<span class="span-01">合约结算方式：<{$contract.[0].accounts}></span>
+	</div>
+  </div>
+<!-- 合约基本信息结束-->
+<!--商品明细-->
+   <div class="floor-viewcontract" >
+   	 	   <div class="viewcontract-title" >
+  	  <span>商品明细</span>
+    	
+ 	   </div>
+      <div class="viewcontract-content detail">
+ <table>
+	<thead>
+		<tr>
+			<th>商品名称</th>
+			<th>商品货号</th>
+			<th>重量(g)</th>
+			<th>计量单位</th>
+			<th>商品规格</th>
+			<th>商品属性</th>
+			<th>原产地</th>
+			<th>供应商</th>
+			<th>数量</th>
+			<th>单价(元)</th>
+			<th>仓库</th>
+		</tr>
+	</thead>
+	<tbody>
+       <{foreach from=$goods item=goods name="item"}>
+		<tr>
+			<td><{$goods.name}></td>
+			<td><{$goods.bn}></td>
+			<td><{$goods.weight}></td>
+			<td><{$goods.unit}></td>
+			<td><{$goods.commodity_specification}></td>
+			<td><{$goods.commodity_property}></td>
+			<td><{$goods.gsource_area}></td>
+			<td><{$goods.supplier_name}></td>
+			<td><{$goods.num}></td>
+			<td><{$goods.mktprice|cur_odr:$order_detail.currency}></td>
+			<td><{$goods.storehouse}></td>
+		</tr>
+	    <{/foreach}>
+	</tbody>
+</table>
+	</div>
+  </div>
+
+<!--商品明细结束-->
+<!--出库限制条件-->
+   <div class="floor-viewcontract" >
+   	 	   <div class="viewcontract-title" >
+  	  <span>出库条件</span>
+    	
+ 	   </div>
+      <div class="viewcontract-content">
+				<span class="span-01">金额限制：每次出库合约商品总金额不能少于<{$contract.[0].min_amount|cur_odr:$order_detail.currency}> 元</span>
+				<span class="span-01">数量限制：每次出库合约商品总数量不能少于<{$contract.[0].min_num}> </span>
+	</div>
+  </div>
+
+<!--出库限制条件结束-->
+   <div class="floor-viewcontract" >
+ 	   <div class="viewcontract-title" >
+  	  <span>支付流水</span>
+    	
+ 	   </div>
+      <div class="viewcontract-content">
+      	
+       <table>
+      	 <thead>
+      	 	 <tr>
+      	 	 	 <th><span>支付类型</span></th>
+      	 	 	 <th><span>支付金额（元）</span></th>
+      	 	 	 <th><span>支付方式</span></th>
+      	 	 	 <th><span>支付时间</span></th>
+      	 	 	 <th><span>状态</span></th>
+      	 	 </tr>
+      	 </thead>
+      	 <tbody>
+            <{foreach from=$contractpayment item=payment  name="item"}>
+      	 	 <tr>
+      	 	 	 <td><span><{$payment.pay_type}></span></td>
+      	 	 	 <td><span><{$payment.money|cur_odr:$order_detail.currency}></span></td>
+      	 	 	 <td><span><{$payment.pay_app_id}></span></td>
+      	 	 	 <td><span><{$payment.t_payed}></span></td>
+      	 	 	 <td><span><{$payment.status}></span></td>
+      	 	 </tr>
+             <{/foreach}> 
+      	 </tbody>
+      </table>     	
+      </div>
+ </div>
+<!--商品出库流水-->
+   <div class="floor-viewcontract" >
+ 	   <div class="viewcontract-title" >
+  	  <span> 商品出库流水</span>
+  	   	
+ 	   </div>
+      <div class="viewcontract-content">
+      	
+       <table>
+      	 <thead>
+      	 	 <tr>
+      	 	 	 <th width="10%"><span>订单号</span></th>
+      	 	 	 <th width="12%"><span>下单时间</span></th>
+      	 	 	 <th width="19%"><span>商品名称</span></th>
+      	 	 	 <th width="11%"><span> 商品货号</span></th>
+      	 	 	 <th width="8%"><span>商品规格</span></th>
+      	 	 	 <th width="10%"><span>销售价（元）</span></th>
+             <th width="10%"><span>数量</span></th>
+      	 	 	 <th width="10%"><span>当次库存结余</span></th>
+      	 	  
+      	 	 </tr>
+      	 </thead>
+      	 <tbody>
+         <{foreach from=$goodsout item=goodsout name="item"}>
+      	 	 <tr>
+      	 	 	 <td><span><{$goodsout.order_id}></span></td>
+      	 	 	 <td><span><{$goodsout.ctime}></span></td>
+      	 	 	 <td><span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width: 200px"><{$goodsout.name}></span></td>
+      	 	 	 <td  >
+              <span style=" white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100px;  ">
+    
+                  <{$goodsout.bn}></span>
+             </td>
+      	 	 	 <td><span><{$goodsout.spec_info}></span></td>
+      	 	 	 <td><span><{$goodsout.price}></span></td>
+             <td><span><{$goodsout.num}></span></td>
+      	 	 	 <td><span><{$goodsout.store_left}></span></td>
+      	 	 </tr>
+          <{/foreach}>
+        	 <!-- 	 <tr>
+      	 	 	 <td><span>180330143293602</span></td>
+      	 	 	 <td><span>2018-05-03 14:00</span></td>
+      	 	 	 <td><span>澳洲肥羊肉</span></td>
+      	 	 	 <td><span>YPW00660GYS201</span></td>
+      	 	 	 <td><span>5kg/箱</span></td>
+      	 	 	 <td><span>500.00</span></td>
+      	 	 	 <td><span>3000</span></td>
+      	 	  
+      	 	 </tr>    	 	  -->
+      	 </tbody>
+      </table>     	
+      </div>
+ </div>
+
+<!--商品出库流水结束-->
+<!--合约物流状态跟踪-->
+   <div class="floor-viewcontract" >
+ 	   <div class="viewcontract-title" >
+  	  <span> 合约物流状态跟踪</span>
+  	   	
+ 	   </div>
+ 	   <div class="viewcontract-content bg_color_3">
+ 		<ul  class="ivu-timeline">
+       <{foreach from=$ship_status item=ship_status name="item"}>
+			<li class="ivu-timeline-item">
+			 <div class="ivu-timeline-item-tail"> </div>
+				<div class="ivu-timeline-item-head ivu-timeline-item-head-red"> </div> 
+				<div class="ivu-timeline-item-content">
+					<p  class="time"><{$ship_status.ctime}> </p>
+					<p  class="content"><{$ship_status.ship_status}></p>
+				</div>
+			</li>
+			 <{/foreach}>
+		
+		</ul>	   	
+ 	   	
+ 	   	
+ 	   	</div>
+</div>
+<!--合约物流状态跟踪结束-->
+</div>

@@ -1,0 +1,205 @@
+<div class="full-screen">
+    <header class="hide">
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+            我的订单
+        </div>
+    </div>
+    </header>
+     <div id="order-detail-box">
+        <!-- 订单取消或者退款详情链接 -->
+        <{if !empty($cancel_row)}>
+        <div class="order-detail-link">
+            您的订单已取消！
+            <a href="<{link app=b2c ctl=wap_member act=cancel_result arg0=$order.order_id}>">></a>
+        </div>
+        <{/if}>
+
+        <{if !empty($rs_refund_apply)}>
+        <div class="order-detail-link">
+            退款进度
+            <a href="<{link app=b2c ctl=wap_member act=refund_result arg0=$order.order_id}>">></a>
+        </div>
+        <{/if}>
+
+
+     	<div class="order-detail-state">
+     	   <p><em> 订单状态:</em><{if $order.status == 'dead'}><{t}>已作废<{/t}><{elseif $order.status == 'finish'}><{t}>已完成<{/t}><{else}><{if $order.pay_status == '0'}><{t}>未付款<{/t}><{elseif $order.pay_status == '1'}><{t}>已支付<{/t}><{elseif $order.pay_status == '2'}><{t}>已付款至担保方<{/t}><{elseif $order.pay_status == '3'}><{t}>部分付款<{/t}><{elseif $order.pay_status == '4'}><{t}>部分退款<{/t}><{elseif $order.pay_status == '6'}><{t}>退款申请中<{/t}><{else}><{t}>全额退款<{/t}><{/if}> <{if $order.ship_status == '0'}><{t}><{/t}><{elseif $order.ship_status == '1'}><{t}><{/t}><{elseif $order.ship_status == '2'}><{t}>部分发货<{/t}><{elseif $order.ship_status == '3'}><{t}>部分退货<{/t}><{else}><{t}>已退货<{/t}><{/if}><{/if}></p>
+     	   <p><em> 订单号:</em>  <{$order.order_id}> </p>
+     	   <p><em> 总金额:</em> <{$order.total_amount|cur_odr:$order.currency}> </p>
+     	   <p><em> 订单时间:</em> <{$order.createtime|cdate}> </p>
+     	</div>
+     	
+     	<div class="order-detail-opration">
+        <{if $order.status == 'active' &&  $order.received_status != '1' && $order.pay_status != '6' }>
+            <{if $order.payinfo.pay_app_id != 'offline'}>
+                <{if $prepare.prepare_type != 'prepare'}>
+                    <{if $order.is_pay == 0}>
+                    <a class="submit-order" href="<{link app=b2c ctl=wap_paycenter act=index arg0=$order.order_id}>">
+                        去支付
+                    </a>
+                    <{else}>
+                    <a class="submit-order" onclick="receive('<{$order.order_id}>')">
+                        确认收货
+                    </a>
+                    <{/if}>
+                <{else}>
+                    <!-- 暂不支持预售 -->
+                <{/if}>
+            <{else}>
+              <a class="submit-order" href="<{link app=b2c ctl='wap_member' act='add_order_msg' arg0=$order.order_id arg1='1'}>">
+                我已经付款
+              </a>
+            <{/if}>
+
+            <{if $prepare.prepare_type != 'prepare'}>
+                <{if $order.is_pay == 0}>
+                <a class="yp-a-btn" href="<{link app=b2c ctl=wap_member act=cancel arg0=$order.order_id}>">
+                    申请取消订单
+                </a>
+                <{else}>
+                <a class="yp-a-btn" href="<{link app=b2c ctl=wap_member act=refund_page arg0=$order.order_id}>">
+                    申请退款
+                </a>
+                <{/if}>
+
+                <a class="yp-a-btn yp-buy-btn" href="<{link app=b2c ctl=wap_index act=index}>">再次购买</a>
+            <{/if}>
+        <{elseif $order.status == 'finish' ||  $order.status == 'dead' || $order.received_status == '1'  || $order.pay_status == '6'  }>
+            <a class="yp-a-btn yp-buy-btn yp-buy-btn-full" href="<{link app=b2c ctl=wap_index act=index}>">再次购买</a>
+        <{/if}>
+     	</div>
+     	
+     	
+     	<div class="customer-box">
+     		<p><b>收货地址：</b><{$order.consignee.addr}>,<{$order.consignee.zip}>,<{$order.consignee.name}>,<{if $order.consignee.telephone}><{$order.consignee.telephone}><{if $order.consignee.mobile}> | <{/if}><{/if}><{$order.consignee.mobile}></p>
+     		<p><b>收货人：</b><{$order.consignee.name}></p>
+            <p><b>联系电话： </b><{$order.consignee.mobile}></p>
+
+     	</div>
+     	<!--配送-->
+     	<div class="distribution-box">
+     		<p><b>配送方式：</b><{$order.shipping.shipping_name}></p>
+     		<p><b>送货时间：</b><{$order.consignee.r_time}></p>
+     	</div>
+     	<!--配送end-->
+     	<!--商品列表-->
+     	<div class="goods-info-box">
+     		<div class="title"><b>商品信息</b></div>
+     		<ul class="goods-ul">
+                <{if !empty($order.goods_items)}>
+                <{foreach from=$order.goods_items item=goods name="order_items"}>
+                <{assign var=product value=$goods.product}>
+     			<li>
+     				<div class="goods-img">
+     				   <img src="<{$goods.product.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager:'s'}>" />
+     				</div>
+     				<div class="buy-info">
+     					<p class="goods-title"><{$goods.product.name}></p>
+     					<p class="orgin hide">产地：加拿大</p>
+     					<span class="unit-price">
+                            <{if !empty($product.products.price.sales_price.price) && $product.products.price.sales_price.price > 0 }>
+                                <em><{$product.products.price.sales_price.price|cur_odr}></em>／500g
+                            <{else}>
+                                <em><{$product.price|cur_odr}></em>
+                                <{if !empty($product.unit)}>
+                                    ／<{$product.unit}>
+                                <{/if}>
+                            <{/if}>
+                        </span>
+     					<span class="num-pt">×<{$goods.product.quantity}></span>
+     				</div>
+     				<div style="clear: both;"></div>
+     			</li>
+                <{/foreach}>
+                <{/if}>   		     			
+     		</ul>
+     	</div>
+     	<!--商品列表end-->
+     	<!--订单留言-->
+     	 <div class="order-online-box">
+     		<p>
+     			<b>订单留言：</b>
+     		</p>
+     		<p><{$order.memo|default:'无'}></p>
+     	</div>
+     	
+     	<!--订单留言end-->
+     	<!--价格-->
+     	<div class="sum-price-box">
+     		<div>
+     			<p> 商品金额 </p>
+     			<p> 运费 </p>
+     		</div>
+     		<div class="price-sum">
+     			<p>¥<em><{$order.cost_item|cur_odr:$order.currency:true}></em></p>
+     			<p>＋¥<em><{$order.shipping.cost_shipping|cur_odr:$order.currency:true}></em></p>
+     			<p>实付金额：¥<em><{$order.total_amount|cur_odr:$order.currency:true}></em></p>
+     		</div>
+     	</div>
+     </div>
+</div>
+<script>
+    (function(){
+            $('#border_hide').toggleClass('hide');
+            $('#order_hide').toggleClass('hide');
+        $('#J_sel_pre').bind('click',function(e){
+            $('#J_pre_info').toggleClass('hide');
+            $(this).find('.pre-list').toggleClass('hide');
+        });
+        <{if $order.ship_status == '1' ||$order.ship_status == '2'}>
+            $('#L_sel_pre').bind('click',function(e){
+            $('#L_pre_info').toggleClass('hide');                                    
+           
+            });
+        <{/if}>
+
+        //加入购物车
+        // $('#J_buy_btn').on('click', function(e) {
+        //     var url = "<{link app=b2c ctl=wap_add act=goods}>";
+        //     var data = {
+        //         goods:{goods_id:xxxxx,product_id:xxx,num:1},
+        //         min:1,
+        //         max:0,
+        //         mini_cart:true,
+        //     };
+        //     $.post(url, data, function(re) {
+        //         if(re) {
+        //             try {
+        //                 result = $.parseJSON(re);
+        //                 popup(result.error, 800, "sm-pop");
+        //             } catch(e) {
+        //                 popup("已加入购物车", 2000);
+        //                 skuDialog.close();
+        //             }
+
+        //         }
+        //     });
+        //     return false;
+        // });
+        
+    })();
+
+
+
+//确认收货
+function receive(order_id){
+    var url = "<{link app=b2c ctl=wap_member act=doReceive}>";
+    layer.confirm('确定执行操作吗？',function(){
+        var index = layer.load(1);
+        j.getJSON(url,{order_id:order_id},function(res){
+            if(res.error == 0){
+                layer.msg(res.message);
+                location.reload();
+            }else{
+                layer.msg(res.message,{icon: 5});
+            }
+            layer.close(index);
+        });
+    });
+}
+</script>

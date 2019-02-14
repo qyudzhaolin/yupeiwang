@@ -1,0 +1,65 @@
+<div class="tableform">
+    <div class="widgetconfig">
+        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tbody>
+                <tr>
+                    <th><{t app='b2c'}>原产国：<{/t}></th>
+                    <td>
+                        <select type="select" name="country" class="x-select">
+                            <option></option>
+                            <{foreach from=$setting.countryRows item=item key=key}>
+                            <option value="<{$key}>" <{if $setting.country == $key}>selected<{/if}> ><{$item}></option>
+                            <{/foreach}>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th><{t app='b2c'}>广告尺寸：<{/t}></th>
+                    <td><{t app='b2c'}>宽<{/t}>
+                        <input type="text" name="ad_pic_width" value="<{$setting.ad_pic_width}>" style="width:40px">px <{t app='b2c'}>高<{/t}><input type="text" name="ad_pic_height" style="width:40px" value="<{$setting.ad_pic_height}>">px
+                    </td>
+                </tr>
+                <tr>
+                    <th><{t app='b2c'}>图片：<{/t}></th>
+                    <td>
+                        <input type=hidden name="ad_pic" value="<{$setting.ad_pic}>"><input name='ad_pic' class="imgsrc" id="ad_pic" value="<{$setting.ad_pic}>"><input type=button value="<{t app='b2c'}>上传图片<{/t}>" class="uploadbtn" onclick="addPic()">
+                    </td>
+                </tr>
+                <tr>
+                    <th><{t app='b2c'}>展示位置：<{/t}></th>
+                    <td>
+                        <select type="select" name="position" class="x-select">
+                            <option></option>
+                            <{foreach from=$setting.positions item=item key=key}>
+                            <option value="<{$key}>" <{if $setting.position == $key}>selected<{/if}> ><{$item}></option>
+                            <{/foreach}>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><{t app='b2c'}>促销口号：<{/t}></th>
+                    <td>
+                        <input type="text" name="slogan" value="<{$setting.slogan}>">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><{t app='b2c'}>描述：<{/t}></th>
+                    <td>
+                        <textarea cols="70" rows="6" name="detail"><{$setting.detail}></textarea>
+                    </td>
+                </tr>
+        </tbody></table>
+    </div>
+</div>
+<script>
+    function addPic(){
+        var url='index.php?app=desktop&act=alertpages&goto='+encodeURIComponent("index.php?app=image&ctl=admin_manage&act=image_broswer&type=big");
+        Ex_Loader('modedialog',function(){
+            return new imgDialog(url,{onCallback:function(image_id,image_src){
+                    $('ad_pic').value=image_src;
+            }})	;
+        });
+    }
+</script>

@@ -1,0 +1,133 @@
+<div class="full-screen">
+    <header class="hide">
+    <div class="a-bar">
+        <div class="a-name top-center-box">
+            会员中心
+        </div>
+    </div>
+    </header>
+<!-- 用户信息-->
+    <div class="user-info-box">
+    	<div class="base-left">
+            <{if $member.lv_logo!=''}>
+                <img src="<{$member.lv_logo|storager:'s'}>">
+            <{else}>
+                <img src="/public/images/ydimg/user_img.png" />
+            <{/if}>
+    		<span><{$proveRow.merchantName|default:$member.uname}></span>
+    	</div>
+        <div class="base-right">
+            <{if !$is_wechat_login }>
+            <a href="<{link app=b2c ctl=wap_member act=security}>">修改密码</a>
+            <{/if}>
+
+            <a href="/index.php/wap/passport-logout.html">退出</a>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+        <!--状态-->
+     	<div class="user-order-box">
+    		
+    		<div class="order-heading">
+    			<span>我的订单</span>
+    		</div>
+    		<ul class="state-list">
+    			<li>
+    				<a href="<{link app=b2c ctl='wap_member' act='orders' arg0='nopayed'}>">
+    					<img src="/public/images/ydimg/icon_01.png"/>
+    					<p>待付款</p>
+    				</a>
+                    <{if $member.un_pay_orders > 0}>
+                        <span class="corner-mark"><{$member.un_pay_orders_format}></span>
+                    <{/if}>
+    			</li>
+     			<li>
+                    <a href="<{link app=b2c ctl='wap_member' act='orders' arg0='shipped'}>">
+    					<img src="/public/images/ydimg/icon_02.png"/>
+    					<p>待收货</p>
+    				</a>
+                    <{if $member.be_received_orders > 0}>
+                        <span class="corner-mark"><{$member.be_received_orders_format}></span>
+                    <{/if}>
+    			</li>
+    			
+     			<li>
+    				<a href="<{link app=b2c ctl='wap_member' full='1' act='afterlist'}>">
+    					<img src="/public/images/ydimg/icon_03.png"/>
+    					<p>售后</p>
+    				</a>
+    			</li>
+    			
+     			<li>
+    				<a href="<{link app=b2c ctl='wap_member' full='1' act='orders'}>">
+    					<img src="/public/images/ydimg/icon_04.png"/>
+    					<p>全部订单</p>
+    				</a>
+    			</li>   			
+    			<div style="clear: both;"></div>
+    		</ul>
+    	</div>
+       
+    <!--功能列表-->
+    <div class="menu-list">
+    	<ul>
+           
+    		<li class="hide">
+    			 <a href="<{link app=b2c ctl='wap_member' full='1' act='receiver'}>">
+    			<span>地址管理</span>
+    			<i class="i-right"></i>
+    			</a>
+    		</li>
+
+            
+    		<li>
+    			<a href="<{link app=b2c ctl='wap_member' full='1' act='favorite'}>">
+    			<span>我的收藏</span>
+    			<i class="i-right"></i>
+    			</a>
+    		</li>  
+            
+
+    		<li class="hide">
+    			<span>增票资质</span>
+    			<i class="i-right"></i>
+    		</li>
+    		
+            <li>
+            	<a href="<{link app=b2c ctl='wap_member' full='1' act='prove_page'}>">
+    			<span>实名认证</span>
+    			
+    			<i class="i-right"></i>
+    			<em><{$proveRow.status_name|default:'未认证'}></em>
+    			</a>
+    		</li>
+
+            <li>
+            	<a href="<{link app=b2c ctl='wap_member' full='1' act='bond_page'}>">    		
+    			<span>保证金</span>
+    			
+    			<i class="i-right"></i>
+    			<em></em>
+    			</a>
+    		</li>
+    		
+          
+    		<li >
+    			  <a href="<{link app=b2c ctl='wap_member' full='1' act='call_with'}>">
+    			<span>联系我们</span>
+    			<i class="i-right"></i>
+    			</a>
+    		</li>    		
+    		
+    		
+    	</ul>
+    	
+    </div>
+ 
+</div>
+
+<script>
+    var e = $.fn.cookie('S[CART_NUMBER]')?$.fn.cookie('S[CART_NUMBER]'):'';
+    if(e) $("#cartNum").text(e);
+</script>
+

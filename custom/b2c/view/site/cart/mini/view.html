@@ -1,0 +1,51 @@
+<{if $aCart.items_quantity && $item_section}>
+<dl class="fore-h">
+    <dt>购物车</dt>
+    <dd class="dd-thead">
+        <div class="th-cell cart-goods-img">
+        </div>
+        <div class="th-cell cart-goods-name">
+            名称
+        </div>
+        <div class="th-cell cart-goods-price">
+            单价/重量
+        </div>
+        <div class="th-cell cart-goods-num">
+            购买数量
+        </div>                      
+    </dd>
+
+    <{if $aCart.object.goods}>
+    <{foreach from=$aCart.object.goods item=goods key=_obj_key}>
+      <{assign var="gimage" value=$goods.obj_items.products.0.default_image.thumbnail|default:$env.conf.site.default_thumbnail_pic}>
+      <a href="<{link app=b2c ctl=site_product arg0=$goods.obj_items.products.0.product_id}>">
+          <dd class="dd-body">
+              <div class="th-cell cart-goods-img">
+                   <img src="<{$gimage|storager:'s'}>" alt="<{$goods.name|escape:html}>" data-img-zoom="true" />
+              </div>
+              <div class="th-cell cart-goods-name">
+                  <p><{$goods.obj_items.products.0.name}></p>
+              </div>
+              <div class="th-cell cart-goods-price">
+                  <{assign var="product" value=$goods.obj_items.products.0}>
+                  <{if $product.sales_price > 0 }>
+                      <em><{$product.sales_price|cur_odr}></em>／500g
+                  <{else}>
+                      <{$product.price.buy_price|cur_odr}>
+                      <{if !empty($product.unit)}>／<{$product.unit}><{/if}>
+                  <{/if}>
+              </div>
+              <div class="th-cell cart-goods-num">
+                <{$goods.quantity}>
+              </div>  
+          </dd>
+      </a>
+    <{/foreach}>
+    <{/if}>
+</dl>
+<a href="<{link app=b2c ctl=site_cart act=index}>">
+<button class="into-cart">进入购物车</button>
+</a>
+<{else}>
+<div class="no-information textl"><{t}>购物车中还没有商品，赶紧选购吧！<{/t}></div>
+<{/if}>

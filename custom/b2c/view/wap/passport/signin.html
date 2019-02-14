@@ -1,0 +1,81 @@
+<div class="login_logo">
+  <img src="/public/images/pcimg/login_logo.png" />
+</div>
+<form action="<{link app=b2c ctl=wap_passport act=post_login}>" class="form"  method="post" data-type="ajax">
+    <div class="form-login">
+      <div class="form-group">
+        <label class="user-name"></label>
+        <input type="text" name="uname"  class="pt-form-control name-input" placeholder="请输入用户名" value="<{$loginName}>" required="required" data-caution="用户名不能为空" >
+        </div>
+      <div class="form-group">
+        <label class="user-pwd"></label>
+        <input   class="pt-form-control" name="password"  type="password"  placeholder="请输入密码" required="required" data-caution="密码不能为空">
+    </div>      
+    </div>
+    <div class="c-g-c c-fix login-state">
+      <span class="f-l state">
+         <input type="checkbox" name="site_autologin" checked="checked" ><i>两周内自动登录</i>
+      </span>
+      <a href="<{link app=b2c ctl=wap_passport act=lost}>" class="forget-pwd">忘记密码?</a>
+    </div>
+    <button type="submit" class="user-login-btn">
+      登录
+    </button>
+    <a href="<{link app=b2c ctl=wap_passport act=signup}>" class="user-register-btn">
+      注册
+    </a>
+</form>
+<script>
+$('.form .a-account').change(function(e) {
+    if(/^1[34578]\d{9}$/.test(this.value)) {
+        $.post('<{link app=b2c ctl=wap_passport act=login_ajax_account}>', this.name + '=' + this.value, function(rs){
+            if(rs) {
+                try{
+                    rs = $.parseJSON(rs);
+                } catch (e) {}
+                if(rs.error) {
+                    if(typeof rs.error === 'string') alert(rs.error);
+                }
+                else if(rs.needVerify === 'true') {
+                    $('.form .a-need-verify').show();
+                }
+            }
+        });
+        // alert('您的手机号码还未通过验证，点击进行验证');
+    }
+    else {
+        $('.form .a-need-verify').hide();
+    }
+});
+
+$('.form .btn-send').click(function (e) {
+    e.preventDefault();
+    var el = $('.form .a-account');
+    if($(this).hasClass('disabled')) return false;
+    sendVerify(this, el.attr('name') + '=' + el.val() + '&type=activation');
+});
+
+function sendVerify(el, data) {
+    var url = el.href;
+    $(el).addClass('disabled');
+    var cd = new countdown(el, {
+        start: 120,
+        secondOnly: true,
+        callback: function(e) {
+            $(el).removeClass('disabled').html('重发密码');
+        }
+    });
+    $.post(url, data, function(rs) {
+        if(rs) {
+            try{
+                rs = $.parseJSON(rs);
+            } catch (e) {}
+            if(rs.error) {
+                $(el).removeClass('disabled').html('重发密码');
+                clearTimeout(cd.timer);
+                if(typeof rs.error === 'string') alert(rs.error);
+            }
+        }
+    });
+}
+</script>

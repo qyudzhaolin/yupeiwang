@@ -1,0 +1,7 @@
+<a href="/index.php/gallery-0-null-0-1-null-null-<{$data.country}>.html">
+    <div class="<{$data.position_style}> ">
+        <img src="<{$data.ad_pic|storager}>" <{if $data.ad_pic_width}>width="<{$data.ad_pic_width}>"<{/if}> <{if $data.ad_pic_height}>height="<{$data.ad_pic_height}>"<{/if}> />
+        <p class="text-nstruction-01"><b><{$data.countryName}></b><{$data.detail}></p>
+        <button class="btn buy-button" name="<{if $data.slogan}><{$data.slogan}><{/if}>"><{$data.slogan|default:'立即选购'}></button>
+    </div>
+</a>

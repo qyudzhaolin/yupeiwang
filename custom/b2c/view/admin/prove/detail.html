@@ -1,0 +1,91 @@
+<style>
+.mwidth{width:360px;}
+.swidth{width:360px;}
+</style>
+  <div class="tableform">
+    <div class="division">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <th><{t}>商户名称：<{/t}></th>
+          <td><{$row.merchantName}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>商户类型：<{/t}></th>
+          <td><{$row.merchant_type_name}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>商户所在区域：<{/t}></th>
+          <td><{$row.area|region}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>街道详细地址：<{/t}></th>
+          <td>
+              <{$row.addr}>
+          </td>
+        </tr>
+        
+        <tr>
+          <th><{t}>联系人：<{/t}></th>
+          <td><{$row.linkman}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>手机号：<{/t}></th>
+          <td><{$row.mobile}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>邀请人手机号：<{/t}></th>
+          <td><{$row.inviter_mobile}></td>
+        </tr>
+        
+        <tr>
+          <th>门店图片</th>
+          <td>
+              <div class="picbox">
+                <a href="<{$row.store_img.0.a}>" target="_blank">
+                <img src="<{$row.store_img.0.b}>">
+                </a>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <th>营业执照</th>
+          <td>
+              <div class="picbox">
+                <a href="<{$row.license_img.0.a}>" target="_blank">
+                <img src="<{$row.license_img.0.b}>">
+                </a>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <th>身份证正面</th>
+          <td>
+              <div class="picbox">
+                <a href="<{$row.id_front_img.0.a}>" target="_blank">
+                <img src="<{$row.id_front_img.0.b}>">
+                </a>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <th>身份证反面</th>
+          <td>
+              <div class="picbox">
+                <a href="<{$row.id_back_img.0.a}>" target="_blank">
+                <img src="<{$row.id_back_img.0.b}>">
+                </a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!--delete end--> 
+  </div>

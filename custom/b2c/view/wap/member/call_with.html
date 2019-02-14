@@ -1,0 +1,47 @@
+<div class="full-screen">
+    <header class="hide">
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+            联系我们
+        </div>
+        <div class="a-right">
+            <{if $is_allow}><a class="btn" href="<{link app=b2c ctl=wap_member act=add_receiver}>">添加新地址</a><{/if}>
+        </div>
+    </div>
+    </header>
+    <div class="contact-box">
+    	
+    	<div class="location">
+    		<img src="/public/images/ydimg/location.png"/>
+    	</div>
+     <div class="contact-info">
+    	<p>宇培供应链管理有限公司</p>
+    	<p>服务热线：021-3328-2320</p>
+    	<p>工作时间：周一至周五 9:00－18:00</p>
+    </div>   	
+    </div>
+
+</div>
+<script type="text/javascript">
+	//设置背景颜色
+	$('body').css('background','#ffffff');
+$('.del').bind('click',function(){
+    if(confirm('确定删除该地址？')){
+    	var data = 'addr_id='+this.getAttribute('addr_id');
+        $.post('<{link app=b2c ctl=wap_member act=del_rec}>',data,function(re){
+	        var o = JSON.parse(re);
+	        if(o.success){
+	            new Dialog('#success',{'title':'删除成功'});
+	            setTimeout(function(){location.reload(true)},2000);
+	        }else{
+	            return alert(o.error);
+	        }
+	    });
+        return false;
+    }
+});
+</script>

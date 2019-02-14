@@ -1,0 +1,26 @@
+<div class="inner-wrap">
+  <{if !empty($catRows)}>
+  <{foreach from=$catRows item=item key=key name=name}>   
+  <dl class="fore<{if $env.foreach.name.last}> last-item<{/if}>">
+     <dt><a href="<{$item.link}>"><{$item.title}></a></dt>
+     <{if !empty($item.items)}>
+     <{foreach from=$item.items item=son key=skey}>   
+         <dd class="item"><a href="<{$son.link}>"><{$son.title}></a></dd>
+     <{/foreach}>
+     	<div style="clear: both;"></div>
+     <{/if}>
+  </dl>
+  <{/foreach}>
+  <{/if}>
+  
+  <dl class="fore-c">
+     <dt>热门国家推荐</dt>
+     <{if !empty($countryRows)}>
+     <{foreach from=$countryRows item=item key=key}>
+          <dd><a href="/index.php/gallery-0-null-0-1-null-null-<{$key}>.html"><{$item}></a></dd>                     
+     <{/foreach}>
+     	<div style="clear: both;"></div>
+     <{/if}>
+
+  </dl>
+ </div>

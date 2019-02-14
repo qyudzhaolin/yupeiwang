@@ -1,0 +1,16 @@
+<{foreach from=$data item=item}>
+<dl>
+	<dt>
+		<a class="node_name" href="<{$item.node_url}>"><{$item.node_name}></a>
+	</dt>
+	<{foreach from=$item.datas item=itemData}>
+	<dd>
+        <{if $itemData.title != '宇配公告'}>
+            <a href="<{link app=content ctl=site_article act=index arg0=$itemData.article_id}>" title=<{$itemData.title}>><{$itemData.title}></a>
+        <{else}>
+            <a href="<{link app=b2c ctl=site_news act=index}>" title=<{$itemData.title}>><{$itemData.title}></a>
+        <{/if}>
+	</dd>
+	<{/foreach}>
+</dl>
+<{/foreach}>

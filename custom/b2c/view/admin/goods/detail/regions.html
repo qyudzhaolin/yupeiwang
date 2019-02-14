@@ -1,0 +1,22 @@
+<div class="regionContent"></div>
+<script>
+  j(function () {
+    //模拟后台传过来的被选中input的id
+    var shiparea = <{$shiparea|json_encode}>;
+    //由于此插件的input全选的歧义，此处传的数组要求只传最低一级的id即可
+    //即：如果有三级城市只传第三级的id，如果只有二级没有三级，只用传第二级id即可
+    //模拟后台所有地域数据
+    var datas = [{
+      id: 0,
+      name: "全国",
+      children:<{$datas|json_encode}>
+    }];
+    /* 使用说明*/
+
+    //生成地域
+    region.GetRegionPlug(datas);
+
+    //选中与后台id数组值相符的地区。注意此id数组的条件限制
+    region.SetChecked(shiparea);
+})
+</script>

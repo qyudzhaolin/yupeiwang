@@ -1,0 +1,79 @@
+<{css src="time-axis.css" app="wap"}>
+<{css src="mobile.css" app="wap"}>
+<!--取消、退款详情-->
+<div class="full-screen">
+    <header class="hide">
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+            退款详情
+        </div>
+    </div>
+    </header>
+
+    <div id="refund-box">
+        <div class="refund-info">
+             <p><b>退款进度:</b><i><{$row.status_name}></i></p>
+             <p><b>订单编号:</b><{$order_id}></p>
+        </div>
+        
+        <!--  进度跟踪：  -->
+        <div class="order-progress-box"> 
+            <p class="progress-title">进度跟踪：</p>
+            <div class="yp-time-steps yp-time-steps-vertical">
+
+                <div class="yp-time-steps-item yp-time-steps-status-<{if empty($row)}>wait<{else}>finish<{/if}>" style="width: 100%;">
+                    <div class="yp-time-steps-tail"><i></i></div>
+                    <div class="yp-time-steps-head">
+                        <div class="yp-time-steps-head-inner">
+                            <span class="yp-time-steps-icon yp-time-icon yp-time-icon-ios-checkmark2"></span>
+                        
+                        </div>
+                    </div>
+                    <div class="yp-time-steps-main">
+                        <div class="yp-time-steps-title">提交退款申请</div>
+                        <{if !empty($row)}>
+                        <div class="yp-time-steps-content"><{$row.create_time|cdate}></div>
+                        <{/if}>
+                    </div>
+                </div>
+
+                <div class="yp-time-steps-item yp-time-steps-status-<{if empty($row) || $row.status <= 0}>wait<{else}>finish<{/if}>" style="width: 100%;">
+                    <div class="yp-time-steps-tail"><i></i></div>
+                    <div class="yp-time-steps-head">
+                        <div class="yp-time-steps-head-inner">
+                            <span class="yp-time-steps-icon yp-time-icon yp-time-icon-ios-checkmark2"></span>
+                        
+                        </div>
+                    </div>
+                    <div class="yp-time-steps-main">
+                        <div class="yp-time-steps-title">等待管理员处理退款申请</div>
+                        <{if !empty($row) && $row.status > 0}>
+                        <div class="yp-time-steps-content"><{$row.last_modified|cdate}></div>
+                        <{/if}>
+                    </div>
+                </div>
+
+                <div class="yp-time-steps-item yp-time-steps-status-<{if empty($row) || $row.status <= 0}>wait<{else}>finish<{/if}>" style="width: 100%;">
+                    <div class="yp-time-steps-tail"><i></i></div>
+                    <div class="yp-time-steps-head">
+                        <div class="yp-time-steps-head-inner">
+                            <span class="yp-time-steps-icon yp-time-icon yp-time-icon-ios-checkmark2"></span>
+                        
+                        </div>
+                    </div>
+                    <div class="yp-time-steps-main">
+                        <div class="yp-time-steps-title">处理完成</div>
+                        <{if !empty($row) && $row.status > 0}>
+                        <div class="yp-time-steps-content"><{$row.last_modified|cdate}></div>
+                        <{/if}>
+                    </div>
+                </div>
+
+            </div>    
+        </div> 
+    </div><!--进度跟end-->
+</div>

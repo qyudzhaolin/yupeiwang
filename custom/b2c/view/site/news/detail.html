@@ -1,0 +1,30 @@
+<div id="main" class="clearfix ">
+	<div class="news-main-title">
+		<p><img src="/public/images/pcimg/icon_02.png"/> <b>宇配公告</b></p>
+	</div>
+	<div class="news-detail">
+		<{if !empty($row)}>
+		<h2 class="news-title"><{$row.title}></h2>
+		<p><{$row.content}></p>
+	     <span class="news-publisher">宇配网运营中心</span>
+	     <span class="news-timer"><{$row.pubtime}></span>
+	     <{else}>
+	     <div class="text-center">暂无公告</div>
+	     <{/if}>
+	</div>
+</div>
+<script type="text/javascript">
+j(function(){
+	//设置已经查看过
+	var article_id = "<{$row.article_id}>";
+	var readNews = j.cookie('readNews') ? j.cookie('readNews') : '';
+	readNews = readNews ? readNews.split(",") : [];
+	// j.cookie('readNews', '');return;//清空
+	if (j.inArray(article_id, readNews) === -1) {
+		readNews.push(article_id);
+		readNews = readNews.toString();
+		j.cookie('readNews', readNews, { expires: 365 });
+	}
+    
+});
+</script>

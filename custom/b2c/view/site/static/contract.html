@@ -1,0 +1,116 @@
+<div id="main" class="clearfix contract">
+    <!-- 合约页面 -->
+ <!--   <div class="floor wrap clearfix">-->
+ 		<form method="get" id="myform" action="/index.php/contract.html">
+ 		   <input type="hidden" name="is_query" value="6" />
+ 	   <div class="condition">
+ 	   	  <select  name="state" class="form-select">
+		      <option value="1">合约号</option>
+		    </select>
+ 	   	  <!--<select  class="form-select margin-left-20">
+		      <option>--物流状态--</option>
+		      <option>物流状态</option>
+		      <option>物流状态</option>
+		      <option>物流状态</option>
+		       
+		    </select>-->
+		    <input type="text" name="input" value="" />
+		    <button class="contract" id="query" type="submit">查询</button>
+ 	   	   <label for="">排序：</label><select  name="orderBy" onchange="submit()" class="action-orderby">
+          <{foreach from=$contract.orderBy item=orderBy}>
+          <option value="<{$orderBy.sql}>" <{if $orderBy.sql == $select}>selected<{/if}>><{$orderBy.label}></option>
+          <{/foreach}>
+        </select>
+ 	   </div>
+</form>
+
+
+ 	  <!-- 商品列表-->
+ 	   <ul>
+ 	   	 <{foreach from=$contract_info item=contract name="item" key=contractkey}>
+ 	   	<li>
+ 	   		
+ 			<ul class="goodList">
+				<li>
+				   <img width="140" height="140" src="/public/files/static/images/heyue.png" />
+				</li>
+				<li class="detail01">
+					<ul>
+						<li>合约号：<{$contract.contract_no}></li>
+						<li>商品总值：<{$contract.amount}></li>
+						<li>有效期：<{$contract.begin_time}>-<{$contract.end_time}></li>
+						<li>物流状态：<{$contract.ship_status}></li>
+	                    <li>服务内容：<{$contract.content}>	</li>
+	                    <li>付款状态：<{$contract.pay_status}></li>
+					</ul>
+		
+ 	
+				</li>
+				<li class="detail02">
+					<ul >
+						<li> </li>
+						<li><!--待付款[清关费和税费]--></li>
+						<li> </li>
+						<li>剩余时间：</li>
+			     <{if $contract.time >= $nowtime }>
+	                   <div class="leftTime-box" id="dateShow<{$key . $contractkey}>" data-date="<{$contract.time}>">
+                    <span class="date-tiem d">00</span>天
+                    <span class="date-tiem h">00</span>时
+                    <span class="date-tiem m">00</span>分
+                    <span class="date-s s">00</span>秒
+                  </div>
+                  <{/if}>
+					</ul>					
+				</li>
+                  <{if $contract.pay_status !="已完结"}>
+				<li>
+				
+					<button class="contract-btn-02" id="performance"  onclick="window.location.href='<{link app=b2c ctl=site_contract act=performance arg0=$contract.step_id }>'">履约</button>
+				
+				</li>
+               <{else}>
+				<li>
+					<a class="contract-btn-03" href="<{link app=b2c ctl=site_member act=viewContract arg0=$contract.contract_id arg1=$member_id}>">查看合约</a>
+					
+				</li>
+				<{/if}>
+		</ul>   		
+ 	   		
+ 	   	</li>
+ 	   	 <{/foreach}>
+ 	  
+ <!--   </div>-->
+</div>
+
+<script src="/public/app/site/statics/js/leftTime.js"></script>
+<script>
+
+// $("performance").addEvents({
+//     'click':function(e){
+//     	var state=1;
+  
+//     }
+// });
+
+//时间倒计时	
+j(function(){
+  //日期倒计时,现在距离下面的日期
+  if(j('.leftTime-box').length){
+    var data_show = j('.leftTime-box');
+    j(data_show).each(function(){
+      showLefTime(j(this).data("date"), '#' + j(this).attr("id"));
+    });
+  }
+  function showLefTime(time,obj) {
+    j.leftTime(time,function(d){
+      if(d.status){
+        var leftTimeBox=j(obj);
+        leftTimeBox.find(".d").html(d.d);
+        leftTimeBox.find(".h").html(d.h);
+        leftTimeBox.find(".m").html(d.m);
+        leftTimeBox.find(".s").html(d.s);
+      }
+    });
+  }
+});
+</script>

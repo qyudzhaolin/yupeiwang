@@ -1,0 +1,386 @@
+/*时间轴*/
+	.yp-time-steps {
+		font-size: 0;
+		width: 100%;
+		line-height: 1.5
+	}
+	
+	.yp-time-steps-item {
+		display: inline-block;
+		position: relative;
+		vertical-align: top
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-wait .yp-time-steps-head-inner {
+		background-color: #fff
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-wait .yp-time-steps-head-inner>.yp-time-steps-icon,
+	.yp-time-steps-item.yp-time-steps-status-wait .yp-time-steps-head-inner span {
+		color: #ccc
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-wait .yp-time-steps-content,
+	.yp-time-steps-item.yp-time-steps-status-wait .yp-time-steps-title {
+		color: #999
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-wait .yp-time-steps-tail>i {
+		background-color: #e8eaec
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-process .yp-time-steps-head-inner {
+		border-color: #2d8cf0;
+		background-color: #2d8cf0
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-process .yp-time-steps-head-inner>.yp-time-steps-icon,
+	.yp-time-steps-item.yp-time-steps-status-process .yp-time-steps-head-inner span {
+		color: #fff
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-process .yp-time-steps-content,
+	.yp-time-steps-item.yp-time-steps-status-process .yp-time-steps-title {
+		color: #666
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-process .yp-time-steps-tail>i {
+		background-color: #e8eaec
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-finish .yp-time-steps-head-inner {
+		background-color: #1b5eff;
+		border-color: #1b5eff
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-finish .yp-time-steps-head-inner>.yp-time-steps-icon,
+	.yp-time-steps-item.yp-time-steps-status-finish .yp-time-steps-head-inner span {
+		color: #2d8cf0
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-finish .yp-time-steps-tail>i:after {
+		width: 100%;
+		background: #2d8cf0;
+		transition: all .2s ease-in-out;
+		opacity: 1
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-finish .yp-time-steps-content,
+	.yp-time-steps-item.yp-time-steps-status-finish .yp-time-steps-title {
+		color: #999
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-error .yp-time-steps-head-inner {
+		background-color: #fff;
+		border-color: #ed4014
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-error .yp-time-steps-content,
+	.yp-time-steps-item.yp-time-steps-status-error .yp-time-steps-head-inner>.yp-time-steps-icon,
+	.yp-time-steps-item.yp-time-steps-status-error .yp-time-steps-title {
+		color: #ed4014
+	}
+	
+	.yp-time-steps-item.yp-time-steps-status-error .yp-time-steps-tail>i {
+		background-color: #e8eaec
+	}
+	
+	.yp-time-steps-item.yp-time-steps-next-error .yp-time-steps-tail>i,
+	.yp-time-steps-item.yp-time-steps-next-error .yp-time-steps-tail>i:after {
+		background-color: #ed4014
+	}
+	
+	.yp-time-steps-item.yp-time-steps-custom .yp-time-steps-head-inner {
+		background: 0 0;
+		border: 0;
+		width: auto;
+		height: auto
+	}
+	
+	.yp-time-steps-item.yp-time-steps-custom .yp-time-steps-head-inner>.yp-time-steps-icon {
+		font-size: 20px;
+		top: 2px;
+		width: 20px;
+		height: 20px
+	}
+	
+	.yp-time-steps-item.yp-time-steps-custom.yp-time-steps-status-process .yp-time-steps-head-inner>.yp-time-steps-icon {
+		color: #2d8cf0
+	}
+	
+	.yp-time-steps-item:last-child .yp-time-steps-tail {
+		display: none
+	}
+	
+	.yp-time-steps .yp-time-steps-head,
+	.yp-time-steps .yp-time-steps-main {
+		position: relative;
+		display: inline-block;
+		vertical-align: top
+	}
+	
+	.yp-time-steps .yp-time-steps-head {
+		background: #fff
+	}
+	
+	.yp-time-steps .yp-time-steps-head-inner {
+		display: block;
+		width: 26px;
+		height: 26px;
+		line-height: 24px;
+		margin-right: 8px;
+		text-align: center;
+		border: 1px solid #ccc;
+		border-radius: 50%;
+		font-size: 14px;
+		transition: background-color .2s ease-in-out
+	}
+	
+	.yp-time-steps .yp-time-steps-head-inner>.yp-time-steps-icon {
+		line-height: 1;
+		position: relative
+	}
+	
+	.yp-time-steps .yp-time-steps-head-inner>.yp-time-steps-icon.yp-time-icon {
+		font-size: 24px
+	}
+	
+	.yp-time-steps .yp-time-steps-head-inner>.yp-time-steps-icon.yp-time-icon-ios-checkmark-empty,
+	.yp-time-steps .yp-time-steps-head-inner>.yp-time-steps-icon.yp-time-icon-ios-close-empty {
+		font-weight: 700
+	}
+	
+	.yp-time-steps .yp-time-steps-main {
+		margin-top: 2.5px;
+		display: inline
+	}
+	
+	.yp-time-steps .yp-time-steps-custom .yp-time-steps-title {
+		margin-top: 2.5px
+	}
+	
+	.yp-time-steps .yp-time-steps-title {
+		display: inline-block;
+		margin-bottom: 4px;
+		padding-right: 10px;
+		font-size: 14px;
+		font-weight: 700;
+		color: #666;
+		background: #fff
+	}
+	
+	.yp-time-steps .yp-time-steps-title>a:first-child:last-child {
+		color: #666
+	}
+	
+	.yp-time-steps .yp-time-steps-item-last .yp-time-steps-title {
+		padding-right: 0;
+		width: 100%
+	}
+	
+	.yp-time-steps .yp-time-steps-content {
+		font-size: 12px;
+		color: #999
+	}
+	
+	.yp-time-steps .yp-time-steps-tail {
+		width: 100%;
+		padding: 0 10px;
+		position: absolute;
+		left: 0;
+		top: 13px
+	}
+	
+	.yp-time-steps .yp-time-steps-tail>i {
+		display: inline-block;
+		width: 100%;
+		height: 1px;
+		vertical-align: top;
+		background: #e8eaec;
+		border-radius: 1px;
+		position: relative
+	}
+	
+	.yp-time-steps .yp-time-steps-tail>i:after {
+		content: "";
+		width: 0;
+		height: 100%;
+		background: #e8eaec;
+		opacity: 0;
+		position: absolute;
+		top: 0
+	}
+	
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-head-inner {
+		width: 18px;
+		height: 18px;
+		line-height: 16px;
+		margin-right: 10px;
+		text-align: center;
+		border-radius: 50%;
+		font-size: 12px
+	}
+	
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-head-inner>.yp-time-steps-icon.yp-time-icon {
+		font-size: 16px;
+		top: 0
+	}
+	
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-main {
+		margin-top: 0
+	}
+	
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-title {
+		margin-bottom: 4px;
+		margin-top: 0;
+		color: #666;
+		font-size: 12px;
+		font-weight: 700
+	}
+	
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-content {
+		font-size: 12px;
+		color: #999;
+		padding-left: 30px
+	}
+	
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-tail {
+		top: 8px;
+		padding: 0 8px
+	}
+	
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-tail>i {
+		height: 1px;
+		width: 100%;
+		border-radius: 1px
+	}
+	
+	.yp-time-steps .yp-time-steps-item.yp-time-steps-custom .yp-time-steps-head-inner,
+	.yp-time-steps.yp-time-steps-small .yp-time-steps-item.yp-time-steps-custom .yp-time-steps-head-inner {
+		width: inherit;
+		height: inherit;
+		line-height: inherit;
+		border-radius: 0;
+		border: 0;
+		background: 0 0
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-item {
+		display: block
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-tail {
+		position: absolute;
+		left: 13px;
+		top: 0;
+		height: 100%;
+		width: 1px;
+		padding: 30px 0 4px
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-tail>i {
+		height: 100%;
+		width: 1px
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-tail>i:after {
+		height: 0;
+		width: 100%
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-status-finish .yp-time-steps-tail>i:after {
+		height: 100%
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-head {
+		float: left
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-head-inner {
+		margin-right: 16px
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-main {
+		min-height: 47px;
+		overflow: hidden;
+		display: block
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-main .yp-time-steps-title {
+		line-height: 26px
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-main .yp-time-steps-content {
+		padding-bottom: 12px;
+		padding-left: 0
+	}
+	
+	.yp-time-steps-vertical .yp-time-steps-custom .yp-time-steps-icon {
+		left: 4px
+	}
+	
+	.yp-time-steps-vertical.yp-time-steps-small .yp-time-steps-custom .yp-time-steps-icon {
+		left: 0
+	}
+	
+	.yp-time-steps-vertical.yp-time-steps-small .yp-time-steps-tail {
+		position: absolute;
+		left: 9px;
+		top: 0;
+		padding: 22px 0 4px
+	}
+	
+	.yp-time-steps-vertical.yp-time-steps-small .yp-time-steps-tail>i {
+		height: 100%
+	}
+	
+	.yp-time-steps-vertical.yp-time-steps-small .yp-time-steps-title {
+		line-height: 18px
+	}
+	
+	.yp-time-steps-horizontal.yp-time-steps-hidden {
+		visibility: hidden
+	}
+	
+	.yp-time-steps-horizontal .yp-time-steps-content {
+		padding-left: 35px
+	}
+	
+	.yp-time-steps-horizontal .yp-time-steps-item:not(:first-child) .yp-time-steps-head {
+		padding-left: 10px;
+		margin-left: -10px
+	}
+	
+	.yp-time-icon-ios-checkmark:before {
+		content: '';
+		position: absolute;
+		margin-left: 8px;
+		margin-top: 8px;
+		background: transparent;
+		border: #fff solid 2px;
+		border-top: none;
+		border-right: none;
+		height: 6px;
+		width: 10px;
+		-moz-transform: rotate(-45deg);
+		-ms-transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+	}
+	
+	.yp-time-icon-ios-checkmark2:before {
+		content: '';
+		position: absolute;
+		margin-left: 8px;
+		margin-top: 8px;
+		background: transparent;
+		border: #ccc solid 2px;
+		border-top: none;
+		border-right: none;
+		height: 6px;
+		width: 10px;
+		-moz-transform: rotate(-45deg);
+		-ms-transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+	}

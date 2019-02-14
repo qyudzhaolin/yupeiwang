@@ -1,0 +1,23 @@
+ <{css src="mobile.css" app="wap"}>
+<div class="full-screen">
+    <header>
+
+    </header>
+     <div class="sweep-code-container">
+         <form action="<{link app=b2c ctl=wap_order act=confirm_receipt arg0=$order_info.[0].order_id }>" method="post" class="form" data-type="ajax">
+        <div class="detail-card">
+            <p><b>订单号：</b><{$order_info.[0].order_id}></p>
+            <p><b>应付金额：</b><{$order_info.[0].total_amount|cur_odr:$order_detail.currency}></p>
+            <p><b>已付金额：</b><{$order_info.[0].money|cur_odr:$order_detail.currency}></p>
+            <p><b>支付方式：</b><{$order_info.[0].payment}></p>
+            <p><b>付款状态：</b><{$order_info.[0].pay_status}></p>
+            <p><b>收货状态：</b><{$order_info.[0].received_status}></p>
+
+        </div>
+       
+   
+        </form>
+     </div> 
+         
+</div>
+

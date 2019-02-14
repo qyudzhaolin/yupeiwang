@@ -1,0 +1,60 @@
+<div id="order_invoice" class="order-section order-invoice">
+  <div class="order-section-title"><b>发票信息</b></div>
+
+  <div class="order-section-content">
+    <table>
+      <tbody>
+        <tr>
+          <td colspan="2">
+            <ul>
+              <li><input type="radio" name="payment[tax_type]" id="for_invoice_false" value="false" class="action-select-invoice" checked="checked"> <label for="for_invoice_false">不需要发票</label></li>
+              <li><input type="radio" name="payment[tax_type]" id="for_invoice_personal" value="personal" class="action-select-invoice"> <label for="for_invoice_personal">个人发票 <{if $tax_setting.personal_tax_ratio}>(税率<{$tax_setting.personal_tax_ratio*100}>%)<{/if}></label></li>
+              <li><input type="radio" name="payment[tax_type]" id="for_invoice_company" value="company" class="action-select-invoice"> <label for="for_invoice_company">公司发票 <{if $tax_setting.company_tax_ratio}>(税率<{$tax_setting.company_tax_ratio*100}>%)<{/if}></label></li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="fold tr-item">
+          <td width="40%">
+            <input type="hidden" name="payment[is_tax]" value="false">
+            <label for="for_tax_company"><{t}>发票抬头<{/t}>：</label>
+            <input type="text" name="payment[tax_company]" id="for_tax_company" vtype="required" value="<{$invoice.[0].tax_company}>" data-caution="请填写发票抬头">
+          </td>
+          <td>
+            <label for="for_bank_account"><{t}>银行账号<{/t}>：</label>
+            <input type="text" name="payment[bank_account]" id="for_bank_account" vtype="required" value="<{$invoice.[0].bank_account}>" data-caution="请填写银行账号">
+          </td>
+        </tr>
+
+        <tr class="fold tr-item">
+          <td>
+            <label for="for_tax_code"><{t}>税&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号<{/t}>：</label>
+            <input type="text" name="payment[tax_code]" id="for_tax_code" vtype="required" value="<{$invoice.[0].tax_code}>" data-caution="请填写发票税号">
+          </td>
+          <td>
+            <label for="for_tax_addr"><{t}>开票地址<{/t}>：</label>
+            <input type="text" name="payment[tax_addr]" id="for_tax_addr" vtype="required" value="<{$invoice.[0].tax_addr}> "data-caution="请填写开票地址">
+          </td>
+        </tr>
+
+        <tr class="fold tr-item">
+          <td>
+            <label for="for_tax_bank"><{t}>开&nbsp;户&nbsp;行<{/t}>：</label>
+            <input type="text" name="payment[tax_bank]" id="for_tax_bank" vtype="required" value="<{$invoice.[0].tax_bank}>" data-caution="请填写开户行">
+          </td>
+          <td>
+            <label for="for_tax_remark"><{t}>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注<{/t}>：</label>
+            <input type="text" name="payment[tax_remark]" id="for_tax_remark" vtype="required" value="<{$invoice.[0].tax_remark}> "data-caution="备注信息">
+          </td>
+        </tr>
+        <{if $tax_setting.tax_content}>
+        <tr class="fold">
+            <td><label for="for_tax_content"><{t}>发票内容<{/t}>：</label>
+            <{input type='select' options=$tax_setting.tax_content name="payment[tax_content]" id="for_tax_content" vtype="required"  value="{$invoice.[0].tax_content}" data-caution="请选择发票内容"}>
+          </td>
+        </tr>
+        <{/if}>
+      </tbody>
+    </table>
+  </div>
+
+</div>

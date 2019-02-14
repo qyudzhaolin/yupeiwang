@@ -1,0 +1,33 @@
+<div class="main-banner">
+    <div class="J_ad_slider">
+        <div class="swiper-wrapper">
+            <{foreach from=$data.pic item=parent key=parentId}>
+            <div class="swiper-slide">
+                <a href="<{$parent.linktarget}>">
+                    <img src="<{$parent.link}>" title="<{$data.linkinfo}>"/>
+                </a>
+            </div>
+            <{/foreach}>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<script>
+    var mySwiper = new Swiper ('.J_ad_slider', {
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination'
+        }
+    });
+</script>
+
+<div class="exharea">
+    <{foreach from=$data.exharea item=item}>
+    <div class="item">
+        <span><img src="<{$item.img}>"/></span>
+        <div class="ptitle"><{$item.name}></div>
+    </div>
+    <{/foreach}>
+    <div style="clear: both;"></div>
+</div>

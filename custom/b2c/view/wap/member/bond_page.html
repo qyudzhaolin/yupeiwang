@@ -1,0 +1,162 @@
+ <{css src="mobile.css" app="wap"}>
+<div class="full-screen" style="background: #fff;">
+        <div class="bound-container">
+      
+      <div class="bound-item border-b-1">
+        <div class="bound-left">
+          <label>需充值：</label>
+        </div>      
+        <div >
+          <span class="bound-money">
+          <{$goods.price|cur_odr:$order_detail.currency}>
+          </span>
+        </div>
+      </div>
+      
+      <div class="bound-item">
+        <div class="bound-left">
+          <label>已充值：</label>
+        </div>
+        <div>
+         <{if  $result.payed==''}> 
+              0.00
+         <{else}>  
+          <{$result.payed|cur_odr:$order_detail.currency}>
+         <{/if}>
+        </div>
+      </div>  
+
+
+    </div>   
+        <div class="bound-item border-b-1">
+            <div class="d-line c-fix">
+                <div class="l-k bold">付款方式：</div>
+         <input id="sales_mode2" type="radio" name="payment" class="payment" value='{"pay_app_id":"wxpayjsapi","payment_name":"微信支付"}'  <{if  $payment=="2"}>checked<{/if}> />
+         <label for="sales_mode2" ><{t}>微信支付<{/t}></label>
+
+         <div>
+         <input id="sales_mode" type="radio" name="payment" class="payment" value='{"pay_app_id":"malipay","payment_name":"手机支付宝"}' <{if $payment !="2"}>checked<{/if}> />
+        
+         <label for="sales_mode" ><{t}>手机支付宝<{/t}></label>
+         </div>
+
+     <{if  $is_refund!="1"}>     
+        <{if  $is_pay!="1"}>
+           <div class="btn-list">
+            <button type="button"  onclick="pay_bail()">立即支付</button>
+         
+           </div>
+        <{/if}>
+      <{/if}> 
+      <{if  $is_refund!="1"}>
+          <{if  $is_pay=="1"}>
+           <div class="btn-list">
+            <button type="button"  onclick="refund_bail()">退回保证金</button>
+          <{/if}>
+      <{/if}>  
+        </div>
+<form action="/index.php/wap/paycenter-dopayment-order.html" method="post" id="paycenter_form" class="hide">
+        <input type="hidden" name="order_id" id="order_id" value="">
+        <input type="hidden" name="order_type" value="bail">
+        <input type="hidden" name="order_money" id="order_money" value="">
+        <input type="hidden" name="payment" id="payment" value="">
+        <div class="section bac-fff">
+            <div class="d-line c-fix">
+                <div class="l-k bold">付款方式：</div>
+                <div class="l-v">
+                    <div class="col2">
+                        <div class="col">
+                            <div>
+                            <span id="J_defpay">手机支付宝</span>
+                            <!-- 预存款支付 -->
+                                                        </div>
+
+                            <!-- 非货到付款或线下支付显示去付款 -->
+                                                                             <button type="submit" class="btn red">去付款</button>
+
+                                                                        <!--预售信息判断-->
+                                                    </div>
+                        <div class="col t-r">
+                                                          <span id="J_pay_change">
+                                更换支付方式
+                              <i class="arr right"></i>
+                              </span>
+                                                    </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </form>
+
+
+   
+<script>
+//生成订单
+   function  pay_bail(){
+       //支付方式
+       var payment= j(".payment:checked").val();
+         
+       //支付单类型
+       var order_type="bail";
+       //支付金额
+       var order_money='<{$goods.price}>';
+       j.ajax({
+        url :'<{link app=b2c ctl=wap_order act=baid_order }>',
+        type :"post",
+        dataType : "json",
+        data: 'payment='+payment+'&order_type='+order_type+'&order_money='+order_money,
+        cache : false,
+        async : true,
+        success : function(data) {
+          
+            if(data.status=1){
+                var order_id=data.order_id;
+                    document.getElementById("order_id").value=order_id;
+                  
+                    document.getElementById("order_money").value=order_money;
+                    document.getElementById("payment").value=payment;
+
+           
+                j('#paycenter_form').submit();
+            }
+        }
+       });
+   
+      
+}
+//退款申请
+function  refund_bail(){
+       //支付方式
+       var refund_apply_reason=3;
+       //支付单类型
+       var order_id="<{$result.order_id}>";
+       //支付金额
+       var refund_apply_pager_current=2;
+       var refund_apply_pager_pay_status='all';
+       var response_json="true";
+       j.ajax({
+        url :'<{link app=b2c ctl=wap_member act=do_refund_apply }>',
+        type :"post",
+        dataType : "json",
+        data: 'refund_apply_reason='+refund_apply_reason+'&order_id='+order_id+'&refund_apply_pager_current='+refund_apply_pager_current+'&refund_apply_pager_pay_status='+refund_apply_pager_pay_status+'&response_json='+response_json,
+        cache : false,
+        async : true,
+        success : function(data) {
+          var status=data.success;
+            if(status==true){
+                alert(' 您的退回保证金操作成功，预计3-5个工作日原路返回到您账户上，请注意查收，谢谢！')
+               window.location.reload();
+            }else{
+                alert('退款申请失败')
+                
+                
+            }
+        }
+       });
+   
+      
+}
+   
+    
+</script>

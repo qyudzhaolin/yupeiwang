@@ -1,0 +1,23 @@
+<ul>
+	<{foreach from=$data.goodsRows item=row key=gid name=goodsrow}>
+	<li>
+		<{assign var=pickey value=$setting.gpic_size|default:'goodsPicM'}>
+		<div>
+			<a href="<{$row.goodsLink}>" title="<{$row.goodsName}>">
+				<img class="product-img" src="<{$row[$pickey]}>" alt="<{$row.goodsName}>"/>
+			</a>
+		</div>
+		<p><{$row.goodsName}></p>
+		
+		<{if $row.sales_price > 0}>
+		<span><{$row.sales_price|cur}><em>/500g</em></span>
+		<{else}>
+		<span>
+			<{$row.goodsSalePrice|cur}>
+			<em class="<{if empty($row.unit)}>hide<{/if}>">/<{$row.unit}></em>
+		</span>
+		<{/if}>
+	</li>
+	<{/foreach}>
+	<div style="clear: both;"></div>
+</ul>

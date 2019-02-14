@@ -1,0 +1,31 @@
+<{if !empty($data.goodsRows)}>
+<div class="goods_cat_list" style="padding: 0px 15px;">
+    <div class="cat_more hide">
+        <span><{$setting.block_name}></span>
+        <a href="/index.php/wap/gallery-<{if !empty($data.levelOneId) && is_numeric($data.levelOneId)}><{$data.levelOneId}><{else}>cat<{/if}>.html">
+            更多<em>〉</em>
+        </a>
+    </div>
+
+    <ul class="pt-list">
+        <{foreach from=$data.goodsRows item=row key=gid name=goodsrow}>
+        <li class="pt-h-item c-fix"> 
+            <a href="/index.php/wap/product-<{$row.products.0.product_id}>.html" class="pt-h-link">
+                <div class="pt-h-img"><img src="<{$row.goodsPicM}>"></div>
+                <div class="pt-h-info">
+                    <div class="pt-h-name"><{$row.goodsName}></div>
+                    <div class="pt-h-area">产地：<{$row.areaName|default:'无'}></div>
+                    <div class="pt-h-price price"> 
+                    <{if !empty($row.products.0.sales_price) && $row.products.0.sales_price > 0 }>
+                    <{$row.products.0.sales_price|cur_odr}><span class="sales_price_fixed">/500g</span>
+                    <{else}>
+                    <{$row.goodsSalePrice|cur_odr}> 
+                    <{/if}>
+                    </div>
+                </div>
+            </a> 
+        </li>
+        <{/foreach}>
+    </ul>
+</div>
+<{/if}>

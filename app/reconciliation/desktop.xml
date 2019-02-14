@@ -1,0 +1,10 @@
+<desktop>
+    <permissions>
+        <permission id="reconciliation_cpcn" display='true' workground='reconciliation.wrokground.theme'>查询中金支付账单</permission>
+    </permissions>
+    <workground name="中金对账" id="reconciliation_cpcn" app="reconciliation" controller="reconciliation" action="index" order="1">
+        <menugroup name="对账查询">
+            <menu controller='reconciliation' action='index' permission='reconciliation_cpcn' display='true' order="5">对账查询</menu>
+        </menugroup>
+    </workground>
+</desktop>

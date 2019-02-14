@@ -1,0 +1,48 @@
+<div id="product_spec" class="product-spec">
+    <ul class="spec-area">
+        <{foreach from=$page_product_basic.spec.goods key=key item=spec}>
+        <li class="spec-item">
+            <span class="item-label"><i><{$page_product_basic.spec.specification.spec_name.$key}></i>：</span>
+            <span class="item-content">
+        <ul class="clearfix">
+          <{foreach from=$spec key=item_key item=item}>
+          <li class="spec-attr<{if $item_key==$page_product_basic.spec.product.$key}> selected<{/if}>">
+            <{if $item_key==$page_product_basic.spec.product.$key}>
+            <a href="javascript:void(0);">
+            <{elseif $item.product_id}>
+            <a href="<{link app=b2c ctl=site_product act=index arg0=$item.product_id}>" rel="<{$item.product_id}>">
+                <{else}>
+                 <{foreach from=$productList key=product_id item=product}>
+                 <{if in_array($item['private_spec_value_id'],$product['spec_desc']['spec_private_value_id'])}>
+                  <a style="margin: -1px; padding: 1px;background: #fff;border: 1px dashed #b2b2b2;color: #747474;"
+                     class="product_none_custom"
+                     href="<{link app=b2c ctl=site_product act=index arg0=$product['product_id']}>"
+                     rel="<{$product['product_id']}>"><{ break;}>
+                  <{/if}>
+                  <{/foreach}>
+            <{/if}>
+              <{if $page_product_basic.spec.specification.spec_type.$key == 'image'}>
+              <img src="<{$item.spec_image|storager:'s'}>" alt="<{$item.spec_value}>" title="<{$item.spec_value}>">
+              <{else}>
+              <span><{$item.spec_value}></span>
+              <{/if}>
+              <i></i>
+            </a>
+          </li>
+          <{/foreach}>
+        </ul>
+      </span>
+        </li>
+        <{/foreach}>
+    </ul>
+</div>
+
+<div id="spec_tip" style="display:none;">
+    <div class="tip-inf" style="padding:20px;text-align:center">
+        <p style="padding:20px">此规格暂无关联商品，是否为您自动匹配可选组合?</p>
+        <div class="actions">
+            <button type="button" class="btn btn-simple popup-btn-close"><span><span>取 消</span></span></button>
+            <a class="btn btn-major confim-btn" href=""><span><span>确 认</span></span></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<app>
+    <name>技术支持</name>
+    <type>core</type>
+    <description>从官方获取技术支持的途径</description>
+
+    <author>
+        <name>shopex开发团队</name>
+        <email>dev@shopex.cn</email>
+        <url>http://www.shopex.cn</url>
+    </author>
+
+    <version>0.1</version>
+    <license>shopex license</license>
+
+	<depends>
+		<app>desktop</app>
+	</depends>
+
+    <optional app="syssupport">获取官方技术支持</optional>
+</app>

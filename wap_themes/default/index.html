@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="images/styles.css?v=<{$ctime}>" />
+<{css src="swiper.min.css" app="wap"}>
+<{wapheader}>
+<{script src="swiper.min.js" app="wap"}>
+<{script src="jquery.cookie.js" app="wap"}>
+
+<!-- 配送范围 -->
+<{script src="zepto1.1.6.js?v=1" app="wap"}>
+<style type="text/css">
+    .nodisplay{display: block;}
+    .gizle {top: -90px;}
+    .sabit {top:0;}
+    /*.goods_cat_list{padding-left: 5px;}*/
+
+    /*城市弹出层*/
+    .container{width:100%;margin-bottom: 30px;}
+    .letter{width:auto;position:fixed;top:58px;right:10px;text-align:center;display: none;}
+    .letter ul{list-style-type:none;}
+    .letter ul li{line-height: 1.1;}
+    .letter ul li a{text-decoration:none;color:#666;font-size: 20px}
+    .city{overflow:hidden;padding:20px;}
+    .city-list{width:100%;}
+    .city-list .city-letter{font-size:18px;display:inline-block;padding-top:15px;padding-bottom:5px;border-bottom:1px solid #e8ecf1;width:97%;}
+    .city-list p{color:#afafaf;width:96%;height:50px;line-height:50px;border-bottom:1px solid #e8ecf1;cursor:pointer;}
+    .UISelect{margin-top:5px}
+
+    .pt-list .pt-h-name {
+        font-size: 15px !important;
+    }
+    .pt-list .pt-h-info {
+         padding-top: 0; 
+    }
+    .goods_cat_list .pt-list .pt-h-area {
+        font-size: 13px;
+    }
+
+    /*热门城市*/
+    #citySelectBox .hot-city {
+        color: #333;
+        font-size: 14px;
+        padding: 16px;
+    }
+    #citySelectBox .hot-city .hot-text {
+        color: rgba(51,51,51,.6);
+        font-size: 12px;
+    }
+    #citySelectBox .hot-city ul {
+        overflow: hidden;
+    }
+    #citySelectBox .hot-city ul li {
+        border: 1px solid #d7d7d7;
+        border-radius: 2px;
+        float: left;
+        margin-right: 8px;
+        width: 66px;
+        height: 34px;
+        line-height: 34px;
+        text-align: center;
+        margin-top: 8px;
+    }
+</style>
+</head>
+<body>
+<!-- head搜索 -->
+<div class="head headBox">
+  <div class="searchAll">
+    <div class="search-inner">
+      <div class="location">
+        <i class="icon iconfont icon-location"></i>
+        <b>送货至</b>
+        <span class="locationShow"></span>
+        <em class="arrow_down icon iconfont icon-arrow_down"></em>
+      </div>
+      <div class="search-box" onclick="location.href='/index.php/wap/search-searchpage.html'"><i class="icon iconfont icon-search"></i>
+        <div class="search-ele">请搜索您感兴趣的商品</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page pagebox">
+    <!-- 活动图 -->
+    <{wap_widgets id="main_slide"}>
+    <!-- 四个展区 -->
+ 
+<!--    <div class="line-5"></div>-->
+    <!-- 自定义广告商品 -->
+    <{wap_widgets id="custom_html"}>
+    <!-- 自定义促销商品 -->
+    <{wap_widgets id="hot_goods"}>
+
+    <!-- 商品按分类展示 -->
+    <{wap_widgets id="index_goods_title"}>
+    <{wap_widgets id="index_goods"}>
+    <{wap_widgets id="index_goods_title2"}>
+    <{wap_widgets id="index_goods2"}>
+    <{wap_widgets id="index_goods_title3"}>
+    <{wap_widgets id="index_goods3"}>
+    <{wap_widgets id="index_goods_title4"}>
+    <{wap_widgets id="index_goods4"}>
+    <{wap_widgets id="index_goods_title5"}>
+    <{wap_widgets id="index_goods5"}>
+    <{wap_widgets id="index_goods_title6"}>
+    <{wap_widgets id="index_goods6"}>
+    <{wap_widgets id="index_goods_title7"}>
+    <{wap_widgets id="index_goods7"}>
+
+
+    <!--实名认证弹框-->
+   <div class="yp-overlay"></div>   
+   <div class="ypmodal-container-3  signup-confirm" id="modal1"> 
+       <p class="title">信息提示</p>
+       <a class="aprove" href="<{link app=b2c ctl='wap_member' full='1' act='prove_page'}>">
+           <button class=" ">实名认证</button>
+       </a>
+       <a class="aprove" href="/index.php/wap?seepage=1">
+           <button class="view-goods-btn">浏览商品</button>
+       </a>
+   </div>
+</div>
+<div class="delCity"><b>城市选择</b><span onclick="closeCityBox()" class="icon iconfont icon-close"></span></div>
+<div id="citySelectBox">
+    <div class="cityTitle">城市选择</div>
+
+    <div class="hot-city">
+        <p class="hot-text">热门城市</p>
+         <ul>
+            <{foreach from=$hotcitys item=hotcity}>
+            <li data-id="<{$hotcity.id}>"><{$hotcity.name}></li>
+            <{/foreach}>
+
+        </ul>
+    </div>
+
+
+
+    <!--显示点击的是哪一个字母-->
+    <div id="showLetter" class="showLetter"><span>A</span></div>
+    <!--城市索引查询-->
+        <div class="letter">
+            <ul></ul>
+          </div>
+    <!--城市列表-->
+    <div class="container">
+      <div class="city"></div>
+    </div>
+</div>
+<script>
+    var lock = true;
+    var STOP=0;
+    function closeCityBox(){
+        j('#citySelectBox').slideUp(200);
+        j('#citySelectBox .letter').slideUp(200);
+        j('.delCity').slideUp(100);
+    }
+
+    //实名认证
+    <{if $is_alert_prove}>
+    openProve();
+    <{/if}>
+    function openProve(){
+        var _height = j(document).height();
+        j(".yp-overlay").css('height', _height);
+        j(".yp-overlay").toggle();
+        j("#modal1").toggle();
+    }
+
+    j(function(){
+        //兼容一下可视化编辑
+        j('.nodisplay').hide();
+
+        j('.location').click(function(){
+            if (lock) {
+                alert('城市列表加载中，请稍后...');
+                return;
+            }
+            //加载城市事件
+            j('#citySelectBox').slideDown(200);
+            j('#citySelectBox .letter').slideDown(200);
+            j('.delCity').show();
+
+            //点击索引查询城市
+            j('body').on('click', '.letter a', function () {
+                //滚动到特定位置
+                var s = j(this).html();
+                var boxobj = j('#citySelectBox');
+                // j(window).scrollTop(j('#' + s + '1').offset().top);
+                boxobj.scrollTop(j('#' + s + '1').offset().top - boxobj.offset().top + boxobj.scrollTop() - 50);
+
+                j("#showLetter span").html(s);
+                j("#showLetter").show().delay(500).hide(0);
+                // j("#showLetter").show();
+            });
+             //中间的标记显示
+             j('body').on('onMouse', '.showLetter span', function () {
+                j("#showLetter").show().delay(500).hide(0);
+            });
+
+            //选择城市 start
+            j('body').on('click', '.city-list p', function () {
+                var shiparea = j(this).attr('data-id');
+                var shipareaName = j(this).text();
+                j('.locationShow').text(shipareaName);
+                //设置cookie
+                // j.cookie('shiparea', shiparea, {path:'/', expires: 100 });
+                // j.cookie('shipareaName', shipareaName, {path:'/', expires: 100 });
+                j.cookie('shiparea', shiparea, {expires: 100 });
+                j.cookie('shipareaName', shipareaName, {expires: 100 });
+
+                closeCityBox();
+                //重载页面
+                location.reload();
+            });
+
+
+            //选择城市 start(兼容苹果手机)
+            j('.hot-city ul li').click(function () {
+                var shiparea = j(this).attr('data-id');
+                var shipareaName = j(this).text();
+                j('.locationShow').text(shipareaName);
+                j.cookie('shiparea', shiparea, {expires: 100 });
+                j.cookie('shipareaName', shipareaName, {expires: 100 });
+
+                closeCityBox();
+                //重载页面
+                location.reload();
+            });
+        });
+
+
+        //配送范围
+        var url = '/index.php/tools-getwapareas.html';
+        j.getJSON(url,{},function(res){
+            if (res.error == 0) {
+                var data = res.data;
+                var letterHtml = '';
+                var cityHtml = '';
+
+                for(var x in data){
+                    //字母
+                    if (data[x][0]) {
+                        var letter = data[x][0]['letter'];
+                        letterHtml += '<li><a href="javascript:;">'+ letter +'</a></li>';
+                        cityHtml += '<div class="city-list">';
+                        cityHtml += '<span class="city-letter" id="'+ letter +'1">'+ letter +'</span>';
+                    }
+
+                    //城市
+                    var citylist = data[x];
+                    for (var k in citylist) {
+                        cityHtml += '<p data-id="'+ citylist[k]['id'] +'">'+ citylist[k]['name'] +'</p>';
+                    }
+                    cityHtml += '</div>';
+                }
+
+                j('#citySelectBox .letter ul').html(letterHtml);
+                j('#citySelectBox .container .city').html(cityHtml);
+                lock = false;
+
+                //这里必须在异步加载完成之后
+                //设置默认配送区域cookie[如果用户还没选择配送区域],若用户设置过则用用户设置的区域显示
+                // j.cookie('shiparea', '',{path:'/'});j.cookie('shipareaName', '',{path:'/'});//清空cookie
+                if (!j.cookie('shiparea')) {
+                    j('.location').click();
+                }else{
+                    //显示区域名称
+                    var shipareaName = j.cookie('shipareaName');
+                    var shiparea = j.cookie('shiparea');
+                    j('.locationShow').text(shipareaName);
+                }
+
+                //滚动监视
+                $("#citySelectBox").scroll(function() {
+                    var citySelectBoxTop = j('#citySelectBox').scrollTop();
+                    // console.log(citySelectBoxTop);
+                    if (citySelectBoxTop > 40) {
+                        j('.delCity b').show();
+                    }else{
+                        j('.delCity b').hide();
+                    }
+                });
+            }
+        });
+
+
+
+        //滚动监视-顶部header隐藏显示
+        $(window).scroll(function() {
+            var tmptop = j(this).scrollTop();
+            // console.log(parseInt(tmptop));
+            if (tmptop < 50){
+                j('.headBox').removeClass('hide');
+                return;
+            }
+            if ((tmptop-STOP) > 10) {
+                j('.headBox').addClass('hide');
+                STOP = tmptop;
+            }else if((STOP-tmptop) > 10){
+                j('.headBox').removeClass('hide');
+                STOP = tmptop;
+            }
+        });
+
+        //未登录点击任何按钮进入登录页面
+        <{if !$is_login}>
+            j('a').attr('href',"<{link app=b2c ctl=wap_passport full=1 act=index}>");
+            j('div.price').remove();
+        <{elseif $is_login && !$is_prove}>
+            // j('a').attr('href',"<{link app=b2c ctl='wap_member' full='1' act='prove_page'}>");
+            j('a:not(.aprove)').attr('href','#');
+            j('div.price').remove();
+            j('a').click(function(){
+                openProve();
+            });
+        <{/if}>
+    });
+</script>
+<{wap_require file="block/footer.html"}>
+</body>
+</html>

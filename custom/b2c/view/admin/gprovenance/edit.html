@@ -1,0 +1,79 @@
+<form method="POST" action="index.php?app=b2c&ctl=admin_gprovenance&act=add" class="tableform" id="attr_add">
+  <input type="hidden" name="provenance_id" value="<{$gInfo.provenance_id}>">
+
+<div class="division"><table width="100%" border="0" cellpadding="0" cellspacing="0" id='attr_table'>        
+    <tr>
+    <th><em class="red">*</em><{t}>原产国:<{/t}></th>
+    <td><{input type="text" name="gcountry_of_origin" required="true" vtype="required" value=$gInfo.gcountry_of_origin}></td>
+  </tr>
+  <tr>
+    <th><em class="red">*</em><{t}>原产地:<{/t}></th>
+    <td><{input type="text" name="gsource_area" required="true" vtype="required" value=$gInfo.gsource_area}></td>
+  </tr>
+
+  <tr>
+    <th><{t}>是否推荐:<{/t}></th>
+    <td>
+        <{input type="bool" name='is_hot' value=$gInfo.is_hot}>
+    </td>
+  </tr>
+
+  <tr>
+    <th><{t}>作为原产国:<{/t}></th>
+    <td>
+        <{input type="bool" name='is_country' value=$gInfo.is_country}>
+    </td>
+  </tr>
+
+  <tr>
+    <th><{t}>排序:<{/t}></th>
+    <td>
+        <input type="number" placeholder="越小越靠前" name="ordernum" required value="<{$gInfo.ordernum}>">
+    </td>
+  </tr>
+
+   <tr>
+    <th><{t}>进口资料配备（1）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_1" value=$gInfo.gimport_information_1 }></td>
+  </tr>
+   <tr>
+    <th><{t}>资料配备（2）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_2" value=$gInfo.gimport_information_2 }></td>
+  </tr>
+   <tr>
+    <th></em><{t}>资料配备（3）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_3"  value=$gInfo.gimport_information_3}></td>
+  </tr>
+   <tr>
+    <th><{t}>资料配备（4）:<{/t}></th>
+    <td><{input type="text" name="gimport_information_4" value=$gInfo.gimport_information_4 }></td>
+  </tr>
+    </div>
+     </table>
+     
+        
+    <div class="table-action">
+    <{button label=$___b2c="保存"|t:'b2c' type="submit"}>
+    <{button class="btn-secondary"  type="button" label=$___b2c="取消"|t:'b2c' isCloseDialogBtn="true"}>
+</div>
+</form>
+<script>
+
+
+        $('attr_add').store('target',{
+            onComplete:function(){
+//                if($('attr_add').getParent('.dialog'))
+//                $('attr_add').getParent('.dialog').retrieve('instance').close();
+            },
+            onSuccess:function(response){
+                var hash_res_obj = JSON.decode(response);
+            if (hash_res_obj.success != undefined && hash_res_obj.success != "")
+            {
+                if($('attr_add').getParent('.dialog'))
+                $('attr_add').getParent('.dialog').retrieve('instance').close();
+            }    
+            }        
+        });
+
+</script>
+

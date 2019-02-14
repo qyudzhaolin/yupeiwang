@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/public/app/site/statics/css/cityselect.css">
+	<{script src="jquery2.0.0.js" app="site"}>
+	<script src="/public/app/site/statics/js/citySelect-1.0.3.js"></script>
+</head>
+<body>
+	<div class="city-select" id="single-select-1"></div>
+
+<script type="text/javascript">
+var cityData = <{$cityData|json_encode}>;
+$(function() {
+	// 单选
+	var singleSelect1 = $('#single-select-1').citySelect({
+		dataJson: cityData,
+		multiSelect: false,
+		whole: true,
+		hotCity: ['北京市', '上海市', '广州市', '深圳市', '南京市', '杭州市'],
+		shorthand: false,
+		search: true,
+		onInit: function () {
+			$('#single-select-1 input').click();
+		},
+		onTabsAfter: function (target) {
+			console.log(target)
+		},
+		onCallerAfter: function (target, values) {
+			console.log(JSON.stringify(values))
+		}
+	});
+
+
+});
+</script>
+</body>
+</html>

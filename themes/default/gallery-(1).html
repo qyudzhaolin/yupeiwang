@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <{header}>
+        <link rel="stylesheet" href="images/styles.css" />
+    </head>
+    <body class="gallery-page">
+        <{require file="block/header.html"}>
+        <script>
+        $('category_box').setStyle('visibility','hidden');
+            var DropLabel = $('category_handle');
+            var DropCategory = $('category_box');
+            $(document).addEvent('mouseover',function(e){
+                if(e.target.getParent('#category_box') == DropCategory || e.target == DropLabel){
+                    DropCategory.setStyle('visibility','visible');
+                    }else{
+                    DropCategory.setStyle('visibility','hidden');
+                }
+            });
+        </script>
+        <div class="center">
+            <div class="page">
+                <div class="bread-crumbs">
+                    <{widgets id="bread_crumbs"}>
+                </div>
+                <div class="section">
+                    <div class="lsidebar">
+                        <{widgets id="lsidebar"}>
+                    </div>
+                    <div class="right-main-margin">
+                        <{main}>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <{require file="block/footer.html"}>
+    </body>
+</html>

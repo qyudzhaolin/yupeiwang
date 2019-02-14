@@ -1,0 +1,193 @@
+<!-- 会员中心主内容区 -->
+<div class="page-article">
+	<!-- 我的合约 -->
+	<!-- 欢迎中心 -->
+	<div id="member_welcome" class="member-welcome">
+		<div class="member-welcome-content">
+			 
+			<div class="member-welcome-img">             	
+		   	  	<img src="/public/images/pcimg/head_img.png" />
+			</div>
+           <em><{$member.uname}></em> 
+		</div>
+		<div class="member-welcome-alert">
+			<span class="tips">交易提醒：</span>
+			<a class="item" href="/index.php/member-myContract-1.html">待付款<span  ><{$count}></span></a>
+		</div>
+	</div>
+	<!-- 欢迎中心结束 -->
+	<!--  合约列表-->
+	<div class="my-contract">
+
+		<div id="member_orders" class="member-mod">
+
+			<div class="contract-title bg_color_5">
+				<span>最近合约</span>
+			</div>
+
+			<div class="member-mod-content">
+				<table class="member-grid">
+					<thead>
+						<tr>
+							<th width="170px"><span>合约号</span></th>
+							<th><span>商品总额</span></th>
+							<th><span>生效日</span></th>
+							<th><span>失效日</span></th>
+							<th><span>物流状态</span></th>
+							<th><span>付款状态</span></th>
+							<th><span>操作</span></th>
+							<th> </th>
+						</tr>
+					</thead>
+                <{foreach from=$contract_info item=contract name="item" key=key}>
+					<tbody class="fold ">
+						<tr>
+							<td>
+								
+								<img class="handle action-view-goods" width="18px" height="18px"  src="/public/files/static/images/icon_01.png" />
+								<a class="order-num"><{$contract.contract_no}></a>
+							</td>
+							<td><span class="amount"><{$contract.amount|cur_odr:$order_detail.currency}></span></td>
+							<td><span><{$contract.begin_time}></span></td>
+							<td>
+							<span><{$contract.end_time}></span>	
+							</td>
+							<td>
+								<span><{$contract.ship_status}></span> 
+							</td> 
+							<td>
+								<span><{$contract.pay_status}></span>
+							</td>
+							<td>  
+						 <{if  $contract.order_id !=null}>		 
+								 <span class="payment_button" contract_order_id="<{$contract.order_id}>" onclick="payment('<{$key}>','<{$contract.order_id}>')"><img src="/public/images/pcimg/btn_01.png"/></span>
+
+						  <{/if}>
+							</td>
+							<td>
+								<a href="<{link app=b2c ctl=site_member act=viewContract arg0=$contract.contract_id arg1=$member_id}>">查看合约</a>
+							</td>
+
+						</tr>
+						<tr class="goods-row">
+							<td colspan="8">
+								<ul>
+
+									<li>
+										<span>合约出库单号</span>
+										<span >金额</span>
+										<span>下单时间</span>
+										<span>订单状态</span>
+										<span>支付方式</span>
+										<span>操作</span>
+									</li>
+                                 <{foreach from=$contract.delivery_order item=delivery_order name="item" key=delivery_orderkey}>
+									<li id="span_value<{$key}>" order_id="<{$delivery_order.order_id}>">
+										<span id="order_id"><{$delivery_order.order_id}></span>
+										<span class="final_amount"> <{$delivery_order.final_amount|cur_odr:$order_detail.currency}></span>
+										<span><{$delivery_order.createtime}></span>
+										<span id="pay_status"><{$delivery_order.pay_status}></span>
+										<span><{$delivery_order.payment}></span>
+                                        <span>
+										 <{if $delivery_order.step_type !="other"}>
+											<a  href="<{link app=b2c ctl=site_member act=viewContractOutbound arg0=$delivery_order.order_id}>" >查看出库单
+											</a>&nbsp;
+											 <{if $delivery_order.pay_status =="已付款"&&$delivery_order.ship_status =="已发货"&&
+											   $delivery_order.received_status =="0"}>
+											    <a class="btn-red-01 a-hover" order_ids="<{$delivery_order.order_id}>" onclick="confirm_receipt('<{$delivery_order.order_id}>')" ><{t}>确认收货<{/t}>
+											    </a>
+											 <{/if}>
+                                          <{/if}>
+										 	<{if  $delivery_order.pay_status !="已付款" }>
+											<img class="btn-chuku" onclick="cancel_delivery('<{$delivery_order.contract_id}>','<{$delivery_order.order_id}>')" src="/public/images/pcimg/btn_03.png" /> 
+									        <{/if}>
+									         </span>
+									</li>
+                                 <{/foreach}>
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+                     <{/foreach}>
+					<!-- r -->
+				</table>
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<script>
+   
+	//取消出库
+   function  cancel_delivery($contract_id,$id){
+        var order_id=$id;
+        var contract_id=$contract_id;
+        confirm_ = confirm('确定要取消出库吗?');
+    if(confirm_){
+       j.ajax({
+        url :'<{link app=b2c ctl=site_member act=cancel_delivery}>',
+        type :"post",
+        dataType : "json",
+        data: 'order_id='+order_id+'&contract_id='+contract_id,
+        cache : false,
+        async : false,
+        success : function(data) {
+            if(data.status=1){
+             alert("取消出库成功")
+              j("li[order_id="+ order_id +"]").remove();
+              j("span[contract_order_id="+ order_id +"]").remove();
+            }
+        }
+       });
+    }
+      
+	}
+      //出库跳转
+   function  payment($key,$order_id){
+        if($order_id){
+            window.location.href='./paycenter-'+$order_id+'.html';
+        }
+	}
+	  //确认收货
+   function  confirm_receipt($order_id){
+        var order_id=$order_id;
+        confirm_ = confirm('确定要收货吗?');
+    if(confirm_){
+       j.ajax({
+        url :'<{link app=b2c ctl=site_member act=confirm_receipt}>',
+        type :"post",
+        dataType : "json",
+        data: 'order_id='+order_id,
+        cache : false,
+        async : false,
+        success : function(data) {
+            if(data.status=1){
+             alert("收货成功")
+              j("a[order_ids="+ order_id +"]").remove();
+            }
+        }
+       });
+    }
+	}
+	// Module = new Module('member', ['orders']);
+	$('member_orders').addEvents({
+		'click:relay(.action-view-goods)': function(e) {
+			var parent = this.getParent('tbody');
+			//var actions = parent.getElement('.actions');
+			if(parent.hasClass('fold')) {
+				//actions.set('rowspan', 2);
+			//	console.log(this);
+				parent.removeClass('fold').addClass('unfold');
+				//$(this).attr('src',"/public/files/static/images/icon_02.png");
+				j(this).attr('src',"/public/files/static/images/icon_02.png");
+			} else {
+				//actions.set('rowspan', 1);
+				j(this).attr('src',"/public/files/static/images/icon_01.png");
+				parent.removeClass('unfold').addClass('fold');
+			}
+		}
+	});
+
+</script>

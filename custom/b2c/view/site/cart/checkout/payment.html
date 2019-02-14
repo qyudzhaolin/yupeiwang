@@ -1,0 +1,27 @@
+<!-- 支付方式模块 -->
+<div id="order_payment" class="order-section order-payment" data-validatemsg="请选择一种支付方式并确认支付方式" data-linkagemsg="因为配送方式变更，请重新确认支付方式">
+  <div class="order-section-title"><b>支付方式</b><a href="javascript:void(0);" class="action-edit-payment <{if !$arr_def_payment}> fold <{/if}>">[修改]</a>
+    <a class="tnote quotas" target="_blank" href="/index.php/news-detail-80.html">（<b>支付限额提醒</b>）</a></div>
+
+  <div class="order-section-content">
+    <div class="notice<{if $shipping_method || $step_type == 'other'}> fold<{/if}>">请先确定配送方式，之后再选择支付方式</div>
+    <table class="view-payment<{if !$arr_def_payment}> fold<{/if}>">
+      <{include file='site/cart/checkout/payment_confirm.html'}>
+    </table>
+    <div class="change-payment<{if $arr_def_payment || !$shipping_method || $step_type == 'other'}> fold<{/if}>">
+     <!--  <{if $is_accountpay=="是"}>
+       <table>
+    <tbody>
+        <tr class="last">
+      <th>
+        <input type="radio" name="payment[pay_app_id]" value="{&quot;pay_app_id&quot;:&quot;period&quot;,&quot;payment_name&quot;:&quot;账期支付&quot;}" id="pay_app_id_period" class="action-change-payment"><label for="pay_app_id_period">账期支付</label>
+      </th>
+      <td></td>
+    </tr>
+  </tbody>
+  </table>
+  <{/if}> -->
+      <{$payment_html}>
+    </div>
+  </div>
+</div>

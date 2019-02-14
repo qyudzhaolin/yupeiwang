@@ -1,0 +1,201 @@
+
+<{capture name="header"}>
+<{lang_script src="lang.js" app='b2c'}>
+<{script src="goodseditor.js" app="b2c"}>
+<{script src="coms/pager.js" app='desktop'}>
+<{script src="coms/datapicker.js"  app='desktop'}>
+ 
+<{/capture}>
+<script>
+  
+function _callback_prepare( rs ) {
+    var _data = JSON.decode(rs);
+    if ( !_data ) return ;
+    for( i in _data ) {
+        if ( $('id_' + i) ) {
+            $('id_' + i ).set('value', _data[i]);
+        }
+    }
+
+   new Request.HTML({
+            update:$('goods-spec'),
+            url:'<{$callback_ajax_url}>',method:'post',
+            data:'id=' + _data['id'],
+            //onRequest: function( tt ) {
+            //  alert(tt);
+            //},
+            onComplete: function(tt) {
+                $('id_goods_type').set('value', 'normal');
+                if( $('gEditor-GId-input') )
+                    $('gEditor-GId-input').set('value',_data['goods_id']);
+                if( $('id_old_bn') )
+                    $('id_old_bn').set('value',_data['bn']);
+                if( $('gEditor-GType-input') )
+                    $('gEditor-GType-input').set('disabled',true);
+                if( $('id_new_bn'))
+                    $('id_new_bn').getParent().setStyle('display', '');
+                $$('.class-bn').set('disabled', true);
+            }
+        }).send();
+}
+
+if( $('id_new_bn') ) {
+    $('id_new_bn').addEvent('click', function(item){
+        if( $(this).checked ) {
+            $$('.class-bn').set('disabled', false);
+        } else {
+            $$('.class-bn').set('disabled', true);
+        }
+    });
+}
+</script>
+
+<div class="tableform" id='remove<{$num}>'>
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <th><em class="red">*</em><{t}>款项名称：<{/t}></th>
+      <td><select  class="fund" name="fund[<{$num}>][fund_name]" id="gEditor-GType-input">
+      <{foreach from=$fund_name item=f}>
+      <option class="optionlevels"  value='<{$f.id}>' vtype="required" <{if $f.id==$fund.fund_name}>selected<{/if}>><{$f.name}>
+       </option>
+      <{/foreach}>
+       </select>
+     </td>
+    </tr>
+    <tr>
+      <th><em class="red">*</em><{t}>支付金额：<{/t}></th>
+      <td><{input type="text" name="fund[{$num}][payment]" class="pay" style="width:120px"  vtype="required" value=$fund.payment}>%</td>
+     <!--  <td><input type="text" name= "fund_name<{$num}>" style="width:120px"  vtype="required" value="<{$ruleInfo.payment}>"></td> -->
+    </tr>
+       <tr>
+      <th><em class="red">*</em><{t}>支付开始时间：<{/t}></th>
+      <td><{input type="text" name="fund[{$num}][begin_time]"  class="layDate" value=$fund.begin_time vtype="required"}>
+
+
+
+      </td>
+    </tr>
+    
+    <tr>
+      <th><em class="red">*</em><{t}>支付结束时间：<{/t}></th>
+      <td><{input type="text" name="fund[{$num}][end_time]" class="layDate1" value=$fund.end_time vtype="required"}></td>
+    </tr>
+     
+
+
+       <tr>
+      <th><em><font color='red'>*</font></em><{t}>启用状态：<{/t}></th>
+      <td>
+        <label><input type="radio"  class="status1" name="fund[<{$num}>][status]"<{if $fund.status =="true"||$statuss=1 }> checked="checked"<{/if}> value="true" ><{t}>是<{/t}></label>
+          <label><input type="radio"  class="status2" name="fund[<{$num}>][status]"<{if $fund.status=="false"}> checked="checked"<{/if}> value="false" ><{t}>否<{/t}></label>
+        </td>
+        </tr>
+        <{input type="hidden" name="fund[{$num}][fund_id]"   value=$fund.fund_id }>
+
+  </table>
+   <div>
+<input type = 'button' onclick='dropElement("remove<{$num}>")' value='删除'>  
+
+
+
+</div>
+</div>
+ 
+
+
+<script>
+  //   alert(1)
+  // if(empty(updateid){
+
+  //       $$('.fund').set('disabled', false);
+  //       $$('.layDate').set('disabled', false);
+  //       $$('.status1').set('disabled', false);
+  //       $$('.status2').set('disabled', false);
+ 
+  // }
+  
+  $$('.act-stock').addEvent('click', function(e){
+        console.log(this.value);
+        if(this.value == 'true') {
+            $$('.remind').show();
+        }
+        else {
+            $$('.remind').hide();
+        }
+    });
+  $$('.act-customer').addEvent('click', function(e){
+        console.log(this.value);
+        if(this.value == 'true') {
+            $$('.cremind').show();
+        }
+        else {
+            $$('.cremind').hide();
+        }
+    });
+   // function remind(num,dom){
+   //   console.log(dom.value);
+   //   if(dom.value == 'true') {
+   //          $$('.remind'+num).show();
+   //      }
+   //      else {
+   //          $$('.remind'+num).hide();
+   //      }
+
+   //  }
+   //  function remindp(num,dom){
+
+   //      console.log(dom.value);
+   //      if(dom.value == 'true') {
+   //          $$('.remindp'+num).show();
+   //      }
+   //      else {
+   //          $$('.remindp'+num).hide();
+   //      }
+
+   //  }
+    $$('.act-autoclose').addEvent('click', function(e){
+        if(this.value == 'true') {
+            $$('.timeout1').show();
+        }
+        else if(this.value == 'false') {
+            $$('.timeout1').hide();
+        }
+    });
+    $$('.act-custom').addEvent('click', function(e){
+        if(this.value == 'other') {
+            this.getNext('input[type=text]').show();
+        }
+        else {
+            this.getNext('input[type=text]').hide();
+        }
+    });
+    // $$('.act-remindp<{$num}>').addEvent('click', function(e){
+    //     console.log(this.value);
+    //     if(this.value == 'true') {
+    //         $$('.remindp<{$num}>').show();
+    //     }
+    //     else {
+    //         $$('.remindp<{$num}>').hide();
+    //     }
+    // });
+    // var submitForm = function (event,sign){
+    //   alert(1)
+    //     var _form=$('preparesell_form');
+    //       if($('goods-spec-product')) {
+    //           var flag = false;
+    //           $ES('input[type=checkbox]','goods-spec-product').each(function(el){
+    //             if( $(el).checked==true ) {
+    //                 flag = true;
+    //             }
+    //           });
+    //           if( !flag ) {
+    //             MessageBox.error('<{t}>请选择作为预售商品的商品规格<{/t}>');
+    //             return false;
+    //           }
+    //         }
+
+    j(function(){
+  j('.layDate').layDate({format: 'YYYY-MM-DD hh:mm:ss'});
+  j('.layDate1').layDate({format: 'YYYY-MM-DD hh:mm:ss'});
+});
+  </script>

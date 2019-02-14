@@ -1,0 +1,149 @@
+<div id="main" class="clearfix contract">
+    <!-- 合约页面 -->
+  <div class="contract-ban">
+   	  <img src="/public/images/pcimg/contract_03.png" />
+   	  <div class="ps-service">
+   	  	<img src="/public/images/pcimg/home_01.png" />
+   	  </div>
+   </div> 
+	<!-- 商品列表开始 -->
+	<div class="page-maincontent contract-main">
+		<div class="auto-bind-widget" data-widget-type="Tabs" data-widget-config="{
+          eventType:'mouse'
+        }">
+		 
+        <div class="contractListTitle"> 
+    		<ul class="switchable-triggerBox clearfix">
+    			<li class="switchable-trigger active"><em>待付款合约</em> </li>
+    			<li class="switchable-trigger "><em>执行中合约</em> </li>
+    		</ul>
+         <form method="get" id="myform" action="/index.php/contract.html">
+           <input type="hidden" name="is_query" value="6" />
+            <div class="page-maincontent contract-main contract-filter">
+                <select  name="state" class="contract">
+                <option value="1" >合约号</option>
+                </select>
+                <input type="text" name="input" value="" placeholder="请输入合约号" />
+                <button type="submit" class="btn btn-search"><span><span class="icon">J</span></span></button>
+                <label for="">排序：</label><select  name="orderBy" onchange="submit()" class="action-orderby">
+                <{foreach from=$contract.orderBy item=orderBy}>
+                <option value="<{$orderBy.sql}>" <{if $orderBy.sql == $select}>selected<{/if}>><{$orderBy.label}></option>
+                <{/foreach}>
+                </select>
+            </div>
+         </form>        
+            <div style="clear: both;"></div>
+        </div>
+
+     <div class="contract-condition">          
+	
+   
+    </div> 
+			<div class="switchable-panel">
+				<ul class="ps-goods-list">
+                <{foreach from=$obligation item=contract name="item" key=contractkey}>
+					<li class="ps-goods-item clearfix">
+						 <div class="goods-left">
+						 	<img src="/public/images/pcimg/contract_01.png" />
+						 </div>	
+						 <div class="goods-right contract-right">
+						 	<div>
+						 	<p>合约号：<em><{$contract.contract_no}></em></p>
+						 	<p>效期：<em><{$contract.begin_time}>-<{$contract.end_time}></em></p>
+						 	<p>商品总值：<em><{$contract.amount|cur_odr:$order_detail.currency}></em></p>
+						 	<p>物流状态：<em><{$contract.ship_status}></em></p>
+						 	<p>付款状态：<em><{$contract.pay_status}></em></p>
+                         <{if $contract.state =='abend'}>
+                             <span class="ct-time">异常终止</span>
+                         <{else}> 
+                            <{if $contract.order_status=="0"}>
+                                 <{if $contract.time >= $nowtime }>
+						 	<span class="ct-time"><div class="leftTime-box" id="dateShow<{$key . $contractkey}>" data-date="<{$contract.time}>">
+                                <span class="date-tiem d">00</span>天
+                                <span class="date-tiem h">00</span>时
+                                <span class="date-tiem m">00</span>分
+                                <span class="date-s s">00</span>秒
+                                </div></span>
+                                  <{/if}>
+                             <{/if}>    
+                         <{/if}>
+
+                         <{if $contract.order_status=="0"&&$contract.state !='abend'}>         		<{if $contract.time!='0' }>																
+						     <div class="jion-btn">
+						   	 <a href="<{link app=b2c ctl=site_contract act=performance arg0=$contract.contract_id}>">履约</a>
+						     </div>
+						    <{else}>
+						   	 <div class="jion-btn join-btn-disabled"> 
+						   	  <span>履约</span> 
+						     </div>
+						    <{/if}>
+						<{/if}>      
+						   </div>
+						 </div>
+					</li>
+                 <{/foreach}>
+				</ul>
+			</div>
+			<div class="switchable-panel" style="display: none;">
+				<ul class="ps-goods-list">
+				 <{foreach from=$account_paid item=contract name="item" key=contractkey}>	
+					<li class="ps-goods-item clearfix">
+						 <div class="goods-left">
+						 	<img src="/public/images/pcimg/contract_02.png" />
+						 </div>
+						 <div class="goods-right contract-right">
+						 	<div>
+						 	<p>合约号：<em><{$contract.contract_no}></em></p>
+						 	<p>效期：<em><{$contract.begin_time}>-<{$contract.end_time}></em></p>
+						 	<p>商品总值：<em><{$contract.amount|cur_odr:$order_detail.currency}></em></p>
+						 	<p>物流状态：<em><{$contract.ship_status}></em></p>
+						 	<p>付款状态：<em><{$contract.pay_status}></em></p>
+ 																	
+						   <div class="jion-btn">
+						<{if $contract.order_status=="1"}>
+						   	<a  href="<{link app=b2c ctl=site_member act=viewContract arg0=$contract.contract_id }>">查看合约</a>
+						<{/if}>  
+						   </div>
+						   </div>
+						 </div>
+                     <{/foreach}>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div> 
+</div>
+
+<script src="/public/app/site/statics/js/leftTime.js"></script>
+<script>
+
+// $("performance").addEvents({
+//     'click':function(e){
+//     	var state=1;
+  
+//     }
+// });
+
+//时间倒计时	
+j(function(){
+		 j(".contract-main").parent().parent(".inner-wrap").css("width","100%");
+  //日期倒计时,现在距离下面的日期
+  if(j('.leftTime-box').length){
+    var data_show = j('.leftTime-box');
+    j(data_show).each(function(){
+      showLefTime(j(this).data("date"), '#' + j(this).attr("id"));
+    });
+  }
+  function showLefTime(time,obj) {
+    j.leftTime(time,function(d){
+      if(d.status){
+        var leftTimeBox=j(obj);
+        leftTimeBox.find(".d").html(d.d);
+        leftTimeBox.find(".h").html(d.h);
+        leftTimeBox.find(".m").html(d.m);
+        leftTimeBox.find(".s").html(d.s);
+      }
+    });
+  }
+});
+</script>

@@ -1,0 +1,40 @@
+<{if !empty($favorite)}>
+<div class="e-title">我的收藏</div>
+<table class="enjot-goods">
+  <thead>
+    <tr>
+        <th></th>
+        <th class="g-name">名称</th>
+        <th>单价/重量</th>             
+    </tr>
+
+  </thead>
+  <tbody>
+    <{foreach from=$favorite item=goods key=key}>
+    <tr>
+      <td class="g-img">
+        <a href="<{link app=b2c ctl=site_product arg0=$goods.product_id}>" target="_blank">
+            <img src="<{$goods.image_default_id|default:$defaultImage|storager:'s'}>" />
+        </a>
+      </td>
+      <td class="g-name">
+        <a href="<{link app=b2c ctl=site_product arg0=$goods.product_id}>" target="_blank">
+            <p><{$goods.name|default:$goods.goods_name}></p>
+        </a>
+      </td>
+      <td class="g-price">
+        <{if $goods.sales_price > 0 }>
+            <em><{$goods.sales_price|cur_odr}></em>／500g
+        <{else}>
+            <{$goods.price|cur_odr}>
+            <{if !empty($goods.unit)}>／<{$goods.unit}><{/if}>
+        <{/if}>    
+      </td>
+    </tr>
+    <{/foreach}>
+
+</tbody>
+</table>
+<{else}>
+<div class="no-information textl"><{t}>暂无收藏商品<{/t}></div>
+<{/if}>

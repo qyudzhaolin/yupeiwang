@@ -1,0 +1,6 @@
+<a href="<{$data.ad_pic_link}>" target="_blank">
+	<{if is_numeric($data.ad_pic_txt)}>
+	<img class="floor_num" src="/public/images/pcimg/floor_num_<{$data.ad_pic_txt}>.png">
+	<{/if}>
+	<img class="product-img" src="<{$data.ad_pic|storager}>" alt="<{$setting.ad_pic_txt}>" <{if $data.ad_pic_width}>width="<{$data.ad_pic_width}>"<{/if}> <{if $data.ad_pic_height}>height="<{$data.ad_pic_height}>"<{/if}> />
+</a>

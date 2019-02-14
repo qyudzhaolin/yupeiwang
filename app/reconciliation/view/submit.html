@@ -1,0 +1,27 @@
+<div class="tableform tableform-tabs">
+  <{tabber}>
+  <{tab name="中金交易账单查询"|t:'entermembercenter'}>
+  <div class="clear division">
+
+
+
+
+
+    <form action="index.php?app=reconciliation&ctl=reconciliation&act=getinfo" name="form1" method="POST">
+      <table width="100%" cellpadding="2" cellspacing="1" border="0" align="center">
+        <tr class="mouseout">
+          <td width="120" class="label" height="24">对账日期</td>
+          <td width="*" class="content">
+            <input type="text" name="Date" size="40" value="<{ $time }>"/><必填>
+          </td>
+        </tr>
+      </table>
+      <input type="submit" style="width: 60px" value="提交">
+
+
+    </form>
+
+  </div>
+  <{/tab}>
+  <{/tabber}>
+</div>

@@ -1,0 +1,9 @@
+Product-Name = ShopEx-ONex-ECStore-3.0.x-Source
+Registered-To = developers
+Max-Concurrent = 5
+Lease-Expiration = 60
+Wait-For-Lease = no
+Expires = Never
+Hardware-Locked = No
+Produced-By = ShopEx
+Verification-Code = 0GMzfKc5V9T7GCvG7Yo7i8GyRpsFAhUAoWl659QQlzSSlPUCe1OWAO7+r+0=

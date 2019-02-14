@@ -1,0 +1,65 @@
+<div id="cart_container" class="cart-container">
+<form action="<{link app=b2c ctl=site_cart act=_check_checkout}>" method="post">
+  <!-- 购物车内容 -->
+  <table id="cart_main" class="cart-main" width="100%">
+    <colgroup class="hide">
+      <col class="col-1">
+      <col class="col-2">
+      <col class="col-3">
+      <col class="col-4">
+      <col class="col-5">
+      <col class="col-6">
+      <col class="col-7">
+    </colgroup>
+    <thead>
+      <tr>
+        <th width="3%" class="paddingL10 hide"><input class="J_CheckBoxShop cartGoodsItem"  type="checkbox" name="select-all"  onclick="selectAllCartGoods(this)"/>全选</th>
+        <th width="90" class="paddingL10"><{t}>商品信息<{/t}></th>
+        <th></th>
+        <th></th>
+        <th><{t}>单价<{/t}></th>
+        <th><{t}>购买数量<{/t}></th>
+        <th><{t}>合计<{/t}></th>
+        <th width="90"><{t}>操作<{/t}></th>
+      </tr>
+    </thead>
+    <{include file="site/cart/cart_items.html" app=b2c}>
+    <tfoot>
+      <tr class="hide">
+        <{include file="site/cart/cart_solution.html" app=b2c}>
+        <{include file="site/cart/cart_total.html" app=b2c}>
+      </tr>
+      <tr>
+        <!-- 按钮 -->
+        <td colspan="4" class="cart-left hide">
+          <{button type="button" class="btn-flat action-clean" label=$___b2c="清空购物车"|t:'b2c'}>
+          <{if $fororder_show == 'true'}>
+          <{button type="button" class="btn-caution action-fororder" label=$___b2c="凑单商品"|t:'b2c'}>
+          <{/if}>
+        </td>
+        <td colspan="4" class="cart-right hide">
+          <a href="./" class="btn-link"><{t}>继续购物<{/t}></a>
+          <{button type="submit" icon_r="►" class="btn-import btn-huge action-settle" rel="_request" label=$___b2c="下单结算"|t:'b2c'}>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="float-bar-cart">
+      <div  class="select-all hide">
+          <input class="J_CheckBoxShop cartGoodsItem"  type="checkbox" name="select-all" onclick="selectAllCartGoods(this)"  />
+          <span>全选 </span>
+      </div>
+     <div class="operations paddingL10">
+          <span hidefocus="true" class="J_DeleteSelected hide" onclick="delSelectedGoods()">删除选中的商品</span>
+          <{button type="button" class="btn btn-simple action-clean" label=$___b2c="清空购物车"|t:'b2c'}>
+      </div>
+      <div class="float-bar-right">
+          <span class="bar-price">商品总金额：<em><{$aCart.subtotal_prefilter_after|cur_odr}></em> </span>
+          <div class="btn-area">
+              <button type="submit" class="btn btn-settlement">去结算</button>
+          </div>
+      </div>
+  </div>
+</form>
+</div>

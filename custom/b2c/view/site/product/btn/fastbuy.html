@@ -1,0 +1,30 @@
+<!--重构逻辑-->
+<{if $setting.isfastbuy == 'true'}>
+	<{if $page_product_basic.promotion_type != 'prepare'}>
+		<{button type="submit" class="btn-import btn-huge action-buynow" label="立即采购" rel="_request"}>
+	<{else}>
+		<{if $page_product_basic.prepare.status == 'true'}>
+			<!--判断是否是预售商品和预售商品的时间判断-->					
+			<{if $page_product_basic.prepareFundYtimes.end_time && $page_product_basic.prepare.nowtime > $page_product_basic.prepareFundYtimes.end_time}>
+				<span style="font-size:20px;padding-bottom:15px;color:#999;display:block;">支付预付款时间已过，暂不支持购买！</span>
+
+			<{elseif $page_product_basic.prepare.nowtime>=$page_product_basic.prepare.end_time}>
+				<h3><span style="font-size:20px;padding-bottom:15px;color:#999;display:block;">预售活动结束</span></h3>
+
+			<{elseif $page_product_basic.prepare.nowtime<=$page_product_basic.prepare.begin_time}>
+				<h3><span style="font-size:20px;padding-bottom:15px;color:#999;display:block;">预售活动还没有开始,敬请等待开始！</span></h3>
+			<{elseif $page_product_basic.prepare.nowtime >= $page_product_basic.prepare.begin_time &&
+			$page_product_basic.prepare.nowtime      <= $page_product_basic.prepare.end_time &&
+			$page_product_basic.prepare.nowtime      <  $page_product_basic.prepareFundYtimes.end_time
+			}>
+				<{if $page_product_basic.prepare.initial_num  >  0 }>
+					<{button type="submit"  class="btn-import btn-huge action-buynow" label="立即采购" rel="_request"}>
+				<{else}>
+					<h3 class="sold-out-note"><span>预售商品已售罄，已支付预付款的会员请等待支付其他款项</span></h3>
+				<{/if}>									
+			<{/if}>
+		<{else}>
+			<h3><span style="font-size:20px;padding-bottom:15px;color:#999;display:block;">暂不支持</span></h3>
+		<{/if}>
+	<{/if}>
+<{/if}>

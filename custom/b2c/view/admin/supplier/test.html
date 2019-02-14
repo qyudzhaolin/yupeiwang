@@ -1,0 +1,11 @@
+<form id="supplierForm" action="index.php?app=b2c&ctl=admin_supplier&act=test"  method="POST" >
+  <input type="hidden" name="supplier_id" value="<{$supplierInfo.supplier_id}>">
+    <{button type="submit"  label=$___b2c="保存"|t:'b2c'}>
+
+	<input type="text" size="30" id="end_time" name="fund[0][end_time]" value="" placeholder="截止时间" class="qsbox">
+		<input type="text" size="30" id="end_time" name="fund[1][end_time]" value="" placeholder="截止时间" class="qsbox">
+
+<script>
+        j('.qsbox').layDate({format: 'YYYY-MM-DD hh'});
+//laydate({elem: '#end_time'});
+</script> 

@@ -1,0 +1,40 @@
+<div class="product-params hide">
+  <table width="100%">
+    <tbody>
+      <tr>
+        <{if $setting.goodsbn == 'true' && 2==1}>
+        <td class="label"><div class="text-nowrap"><{t}>货品编号<{/t}>：</div></td>
+        <td><{$page_product_basic.product_bn}></td>
+        <{/if}>
+        <{if $page_product_basic.brand.brand_name && 2==1}>
+        <td class="label"><{t}>品牌<{/t}>：</td>
+        <td><a href="<{link app=b2c ctl=site_brand arg0=$page_product_basic.brand.brand_id}>"><{$page_product_basic.brand.brand_name}></a></td>
+        <{/if}>
+      </tr>
+      <{if $setting.goodsprop == '0' || $setting.goodsprop == '1'}>
+      <{foreach from=$page_product_basic.props key=key item=props name=nums}>
+      <{if $smarty.foreach.nums.iteration%2 == 1}>
+      <tr>
+      <{/if}>
+        <td class="label"><div class="text-nowrap"><{$props.name}>：</div></td>
+        <td><{$props.value}></td>
+      <{if $smarty.foreach.nums.iteration%2 == 0}>
+      </tr>
+      <{/if}>
+      <{/foreach}>
+      <{/if}>
+
+     <{if $page_product_basic.promotion_type == 'prepare'}>
+     <{foreach from=$page_product_basic.prepareFund key=key item=fund}>
+      <tr>
+        <td class="label"><div class="text-nowrap"><{$fund.fund_name_format}>开始时间：</div></td>
+        <td><{$fund.begin_time_format}></td>
+        <td class="label"><{$fund.fund_name_format}>结束时间：</td>
+        <td><{$fund.end_time_format}></td>
+      </tr>
+      <{/foreach}>
+      <{/if}>
+
+    </tbody>
+  </table>
+</div>

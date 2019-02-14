@@ -1,0 +1,371 @@
+<form action="" method="post" class="form-handling" id="member_bankcard_form">
+  <input type="hidden" value="<{$addr_id}>" name="addr_id">
+  <ul>
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em> <{t}>选择银行<{/t}>：</label>
+      <span class="form-act">
+        <select name="BankID" style="width:160px;height:25px;box-sizing:border-box;">
+          <option>请选择银行</option>
+          <option value="100">邮政储蓄银行</option>
+          <option value="102">中国工商银行</option>
+          <option value="103">中国农业银行</option>
+          <option value="104">中国银行</option>
+          <option value="105">中国建设银行</option>
+          <option value="301">交通银行</option>
+          <option value="302">中信银行</option>
+          <option value="303">中国光大银行</option>
+          <option value="304">华夏银行</option>
+          <option value="305">中国民生银行</option>
+          <option value="306">广东发展银行</option>
+          <option value="307">深圳发展银行</option>
+          <option value="308">招商银行</option>
+          <option value="309">兴业银行</option>
+          <option value="310">上海浦东发展银行</option>
+          <option value="311">恒丰银行</option>
+          <option value="317">渤海银行</option>
+          <option value="422">河北银行</option>
+          <option value="401">上海银行</option>
+          <option value="403">北京银行</option>
+          <option value="440">徽商银行</option>
+          <option value="442">哈尔滨银行</option>
+          <option value="443">贵阳银行</option>
+          <option value="3001">东亚银行</option>
+          <option value="888">银联在线-中金网银+无卡</option>
+          <option value="889">银联在线-中金网银</option>
+          <option value="891">银联在线-金科无卡</option>
+          <option value="700">CFCA模拟银行</option>
+        </select>
+        <div class="tip" style="color:red;display:none;">请选择银行</div>
+      </span>
+    </li>
+
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em> 开户名称：</label>
+      <span class="form-act">
+        <input type="text" name="AccountName" style="width:160px;height:25px;box-sizing:border-box;">
+        <div class="tip" style="color:red;display:none;">开户名称不能为空</div>
+      </span>
+    </li>
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em>银行卡号：</label>
+      <span class="form-act">
+        <input type="text" name="AccountNumber" style="width:160px;height:25px;box-sizing:border-box;">
+        <div class="tip" style="color:red;display:none;">银行卡号不能为空</div>
+      </span>
+    </li>
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em> 开户证件类型：</label>
+      <span class="form-act">
+         <select name="IdentificationType" style="width:160px;height:25px;box-sizing:border-box;">
+              <option value="">请选择</option>
+              <option value="0">身份证</option>
+              <option value="1">户口本</option>
+              <option value="2">护照</option>
+              <option value="3">军官证</option>
+              <option value="4">士兵证</option>
+              <option value="5">港澳居民来往内地通行证</option>
+              <option value="6">台湾同胞来往内地通行证</option>
+              <option value="7">临时身份证</option>
+              <option value="8">外国人居留证</option>
+              <option value="9">警官证</option>
+              <option value="X">其他证件</option>
+         </select>
+         <div class="tip" style="color:red;display:none;">请选择开户类型</div>
+      </span>
+    </li>
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em> 证件号码：</label>
+      <span class="form-act">
+        <input type="text" name="IdentificationNumber" style="width:160px;height:25px;box-sizing:border-box;">
+        <div class="tip" style="color:red;display:none;">证件号码不能为空</div>
+      </span>
+    </li>
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em> 手机号：</label>
+      <span class="form-act">
+        <input type="text" name="PhoneNumber" style="width:160px;height:25px;box-sizing:border-box;">
+        <div class="tip" style="color:red;display:none;">手机号不合法</div>
+      </span>
+    </li>
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em> 卡类型：</label>
+      <span class="form-act">
+        <select name="CardType" style="width:160px;height:25px;box-sizing:border-box;">
+              <option>请选择银行卡类型</option>
+              <option value="10">个人借记</option>
+              <option value="20">个人贷记</option>
+         </select>
+        <div class="tip" style="color:red;display:none;">请选择卡类型</div>
+      </span>
+    </li>
+
+    <li class="form-item cardSelect" style="display:none;">
+      <label for="" class="form-label"><em class="text-warn">*</em> 信用卡有效期：</label>
+      <span class="form-act">
+        <input type="text" name="ValidDate" style="width:160px;height:25px;box-sizing:border-box;">
+        <div class="tip" style="color:red;display:none;">信用卡有效期不能为空</div>
+      </span>
+    </li>
+    <li class="form-item cardSelect" style="display:none;">
+      <label for="" class="form-label"><em class="text-warn">*</em> 卡号后三位数：</label>
+      <span class="form-act">
+        <input type="text" name="CVN2" style="width:160px;height:25px;box-sizing:border-box;">
+        <div class="tip" style="color:red;display:none;">卡号后三位数不能为空</div>
+      </span>
+    </li>
+    <li class="form-item last">
+      <label for="" class="form-label"></label>
+      <span class="form-act">
+        <button type="submit" class="btn btn-caution" rel="_request" >
+          <span id="setCode" style="padding:0;width:160px;height:25px;box-sizing:border-box;">提交并获取短信验证码</span>
+        </button>
+      </span>
+    </li>
+  </ul>
+</form>
+
+
+
+
+
+<form action="" method="post" style="margin-top: 10px;">
+  <ul>
+    <li class="form-item">
+      <label for="" class="form-label"><em class="text-warn">*</em> 验证码：</label>
+      <span class="form-act">
+          <input type="text" class="code-mumber" name="code" style="width:160px;height:25px;box-sizing:border-box;">
+          <div class="tip" style="color:red;display:none;">验证码不能为空</div>
+        </span>
+    </li>
+    <li class="form-item last">
+      <label for="" class="form-label"></label>
+      <span class="form-act">
+         <!-- <button id="submit" type="submit"><span>确认并提交</span></button>-->
+         <div id="submit" style="cursor:pointer;background-color:#d72426;padding:3px 10px;line-height:23px;border-radius:5px;color:#fff;display:inline-block;">确认并提交</div>
+      </span>
+    </li>
+  </ul>
+</form>
+
+
+
+<script>
+
+
+    //文本框
+    function text(obj){
+        if(obj.length<=0) {
+            return false;
+        }
+        var reg = /^\s*$/g;
+        if($$(obj)[0].value=="" || reg.test($$(obj)[0].value)){
+            $$(obj)[0].getParent().getElement('.tip').setStyle('display','block');
+            return false;
+        }else{
+            $$(obj)[0].getParent().getElement('.tip').setStyle('display','none');
+            return true;
+        }
+    }
+    //下拉框
+    function select(obj){
+        if(obj.length<=0) {
+            return false;
+        }
+        if($$(obj)[0].selectedIndex==0){
+            $$(obj)[0].getParent().getElement('.tip').setStyle('display','block');
+            return false;
+        }else{
+            $$(obj)[0].getParent().getElement('.tip').setStyle('display','none');
+            return true;
+        }
+    }
+    //校验手机号是否合法
+    function isPhone(value) {
+        var myreg = /^1[3578]\d{9}$/;
+        if (!myreg.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //银行卡类型
+    $$('select[name="CardType"]').addEvent('click',function(){
+        if(this.selectedIndex==2){
+            $$('.cardSelect').setStyle('display','block');
+            $$('.cardSelect').getElement('input[type="text"]').set('disabled','');
+        }else{
+            $$('.cardSelect').setStyle('display','none');
+            $$('.cardSelect').getElement('input[type="text"]').set('disabled','disabled');
+        }
+    });
+
+    $$('#setCode').addEvent('click',function(){
+
+        //选择银行
+        var bankID = $$('select[name="BankID"]');
+        if(!select(bankID)){
+            return;
+        }
+        //开户名称
+        var accountName = $$('input[name="AccountName"]');
+        if(!text(accountName)) {
+            return;
+        }
+        //银行卡号
+        var accountNumber = $$('input[name="AccountNumber"]');
+        if(!text(accountNumber)) {
+            return;
+        }
+        //证件类型
+        var identificationType = $$('select[name="IdentificationType"]');
+        if(!select(identificationType)){
+            return;
+        }
+        //证件号码
+        var identificationNumber = $$('input[name="IdentificationNumber"]');
+        if(!text(identificationNumber)) {
+            return;
+        }
+        // 手机号
+        var phoneNumber = $$('input[name="PhoneNumber"]');
+        if(!text(phoneNumber)) {
+            return;
+        }
+        //卡类型
+        var cardType = $$('select[name="CardType"]');
+        if(!select(cardType)){
+            return;
+        }
+        if($$(cardType)[0].selectedIndex==2){
+            //信用卡有效期
+            var validDate = $$('input[name="ValidDate"]');
+            if(!text(validDate)) {
+                return;
+            }
+            //卡号后三位数
+            var cVN2 = $$('input[name="CVN2"]');
+            if(!text(cVN2)) {
+                return;
+            }
+        };
+
+    });
+
+    $$('#submit').addEvent('click',function() {
+        //卡类型
+        var cardType = $$('select[name="CardType"]');
+        if(!select(cardType)){
+            return;
+        }
+        if($$(cardType)[0].selectedIndex==2){
+            //信用卡有效期
+            var validDate = $$('input[name="ValidDate"]');
+            if(!text(validDate)) {
+                return;
+            }
+            //卡号后三位数
+            var cVN2 = $$('input[name="CVN2"]');
+            if(!text(cVN2)) {
+                return;
+            }
+        };
+        //验证码
+        var codeNumber = $$('input[name="CodeNumber"]');
+        if (!text(codeNumber)) {
+            return;
+        }
+    });
+
+
+    (function(){
+          var sn="",cvn ="",vld ="";
+          $$('#setCode').addEvent('click',function() {
+              var postArgs = $$("#member_bankcard_form").toQueryString();
+              new Request({
+                  url:'<{link app=b2c ctl=site_member act=save_bankcard}>',
+                  data: postArgs,
+                  onComplete: function(rs){
+                      rs = JSON.decode(rs);
+                      sn = rs.TxSNBinding;
+                      cvn = rs.CVN2;
+                      vld = rs.ValidDate;
+                      if (rs.status=='succ'){
+                          Message.success('短信发送成功');
+                      }else {
+                          Message.error(rs.msg);
+                      }
+
+                  }
+              }).post();
+          });
+          $$('#submit').addEvent('click',function () {
+              var vcode = $$(".code-mumber").get('value');
+              new Request({
+                  url:'<{link app=b2c ctl=site_member act=checkcode}>',
+                  data:{
+                      'CodeNumber':vcode,
+                      'TxSNBinding':sn,
+                      'CVN2':cvn,
+                      'ValidDate':vld
+                   },
+                  onComplete: function(rs){
+                      rs = JSON.decode(rs);
+                      if(rs.sta == 'succ'){
+                          Message.success('绑卡成功');
+                          setTimeout(" location.reload();",2000)
+
+                      }else{
+                          Message.error('绑卡失败');
+                      }
+                  }
+              }).post();
+          })
+    })();
+
+    /*$$('#setCode').addEvent('click',function(){
+
+        var phone = $$('input[name="PhoneNumber"]');
+        if(!isPhone($$(phone)[0].value)){
+            $$(phone)[0].getParent().getElement('.tip').setStyle('display','block');
+            return false;
+        }else{
+            $.ajax({
+                url: '<{link app=b2c ctl=site_member act=save_bankcard}>',
+                type: 'POST',
+                data: {
+
+                },
+                success: function(data){
+                    console.log(data);
+                }
+            });
+        }
+    });*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   /* $.ajax({
+    url: '',
+    type: 'POST',
+    data: {
+
+    },
+    success: function(data){
+      console.log(data);
+    }
+  });*/
+</script>

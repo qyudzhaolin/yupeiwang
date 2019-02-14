@@ -1,0 +1,65 @@
+<{css src="default/RegionalChoice.css" app="desktop"}>
+<form action="index.php?app=b2c&ctl=admin_goods&act=saveBatchEdit" method="post" id="form01">
+<textarea name="filter" style="display:none"><{$filter}></textarea>
+<div class="division">
+<div class="notice"><{t}>正在编辑<{/t}><strong><{$editInfo.count}></strong><{t}>条数据。<{/t}>
+
+<br/>警告：本操作可强制修改所选商品的所属配送范围，请谨慎操作。
+</div>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <th style="width:20px">
+      </th>
+      <th style="width: 114px;"><label for="bated_ipt_brand"><{t}>统一修改配送范围<{/t}></label></th>
+      <td>
+        <{button app="desktop" onclick="region.setShipArea(this)" class="shipareaButton" shiparea=$shiparea|array_keys|implode:',' label=$___b2c="设置配送范围"|t:'b2c' icon="btn_edit.gif"}>
+        <{input type="hidden" class="shiparea" name="goods[shiparea]" value="" }>
+        <span class="shipareaBox">
+          <{if count($shiparea)}>
+            <{$shiparea|implode:'，'}>
+          <{else}>
+            暂未设置
+          <{/if}>
+        </span>
+      </td>
+    </tr>
+    
+</table>
+<input type="hidden" name="updateAct" value="shiparea"/>
+</div>
+<div class="mainFoot">
+<table cellspacing="0" cellpadding="0" border="0" align="center" class="table-action">
+  <tr>
+  <td> 
+    </td>
+  </tr>
+</table></div>
+
+</form>
+<{area inject=".mainFoot"}>
+   <div class="table-action">
+        <{button label=$___b2c="保存"|t:'b2c' type="button" id="btn01" class="btn-primary"}>
+        <{button label=$___b2c="取消"|t:'b2c' isCloseDialogBtn="true"}>
+   </div>
+<{/area}>
+
+<script>
+  j(function(){
+    //动态载入js
+    var url="/public/app/desktop/statics/js/RegionalChoice.js";
+    j.get(url, undefined, function(){}, "script" );
+  });
+
+
+
+  $('btn01').addEvent('click',function(){
+      $('form01').store('target',{onComplete:function(re){
+           re = JSON.decode(re);
+
+           if(re.error)return;
+           $('form01').getParent('.dialog').retrieve('instance').close();
+      }});
+      $('form01').fireEvent('submit',{stop:$empty});
+  
+  });
+</script>

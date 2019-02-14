@@ -1,0 +1,106 @@
+<{css src="swiper.min.css" app="wap" }>
+	<{wapheader}>
+		<{script src="swiper.min.js" app="wap" }>
+<div class="full-screen">
+<header class="hide">
+<div class="a-bar">
+	<a class="a-back">
+		<div class="goback"><span onclick="togoback()"></span></div>
+	</a>
+	<div class="a-name">
+		商品分类
+	</div>
+	<div class="a-right">
+		<div class="a-search"></div>
+	</div>
+</div>
+</header>
+<div class="ec-card pro-search">
+
+<div class="search-inner">
+	<div class="search-box" onclick="location.href='<{link app=b2c ctl=wap_search act=searchpage}>'"><i class="icon iconfont icon-search"></i>
+		<div class="search-ele">请搜索您感兴趣的商品</div>
+	</div>
+</div>
+<div class="searc-btn" onclick="location.href='<{link app=b2c ctl=wap_search act=searchpage}>'"><span>搜索</span></div>
+</div>
+
+<div class="pro-class">
+
+<div class="tab J-tab">
+ 
+	<ul class="trigger-list">
+
+		<li class="trigger act">
+			水产海鲜
+		</li>
+		<li class="trigger">
+			精选牛羊
+		</li>
+	</ul>
+	<ul class="panel-list">
+		<li class="panel act">
+			<div class="main-banner-class">
+				<div class="J_ad_slider">
+					<div class="swiper-wrapper">
+
+						<div class="swiper-slide">
+							<a href="">
+								<img class="product-img" src="/public/images/jimg/banner_01.png" />
+							</a>
+						</div>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+
+			<div class="goods-class-01">
+				<ul>
+					<{if !empty($catlist.46)}>
+					<{foreach from=$catlist.46 item=item key=key}>
+					<a href="<{link app=b2c ctl=wap_gallery act=index arg0=$item.cat_id}>">
+						<li>
+							<div><img src="<{$item.pic}>" /></div>
+							<span><{$item.cat_name}></span>
+						</li>
+					</a>
+					<{/foreach}>
+					<{/if}>	
+				</ul>
+				<div style="clear:both;"></div>
+			</div>
+
+		</li>
+<li class="panel">
+	<div style="margin-top: 3px;"><img class="product-img" src="/public/images/jimg/goods_banner_01.png"/></div>
+	<div class="goods-class-01">
+		<ul>
+			<{if !empty($catlist.43)}>
+			<{foreach from=$catlist.43 item=item key=key}>
+			<a href="<{link app=b2c ctl=wap_gallery act=index arg0=$item.cat_id}>">
+				<li>
+					<div><img src="<{$item.pic}>" /></div>
+					<span><{$item.cat_name}></span>
+				</li>
+			</a>
+			<{/foreach}>
+			<{/if}>	
+		</ul>
+		<div style="clear:both;"></div>
+	</div>
+</li>
+
+	</ul>
+</div>
+
+</div>
+<div class="clear"></div>
+			</div>
+			<script>
+				var mySwiper = new Swiper('.J_ad_slider', {
+					loop: false,
+					pagination: {
+						//el: '.swiper-pagination'
+					}
+				});
+			</script>

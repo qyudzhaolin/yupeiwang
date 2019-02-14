@@ -1,0 +1,90 @@
+ <{css src="mobile.css" app="wap"}>
+ <{css src="uploadimg/gloable.css" app="wap"}>
+<!--申请售后页面-->
+<div class="full-screen">
+    <header>
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+           	申请售后
+        </div>
+    </div>
+    </header>
+    <div id="apply-sale-box">
+    	
+    	<!--类型-->
+    	<div class="apply-sale-section-01 ">
+    		<div class="type-left">
+    			<p>选择售后类型</p>
+    		</div>
+    		<div class="type-right">
+    			<a class="active">退货</a>
+    			<a>换货</a>
+    		</div>
+    	</div>
+    	<!--类型end-->
+    	<!--商品-->
+    	<div class="apply-sale-goods margin-t-10">
+    		<div class="sale-goods-img">
+    			<img src="/public/images/ydimg/goods.png" />
+    		</div>
+    		<div class="sale-goods-right">
+    			<p class="sale-goods-title">澳洲JD谷饲150天安格斯保乐肩牛前胸肉</p>
+    			<span class="sale-goods-spec">×50</span>
+    			<div class="pt-num J-pt-num sale-num" style="width: 77px;">
+		          <span class="minus btn gray">-</span>
+		          <div class="num">
+		            <input type="text" name="modify_quantity[goods_918_1520][quantity]" value="4" class="num-ipt cart-num-ipt">
+		          </div>
+		          <span class="plus btn gray">+</span>     
+    		    </div>
+                <div style="clear: both;"></div>
+    		</div>
+    	</div>
+    	
+    	<!--商品end-->
+    	
+    	<div class="apply-sale-reason margin-t-10">
+    		<div class="reason-title">申请原因</div>
+    		<div class="reason-text">
+    			<textarea placeholder="请在此描述原因"></textarea>
+    		</div>
+    		
+    	</div>
+    	<div  class="apply-sale-reason margin-t-10">
+    		<div class="reason-title">问题描述</div>
+    		<div class="reason-text">
+    		<textarea placeholder="请在此描述原因"></textarea>
+    		</div>
+    	</div>
+    	
+<!--上传图片-->
+		<div  style="padding: 0px 15px;">
+		<ul class="upload-ul clearfix">
+		<li class="upload-pick">
+		<div class="webuploader-container clearfix" id="goodsUpload"><div class="webuploader-pick"></div><div id="rt_rt_1croiv72nk7r1i8d1cg45hh1or61" style="position: absolute; top: 0px; left: 0px; width: 120px; height: 90px; overflow: hidden; bottom: auto; right: auto;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept=""><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"></label></div></div>
+		</li>
+		</ul>
+ 
+		</div>    		
+<!--上传图片end-->    
+    	<div  class="apply-sale-agreement">
+    		<p><input type="checkbox"> 我已阅读并同意遵守《销售服务协议》</p>
+    	</div>
+    	<div style="height: 80px;width: 100%;"></div>
+    	<div class="apply-sale-btn-box">
+    	<div class="apply-sale-tips">
+    		<p>提交申请后,运营专员可能与您电话沟通,请保持手机畅通</p>
+    	</div>
+    	<button class="apply-sale-btn">提交申请</button>
+    	</div>
+    	
+    </div>
+ 
+</div>
+ <{script src="uploadimg/webuploader.min.js" app="wap" }>
+ <{script src="uploadimg/diyUpload.js" app="wap" }> 
+ 

@@ -1,0 +1,377 @@
+<style>
+    select{width:120px;}
+</style>
+<div class="tableform">
+    <div class="division">
+        <form method="post" action="index.php?app=express&ctl=admin_channel&act=do_save" id="form_channel">
+            <input type="hidden" name="channel_id" value="<{$channel.channel_id}>">
+            <input type="hidden" name="bind_status" value="<{$channel.bind_status}>">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" >
+                <tbody>
+                <tr>
+                    <th>名称：</th>
+                    <td><{input type="text" name="name" id="name" value=$channel.name size="30" vtype="required"}></td>
+                </tr>
+
+                <tr>
+                    <th>来源类型：</th>
+                    <td>
+                        <{if $channel.channel_type}>
+                        <{input type="select" id='channel_type' name='channel_type' rows=$channels value=$channel.channel_type valueColumn="code" labelColumn="name" disabled="disabled"}>
+                        <input type="hidden" name="channel_type" value="<{$channel.channel_type}>">
+                        <{else}>
+                        <{input type="select" id='channel_type' name='channel_type' rows=$channels value=$channels.0.code valueColumn="code" labelColumn="name"}>
+                        <{/if}>
+                        <!-- &nbsp;<a id="genban_link" href="http://onex.shopex.cn/products/genban?from=ECStore" style="color:blue" target="_blank">什么是银派小跟班？</a> -->
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>物流公司：</th>
+                    <td id='logistics_td'>
+                        <{if $channel.channel_type}>
+                        <{input type="select" id='logistics_code' name='logistics_code' rows=$logistics value=$channel.logistics_code valueColumn="code" labelColumn="name" disabled="disabled"}>
+                        <{else}>
+                        <{input type="select" id='logistics_code' name='logistics_code' rows=$logistics value=$logistics.0.code valueColumn="code" labelColumn="name"}>
+                        <{/if}>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="waybill_source_config" width="100%" cellspacing="0" cellpadding="0" border="0" id="hqepay">
+                <tbody>
+                <tr>
+                    <th>快递类型：</th>
+                    <td id='logistics_type'>
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>付款方式：</th>
+                    <td id='hqepay_pay_method_td'>
+                        <{if $channel.pay_method}>
+                        <{input type="select" name='hqepay_pay_method' rows=$pay_method value=$channel.pay_method valueColumn="code" labelColumn="name" disabled="disabled"}>
+                        <{else}>
+                        <{input type="select" name='hqepay_pay_method' rows=$pay_method value=$pay_method.0.code valueColumn="code" labelColumn="name"}>
+                        <{/if}>
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>客户号：</th>
+                    <td><{input type="text" name="hqepay_uname" value=$channel.hqepay_uname size="30"}>&nbsp;<em class="c-red">*</em></td>
+                </tr>
+                <tr id="hqepay_password">
+                    <th>密码：</th>
+                    <td ><{input  type="password"  name="hqepay_password" vtype="required" value=$channel.hqepay_password size="30"}>&nbsp;<em class="c-red">*</em></td>
+                </tr>
+                <tr id="hqepay_month_code">
+                    <th>月结号：</th>
+                    <td><{input type="text"   name="hqepay_month_code" vtype="required"  value=$channel.hqepay_month_code size="30"}>&nbsp;<em class="c-red">*</em></td>
+                </tr>
+                <tr>
+                    <th>是否开启隐私面单</th>
+                    <td>
+                    <{if $channel.hqepay_appkey}>
+                    <input type="radio" name="safe_mail" onchange="safeMailType()" value="0"  >否
+                    <input type="radio" name="safe_mail" onchange="safeMailType()" value="1" checked>是
+                    <{else}>
+                    <input type="radio" name="safe_mail" onchange="safeMailType()" value="0" checked>否
+                    <input type="radio" name="safe_mail" onchange="safeMailType()" value="1"  >是
+                    <{/if}>
+                    </td>
+                </tr>
+                <tr id="hqepay_appkey">
+                    <th>Appkey：</th>
+                    <td ><{input  type="passwd"  name="hqepay_appkey" vtype="required" value=$channel.hqepay_appkey size="30"}>&nbsp;<br><em class="c-blue">使用隐私面单时填写快递鸟对应的appkey</em></td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="waybill_source_config" width="100%" cellspacing="0" cellpadding="0" border="0" id="unionpay">
+                <tr>
+                    <th>付款方式：</th>
+                    <td id='unionpay_pay_method_td'>
+                        <{if $channel.pay_method}>
+                        <{input type="select" name='unionpay_pay_method' rows=$pay_method value=$channel.pay_method valueColumn="code" labelColumn="name" disabled="disabled"}>
+                        <{else}>
+                        <{input type="select" name='unionpay_pay_method' rows=$pay_method value=$pay_method.0.code valueColumn="code" labelColumn="name"}>
+                        <{/if}>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>客户号：</th>
+                    <td><{input type="text" name="unionpay_uname" value=$channel.unionpay_uname size="30"}>&nbsp;<a href="<{$request_url}>" style="color:blue" target="_blank">申请开通</a></td>
+
+                </tr>
+                <tr id="unionpay_password">
+                    <th>密码：</th>
+                    <td ><{input  type="password"  name="unionpay_password" vtype="required" value=$channel.unionpay_password size="30"}>&nbsp;<em class="c-red">*</em></td>
+                </tr>
+            </table>
+            <div class="table-action">
+                <{button label="提交" type="submit" name="submit" id="btn-submit"}>
+                <{button label="关闭" type="button" id="btn-close"}>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    var exp_type  = "<{$channel.exp_type}>";
+    //var channelServiceCode = '<{$channel.service_code}>';
+
+    function safeMailType(){
+        if($$('input[name=safe_mail]:checked').get('value') == '0'){
+            $('hqepay_appkey').hide();
+        }else if($$('input[name=safe_mail]:checked').get('value') == '1'){
+            $('hqepay_appkey').show();
+        }
+    }
+    safeMailType();
+    //
+    (function() {
+        var channel_type = "<{$channel.channel_type}>";
+        setChannelType(channel_type);
+        set_logistics(channel_type);//快递鸟，有些物流使用月结号，有些使用秘钥，这里需要做相关引导
+        //关闭按钮
+        $('btn-close').addEvent('click', function () {
+            $('btn-close').getParent('.dialog').retrieve('instance').close();
+        });
+        $('form_channel').removeEvents('submit').addEvent('submit', function (e) {
+            e.stop();
+            if ($('name').value == '') {
+                return MessageBox.error('店铺名称不能为空！');
+            }
+            new Request({
+                url: this.action,
+                onRequest: function (e) {
+                    //提交按钮:disabled
+                    $('btn-submit').set('disabled', 'true');
+                    $('btn-submit').getElements('span')[1].set('text', '正在保存');
+                },
+                onComplete: function (result) {
+                    var str = 'SUCC';
+                    result = result.clean()
+                    if (result == 'SUCC') {
+                        //提交按钮:disabled
+                        var findId = "<{$env.get.finder_id}>";
+                        if (findId != '') {
+                            finderGroup["<{$env.get.finder_id}>"].refresh.delay(400, finderGroup["<{$env.get.finder_id}>"]);
+                        }
+                        $('btn-close').getParent('.dialog').retrieve('instance').close(); 
+
+                    } else {
+                        console.log(2)
+                        MessageBox.error(result);
+                        //提交按钮:enabled
+                        $('btn-submit').set('disabled', '');
+                        $('btn-submit').getElements('span')[1].set('text','提交');                        
+                    }
+                }
+            })[this.method](this);
+        });
+        $('channel_type').addEvent('change', function () {
+            var type = $("channel_type").value;
+            setChannelType(type);
+            if(!type) return ;
+            new Request({
+                url: 'index.php?app=express&ctl=admin_channel&act=getLogistics',
+                data: 'type=' + type,
+                method: 'post',
+                onSuccess: function (response) {
+                    var temp = '<select name="logistics_code" class="x-input-select inputstyle">';
+                    if (response) {
+                        var result = JSON.decode(response);
+                        Object.each(result, function (i, index) {
+                            temp += '<option value=' + i.code + '>' + i.name + '</option>';
+                        });
+                    }
+                    temp += '</select>';
+                    $('logistics_td').show();
+                    $('logistics_td').set('html', temp);
+                    setInterval(set_logistics(type), 300);
+                    $E('[name="logistics_code"]').addEvent('change', function(e) {
+                        set_logistics(type);
+                    });
+                }
+            }).send();
+            if (paymethodlist(type)) {
+                getPayMethodList(type, function () {
+                    if (type == 'hqepay') {
+                        $('hqepay_pay_method_td').setHTML($('hqepay_pay_method_td').getHTML() + '&nbsp;<em class="c-red">*</em>');
+                    }
+                    if (type == 'hqepay') {
+                        $('unionpay_pay_method_td').setHTML($('unionpay_pay_method_td').getHTML() + '&nbsp;<em class="c-red">*</em>');
+                    }
+                });
+            }
+        });
+
+        function setChannelType(channel_type) {
+            $('logistics_td').hide();
+            $$('.waybill_source_config').each(function(item, index){
+                if(item.id == channel_type) {
+                    item.show();
+                    $('logistics_td').show();
+                } else {
+                    item.hide();
+                }
+            });
+        }
+
+        function paymethodlist(type) {
+            var typelist = Array('sf', 'hqepay','unionpay');
+            var status = false;
+            for (var i in typelist) {
+                if (typelist[i] == type) {
+                    status = true;
+                    break;
+                }
+            }
+            return status;
+        }
+
+        //物流变更
+        function set_logistics(channel_type) {
+            var logistics_code = $E("select[name=logistics_code]").value;
+            if (channel_type == 'hqepay') {
+                if (logistics_code) {
+                    change_ExpType(logistics_code);
+                }
+                //快递鸟使用月结余秘钥的物流公司
+                var use_month_code_logistics = {
+                    'EMS': 'passwd',
+                    'SF': 'month_code',
+                    'ZJS': 'passwd',
+                    'ZTO': 'passwd',
+                    'HTKY': 'passwd',
+                    'YTO': 'month_code',
+                    'STO': 'passwd',
+                    'YUNDA': 'passwd',
+                    'DBKD': 'passwd'
+                };
+                if (use_month_code_logistics[logistics_code] == 'month_code') {
+                    $(channel_type+"_password").hide();
+                    $(channel_type+"_month_code").show();
+                    // $(channel_type+"_password").setStyle('display', 'none');//不填秘钥
+                    // $(channel_type+"_month_code").setStyle('display', '');//填月结号
+                } else{
+                    $(channel_type+"_password").show();
+                    $(channel_type+"_month_code").hide();
+                    //$(channel_type+"_password").setStyle('display', '');//填秘钥
+                    //$(channel_type+"_month_code").setStyle('display', 'none');//不填月结号
+                }
+            }
+        }
+
+        function change_ExpType(logistics_code) {
+            new Request({
+                url: 'index.php?app=express&ctl=admin_channel&act=getExpType',
+                data: 'logistics_cod=' + logistics_code,
+                method: 'post',
+                onSuccess: function (response) {
+                    var logistics_type_html = '<select name="exp_type"    class="x-input-select inputstyle"> ';
+                    if (response) {
+                        var result = JSON.decode(response);
+                        //兼容之前没有快递类型的
+                        if (!exp_type) {
+                            logistics_type_html += '<option value=0 selected="selected">请选择</option>';
+                        }
+                        Object.each(result, function (i, index) {
+                            if (index == exp_type) {
+                                logistics_type_html += '<option value=' + index + ' selected="selected">' + i + '</option>';
+                            } else {
+                                logistics_type_html += '<option value=' + index + '>' + i + '</option>';
+                            }
+                        });
+                    }
+                    logistics_type_html += '</select><em class="c-red">&nbsp;*</em>';
+                    $('logistics_type').set('html', logistics_type_html);
+                }
+            }).send();
+
+        }
+
+        function getPayMethodList(type, func) {
+            new Request({
+                url: 'index.php?app=express&ctl=admin_channel&act=getPayMethod',
+                data: 'type=' + type,
+                method: 'post',
+                onSuccess: function (response) {
+                    var temp1 = '<select name="'+type+'_pay_method" class="x-input-select inputstyle">';
+                    if (response) {
+                        var result = JSON.decode(response);
+                        Object.each(result, function (i, index) {
+                            temp1 += '<option value=' + i.code + '>' + i.name + '</option>';
+                        });
+                    }
+                    $(type + '_pay_method_td').show();
+                    $(type + '_pay_method_td').set('html', temp1);
+                    func();
+                }
+            }).send();
+        }
+
+        /*function getLogisticsSpecial(type, logistics, method, param) {
+         if($$('.special_select')) {
+         $$('.special_select').each(function(item){
+         item.destroy();
+         });
+         }
+         new Request({
+         url: 'index.php?app=express&ctl=admin_channel&act=getLogisticsSpecial',
+         data: 'type=' + type + '&logistics=' + logistics + '&method=' + method + '&' + param.toQueryString(),
+         method: 'post',
+         onSuccess: function (response) {
+         logisticsSpecialHtml(response, type, logistics);
+         }
+         }).send();
+         }*/
+
+        /*function logisticsSpecialHtml(response, type, logistics) {
+         if(response) {
+         var oInput = document.createElement('INPUT');
+         oInput.className = 'special_select';
+         oInput.type = 'hidden';
+         oInput.name = type + '_' + logistics + '_all';
+         oInput.value = response;
+         oInput.inject($('form_channel'), 'top');
+         var rsp = JSON.decode(response);
+         var strDisabled = '';
+         if($E('[name="channel_id"]').value) {
+         //strDisabled = ' disabled="disabled" ';
+         }
+         Object.each(rsp, function(result) {
+         var oTr = document.createElement('TR');
+         oTr.className = 'special_select';
+         var sTr = '<th>' + result.text + '：</th><td>';
+         var temp1 = '';
+         switch (result.input_type) {
+         case 'select':
+         if (result.options) {
+         temp1 = '<select name="' + type + '_' + logistics + '[' + result.code + ']" ' + strDisabled +' class="x-input-select inputstyle">';
+         Object.each(result.options, function (item, index) {
+         temp1 += '<option value=' + index + ' '+ (result.value == index ? 'selected="selected"' : '') +'>' + item + '</option>';
+         });
+         temp1 += '</select>';
+         }
+         break;
+         case 'checkbox':
+         temp1 = '<input type="checkbox" name="' + type + '_' + logistics + '[' + result.code + ']" value="1" ' + (result.value == 1 ? 'checked="checked"' : '') + strDisabled + ' />';
+         break;
+         default :
+         temp1 = '<input type="text" name="' + type + '_' + logistics + '[' + result.code + ']" value="' + result.value + '"' + strDisabled + ' />';
+         break;
+         }
+         sTr += temp1 + '</td>';
+         oTr.setHTML(sTr);
+         oTr.inject($(type));
+         });
+         }
+         }*/
+
+        /*if(channelServiceCode) {
+         logisticsSpecialHtml(channelServiceCode, '<{$channel.channel_type}>', '<{$channel.logistics_code}>');
+         }*/
+    })();
+</script>

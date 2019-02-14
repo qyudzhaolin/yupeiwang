@@ -1,0 +1,13 @@
+<!--商品价格1-->
+<div class="product-concerns">
+    销售价:
+    <{if $page_product_basic.sales_price > 0 }>
+    <span class="price-01">
+        <em>￥</em>
+        <em class="price-num-01"></em>/500g
+    </span>
+    <{/if}>
+    <span class="price-02">
+        <em>￥</em><em class="price-num-02 action-price"></em><{if $page_product_basic.unit}>/<span class="goodsUnit"><{$page_product_basic.unit}></span><{/if}>
+    </span>
+</div>

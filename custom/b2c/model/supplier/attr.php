@@ -1,0 +1,426 @@
+<?php
+/**
+ * ShopEx licence
+ *
+ * @copyright  Copyright (c) 2005-2010 ShopEx Technologies Inc. (http://www.shopex.cn)
+ * @license  http://ecos.shopex.cn/ ShopEx License
+ */
+
+
+class b2c_mdl_supplier_attr extends dbeav_model{
+
+    var $item = array(
+        'attr_id' => '',
+        'attr_name' => '',
+        'attr_type' => '',
+        'attr_required' => '',
+        'attr_search' => '',
+        'attr_option' => '',
+        'attr_valtype' => '',
+        'attr_tyname' => '',
+        'attr_group' => '',
+        'attr_show' => '',
+        'attr_edit' => '',
+        'attr_order' => '',
+        'attr_column'=>'',
+        'attr_sdfpath'=>'',
+    );
+
+    function __construct(&$app){
+        $this->app = $app;
+        $this->columns = array(
+                        'attr_name'=>array('label'=>app::get('b2c')->_('注册项名称'),'width'=>200),
+                        'attr_type'=>array('label'=>app::get('b2c')->_('注册项类型'),'width'=>100),
+                        'attr_required'=>array('label'=>app::get('b2c')->_('是否必填'),'type'=>'bool','width'=>100),
+                        'attr_display'=>array('label'=>app::get('b2c')->_('是否显示'),'type'=>'bool','width'=>100),
+                        'attr_edit'=>array('label'=>app::get('b2c')->_('是否可编辑'),'type'=>'bool','width'=>100),
+                        'attr_order'=>array('label'=>app::get('b2c')->_('排序'),'width'=>50),
+                   );
+        $this->schema = array(
+                'default_in_list'=>array_keys($this->columns),
+                'in_list'=>array_keys($this->columns),
+                'idColumn'=>'attr_id',
+                'columns'=>$this->columns
+            );
+
+        $this->init();
+
+    }
+
+    function init(){
+        if(!$this->app->getConf('supplier.attr')){
+            foreach( array_merge(self::get_buildin_attr(),self::get_ext_attr()) as $item){
+                $this->save($item);
+            }
+        }
+    }
+
+    function get_schema(){
+        return $this->schema;
+    }
+
+    function getList($cols='*', $filter=array(), $offset=0, $limit=-1, $orderby=null){
+        if($data = unserialize($this->app->getConf('supplier.attr'))){
+            self::m_array_sort($data,'attr_order');
+            foreach($data as $k=>$val){
+                if($val['attr_column'] == 'mobile'){
+                    unset($data[$k]);
+                }
+            }
+            return $data;
+        }else{
+            return array();
+        }
+
+    }
+
+    function count($filter=null){
+        return count($this->getList());
+    }
+
+    function dump($id,$field = '*',$subSdf = null){
+        $data = $this->getList();
+        foreach($data as $row){
+            if($row['attr_id'] == $id){
+                #unset($row['attr_id']);
+                return $row;
+            }
+         }
+        return false;
+    }
+
+    function save(&$data, $mustUpdate = NULL, $mustInsert = false){
+        $old = $this->getList();
+        if($data['attr_id']){  //编辑
+            foreach($old as $row){
+                if($row['attr_id'] == $data['attr_id']){
+                    foreach($row as $key=>$value){
+                        $row = array_merge($row,self::get_real_type($row['attr_tyname']));
+                        if(isset($data[$key])){
+                            $row[$key] = $data[$key];
+                        }
+                    }
+                if(!$this->is_system($row['attr_tyname']) && isset($row['attr_column'])){
+                    $schema = $this->gen_schema($row);
+                    $col_desc = $schema[$row['attr_column']];
+                    $col_name = $row['attr_column'];
+                    $supplier = $this->app->model('supplier');
+                    $meta_model = app::get('dbeav')->model('meta_register');
+                    $aData = $meta_model->getList('*',array('tbl_name' =>$supplier->table_name(true),'col_name' => $col_name ));
+                                        // ee(sql());
+
+                    if(!$aData) return false;
+                    $sdf = $aData[0];
+                    $sdf['col_desc'] = $col_desc;
+                    if(!$meta_model->save($sdf)){
+                        return false;
+                    }
+                }
+                }
+                $new[] = $row;
+            }
+        }else{  //新增
+            $old[] = $this->prepare_add($data);
+            $new = $old;
+        }
+        return $this->app->setConf('supplier.attr',serialize($new));
+    }
+
+    private function prepare_add($data){
+         $ret = array();
+         $data = array_merge($data,self::get_real_type($data['attr_tyname']));
+        foreach(array_keys($this->item) as $key){
+            if(in_array($key,array('attr_search','attr_required'))){  #修正bool类型
+                $ret[$key] = ($data[$key] && $data[$key ] != 'false') ? 'true' : 'false';
+            }elseif(in_array($key,array('attr_option'))){#修正多选类型
+                $ret[$key] = $data[$key] ? serialize($data[$key]) : '';
+            }else{
+                $ret[$key] = $data[$key];
+            }
+            $ret['attr_show'] = 'false';
+            $ret['attr_edit'] = 'false';
+            $ret['attr_id'] = $this->get_max_id() + 1;
+            $ret['attr_order'] = $this->get_max_order() + 1;
+            if(!$this->is_system($data['attr_tyname']) && isset($data['attr_column'])){
+                $schema = $this->gen_schema($data);
+                $this->register_meta($schema);
+            }
+        }
+        return $ret;
+    }
+
+    function get_max_id(){
+        $ret = 0;
+        foreach($this->getList() as $row){
+            $ret = $ret > $row['attr_id'] ? $ret : $row['attr_id'];
+        }
+        return $ret;
+    }
+
+    function get_max_order(){
+        $ret = 0;
+        foreach($this->getList() as $row){
+            $ret = $ret > $row['attr_order'] ? $ret : $row['attr_order'];
+        }
+        return $ret;
+    }
+
+    function is_system($tyname){
+        if($tyname == app::get('b2c')->_('系统默认')){
+             return true;
+        }
+        return false;
+    }
+
+    function gen_schema($data){
+        $schema = array($data['attr_column']=>array (
+          'type' => $data['attr_valtype'],
+          'required' => false,
+          'label' => $data['attr_name'],
+          'width' => 110,
+          'editable' => false,
+          'in_list' => true,
+          'orderby' => false,
+        ),);
+        if(isset($data['attr_sdfpath'])){
+            $schema[$data['attr_column']]['sdfpath'] = $data['attr_sdfpath'];
+        }
+        return $schema;
+    }
+
+    function register_meta($schema){
+        $mem_model = $this->app->model('supplier');
+        $mem_model->idColumn = 'supplier_id';//不然报错
+        $mem_model->meta_register($schema);
+    }
+
+    function delete($attr_id,$subSdf=false){
+        $data = $this->getList();
+        foreach($data as $key=>$row){
+            if($row['attr_id'] == $attr_id) break;
+        }
+        $row = $data[$key];
+        unset($data[$key]);
+        $col_name = $row['attr_column'];
+        $supplier = $this->app->model('supplier');
+        $meta_model = app::get('dbeav')->model('meta_register');
+        if(!($meta_model->delete(array('tbl_name' =>$supplier->table_name(true),'col_name' => $col_name )))){
+            return false;
+        }
+        return $this->app->setConf('supplier.attr',serialize($data));
+    }
+
+    function set_visibility($attr_id,$status){
+        $data = $this->getList();
+        foreach($data as $key=>$row){
+            if($row['attr_id'] == $attr_id) break;
+        }
+        $data[$key]['attr_show'] = $status ? 'true' : 'false';
+        return $this->app->setConf('supplier.attr',serialize($data));
+    }
+
+    function set_edit_visibility($attr_id,$status){
+        $data = $this->getList();
+        foreach($data as $key=>$row){
+            if($row['attr_id'] == $attr_id) break;
+        }
+        $data[$key]['attr_edit'] = $status ? 'true' : 'false';
+        return $this->app->setConf('supplier.attr',serialize($data));
+    }
+
+   function update_order($orders){
+       $orders = array_flip($orders);
+        $data = $this->getList();
+        foreach($data as $key=>$row){
+            $row['attr_order'] = $orders[$row['attr_id']];
+            $data[$key] = $row;
+        }
+        return $this->app->setConf('supplier.attr',serialize($data));
+   }
+
+    static function get_buildin_attr(){
+         return array(
+                    array(
+                        'attr_name'     =>app::get('b2c')->_('供应商简称'),
+                        'attr_column'   =>'shortname',
+                        'attr_type'     =>'text',
+                        'attr_required' =>'true',
+                        'attr_search'   =>'false',
+                        'attr_option'   =>'',
+                        'attr_show'     =>'true',
+                        'attr_edit'     =>'false',
+                        'attr_valtype'  =>'',
+                        'attr_tyname'   =>app::get('b2c')->_('系统默认'),
+                        'attr_order'    =>'1',
+                        'attr_group'    =>'defalut'
+                    ),
+                    array(
+                        'attr_name'     =>app::get('b2c')->_('供应商编号'),
+                        'attr_column'   =>'number',
+                        'attr_type'     =>'text',
+                        'attr_required' =>'true',
+                        'attr_search'   =>'false',
+                        'attr_option'   =>'',
+                        'attr_show'     =>'true',
+                        'attr_edit'     =>'false',
+                        'attr_valtype'  =>'',
+                        'attr_tyname'   =>app::get('b2c')->_('系统默认'),
+                        'attr_order'    =>'1',
+                        'attr_group'    =>'defalut'
+                    ),
+                    array(
+                        'attr_name'     =>app::get('b2c')->_('供应商全称'),
+                        'attr_column'   =>'fullname',
+                        'attr_type'     =>'text',
+                        'attr_required' =>'true',
+                        'attr_search'   =>'false',
+                        'attr_option'   =>'',
+                        'attr_show'     =>'true',
+                        'attr_edit'     =>'false',
+                        'attr_valtype'  =>'',
+                        'attr_tyname'   =>app::get('b2c')->_('系统默认'),
+                        'attr_order'    =>'1',
+                        'attr_group'    =>'defalut'
+                    ),
+                    array(
+                        'attr_name'     =>app::get('b2c')->_('企业地址'),
+                        'attr_column'   =>'address',
+                        'attr_type'     =>'text',
+                        'attr_required' =>'true',
+                        'attr_search'   =>'false',
+                        'attr_option'   =>'',
+                        'attr_show'     =>'true',
+                        'attr_edit'     =>'false',
+                        'attr_valtype'  =>'',
+                        'attr_tyname'   =>app::get('b2c')->_('系统默认'),
+                        'attr_order'    =>'1',
+                        'attr_group'    =>'defalut'
+                    ),
+              );
+     }
+
+    static function get_ext_attr(){
+         return  array(
+            // array('attr_name'=>'QQ', 'attr_column'=>'qq','attr_sdfpath'=>'contact/qq','attr_type'=>'text','attr_required'=>'false','attr_search'=>'true','attr_option'=>'','attr_show'=>'false','attr_edit'=>'false','attr_valtype'=>'number','attr_tyname'=>'QQ','attr_order'=>'11','attr_group'=>'contact')
+        );
+    }
+
+    static function m_array_sort(&$array,$sortkey){
+        foreach($array as $key=>$row){
+            $keyvalue[$key] = $row[$sortkey];
+        }
+        asort($keyvalue);
+        foreach($keyvalue as $key=>$value){
+            $ret[$key] = $array[$key];
+        }
+        $array = $ret;
+    }
+
+
+    static function get_real_type($vtype){
+        if($vtype == app::get('b2c')->_('系统默认')){
+            return array();
+        }
+        switch($vtype){
+            case app::get('b2c')->_('输入内容不限制'):
+            $ret['attr_valtype'] = '';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'input';
+            break;
+            case app::get('b2c')->_('仅限输入数字'):
+            $ret['attr_valtype'] = 'number';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'input';
+            break;
+            case app::get('b2c')->_('仅限输入字符'):
+            $ret['attr_valtype'] = 'alpha';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'input';
+            break;
+            case app::get('b2c')->_('仅限输入数字和字符'):
+            $ret['attr_valtype'] = 'alphaint';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'input';
+            break;
+            case app::get('b2c')->_('单选项'):
+            $ret['attr_valtype'] = '';
+            $ret['attr_type'] = 'select';
+            $ret['attr_group'] = 'select';
+            break;
+            case app::get('b2c')->_('多选项'):
+            $ret['attr_valtype'] = '';
+            $ret['attr_type'] = 'checkbox';
+            $ret['attr_group'] = 'select';
+            break;
+            case app::get('b2c')->_('日期(年月日)'):
+            $ret['attr_valtype'] = '';
+            $ret['attr_type'] = 'date';
+            $ret['attr_group'] = 'contact';
+            break;
+            case 'QQ':
+            $ret['attr_valtype'] = 'number';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'contact';
+            break;
+            case 'MSN':
+            $ret['attr_valtype'] = 'email';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'contact';
+            break;
+            case app::get('b2c')->_('旺旺'):
+            $ret['attr_valtype'] = 'alphaint';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'contact';
+            break;
+            case 'Skype':
+            $ret['attr_valtype'] = '';
+            $ret['attr_type'] = 'text';
+            $ret['attr_group'] = 'contact';
+            break;
+        }
+        return $ret;
+    }
+
+    function gen_form(){
+        $mem_schema = $this->app->model('supplier')->_columns();
+        $ui = new base_component_ui($this);
+        foreach($this->getList() as $item){
+            $item_schema = $mem_schema[$item['attr_column']];
+            if(isset($item_schema)){
+                $title = $item_schema['label'] ? $item_schema['label'] : $item['attr_name'];
+                if($item_schema['sdfpath']){
+                    $a_temp = explode("/",$item_schema['sdfpath']);
+                    if(count($a_temp) > 1){
+                        $name = array_shift($a_temp);
+                        if(count($a_temp))
+                        foreach($a_temp  as $value){
+                            $name .= '['.$value.']';
+                        }
+                    }
+                }else{
+                    $name = $item['attr_column'];
+                }
+            }else{
+                $title = $item['attr_name'];
+                $name = $item['attr_column'];
+            }
+            $type = $item['attr_type'];
+            #地区组件需要传入app
+            if($item['attr_column'] == 'area'){
+                $input['app'] = 'ectools';
+            }
+            if($item['attr_type']=='select' || $item['attr_type']=='checkbox'){
+                $input['options'] = unserialize($item['attr_option']);
+
+            }
+            $input['required'] = $item['attr_required'] == 'true' ? true : false;
+            $input['name'] = $name;
+            $input['title'] =$title;
+            $input['type'] = $type;
+            $html .= $ui->form_input($input);
+            unset($input);
+        }
+        return $html;
+    }
+
+}

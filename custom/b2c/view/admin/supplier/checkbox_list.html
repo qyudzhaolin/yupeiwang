@@ -1,0 +1,8 @@
+<{if $checkboxList}>
+<script language="javascript">
+$('localsuppliersTr').style.display = 'block';
+</script>
+<{/if}>
+<{foreach  from=$checkboxList item=supplier}>
+<input type="checkbox" name="localsuppliers[]" value="<{$supplier.supplier_id}>" /><{$supplier.supplier_name}>
+<{/foreach}>

@@ -1,0 +1,115 @@
+<!-- 会员中心主内容区 -->
+<div class="page-article">
+  
+	<!-- 欢迎中心 -->
+	<div id="member_welcome" class="member-welcome">
+		<div class="member-welcome-content">
+
+			<div class="member-welcome-img">
+				<img src="/public/images/pcimg/head_img.png" />
+			</div>
+			<em><{$member.uname}></em>
+		</div>
+		<div class="member-welcome-alert">
+			<span class="tips">交易提醒：</span>
+			<a class="item" href="/index.php/member-orders-nopayed.html">待付款<span ><{$member.un_pay_orders}></span></a>
+		</div>
+	</div>
+	<!-- 欢迎中心结束 -->
+
+  <!-- 最近的订单 -->
+ 
+  <div id="member_orders" class="member-orders member-mod">
+    <{include file='site/member/order_item.html'}>
+  </div>
+ 
+
+  <!-- 最新收藏 -->
+  <div id="member_fav" class="member-mod">
+    <div class="member-mod-title">
+      <h2>最新收藏</h2>
+      <{if $favorite}>
+      <span class="member-mod-more"><a href="<{link app=b2c ctl=site_member act=favorite}>">所有收藏 &raquo;</a></span>
+      <{/if}>
+    </div>
+    <div class="memeber-mod-content">
+      <{if $favorite}>
+      <ul class="member-goods-list">
+        <{foreach from=$favorite item="favorite" name=favorite}>
+        <li class="goods-item">
+          <div class="goods-pic"><{if !$favorite.goods_name}><a href="<{link app=b2c ctl=site_product arg0=$favorite.spec_desc_info.0.product_id}>"><{/if}><img src="<{if $favorite.udfimg == 'true'}><{$favorite.thumbnail_pic|default:$defaultImage|storager:'s'}><{else}><{$favorite.image_default_id|default:$defaultImage|storager:'s'}><{/if}>" alt="<{$favorite.name|default:$favorite.goods_name}>"></a></div>
+          <h3 class="goods-name"><{if !$favorite.goods_name}><a href="<{link app=b2c ctl=site_product arg0=$favorite.spec_desc_info.0.product_id}>"><{/if}><{$favorite.name|default:$favorite.goods_name}></a></h3>
+          <div class="price"><{$favorite.price|default:$favorite.goods_price|cur_odr}></div>
+        </li>
+        <{if $smarty.foreach.favorite.iteration == 4}>
+        <li class="last"></li>
+        <{break}>
+        <{/if}>
+        <{/foreach}>
+      </ul>
+      <{else}>
+      <div class="no-information"><{t}>暂无收藏<{/t}></div>
+      <{/if}>
+    </div>
+  </div>
+</div>
+
+<script>
+<{if $orders}>
+// Module = new Module('member', ['orders']);
+$('member_orders').addEvents({
+    'click:relay(.action-view-goods)':function (e) {
+        var parent = this.getParent('tbody');
+        var actions = parent.getElement('.actions');
+        if(parent.hasClass('fold')) {
+            actions.set('rowspan', 2);
+            parent.removeClass('fold').addClass('unfold');
+        }
+        else {
+            actions.set('rowspan', 1);
+            parent.removeClass('unfold').addClass('fold');
+        }
+    }
+});
+
+window.addEvent('domready', function(){
+    var tipsHandle = $$('[data-tips]');
+    if(tipsHandle.length) {
+        var tips = new Tips({
+            type: 'tooltip',
+            'class': 'xtooltip',
+            arrow: false,
+            offset:{y:-1},
+            position: 'bl'
+        });
+        tipsHandle.addEvents({
+            'mouseenter': function(){
+                tips.show(null, this);
+            },
+            'mouseleave': function(){
+                tips.hide();
+            }
+        });
+    }
+});
+<{/if}>
+
+<{if $site_checkout_login_point_open == "true" && $signin_status == false && $point_usaged == 'true'}>
+$("signin").addEvents({
+    'click':function(e){
+    new Request({
+        url:'<{link app=b2c ctl=site_member act=signin}>',
+        data:'response_json=true',
+        onSuccess:function(rs) {
+            try{
+                rs = JSON.decode(rs);
+            }catch(e){}
+            if(rs.error) return Message.error(rs.error);
+            Message.success(rs.success);
+            $("signin_info").remove();
+        }
+      }).post();
+    }
+});
+<{/if}>
+</script>

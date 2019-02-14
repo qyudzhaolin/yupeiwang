@@ -1,0 +1,31 @@
+<ul class="clearfix">
+	<li><{t}>商品名称<{/t}>：<{$page_product_basic.title}></li>
+	<li><{t}>商品品牌<{/t}>：<{$page_product_basic.brand.brand_name}></li>
+	<li><{t}>商品属性<{/t}>：<{$page_product_basic.commodity_property}></li>
+
+	<li><{t}>商品编号<{/t}>：<{$page_product_basic.goods_bn}></li>
+	<li><{t}>商品原产地<{/t}>：<{$page_product_basic.area}></li>
+	<li><{t}>重量<{/t}>：<{$page_product_basic.weight|cur_odr:'':true}></li>
+
+	<!--下面暂时不显示-->
+	<li class="hide"><{t}>所属分类<{/t}>：<{$page_product_basic.cat_name}></li>
+	<{if $setting.goodsprop == '0' || $setting.goodsprop == '2'}>
+	<{foreach from=$page_product_basic.props item=props}>
+	<li class="hide"><{$props.name}>：<{$props.value}></li>
+	<{/foreach}>
+	<{/if}>
+</ul>
+
+<div class="detail-content hide">
+  <textarea class="action-lazyload hide"><{$page_product_basic.intro}></textarea>
+</div>
+
+<{if $setting.acomment.switch.discuss == 'on'}>
+<div id="product_comment_init" class="product-comment hide" data-sync-type="product_comment_init">
+</div>
+<{/if}>
+
+<{if $setting.acomment.switch.ask == 'on'}>
+<div id="product_consult_init" class="product-consult hide" data-sync-type="product_consult_init">
+</div>
+<{/if}>

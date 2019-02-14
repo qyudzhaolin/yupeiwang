@@ -1,0 +1,24 @@
+<!--预售价格列表-->
+<div class="product-concerns">
+     <ul>
+	  <{foreach from=$page_product_basic.prepareFund key=key item=fund}>
+      <li class="item">
+        <span><i><{$fund.fund_name_format}>:</i><em>￥<{$fund.payment|cur_odr:'':true}></em></span>
+        <span> 付款时间:<em><{$fund.begin_time_format}></em> - <em><{$fund.end_time_format}></em></span>
+      </li>	  
+      <{/foreach}>  	 
+	  
+       <li class="item-02">
+		<{if $page_product_basic.sales_price > 0 }>
+			<span>
+			<i>销售价：</i>
+			<em>￥</em><em class="price-num-01"></em>/500g			
+			</span>				
+		<{/if}>		
+		
+        <span>
+			<em>￥</em><em class="price-num-02 action-price"></em><{if $page_product_basic.unit}>/<{$page_product_basic.unit}><{/if}>	
+		</span>
+      </li>      
+    </ul>
+</div>

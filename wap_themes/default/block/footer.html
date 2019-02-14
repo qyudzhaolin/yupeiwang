@@ -1,0 +1,52 @@
+<div class="full-screen commonFootBox" <{if $show_status == 'off'}> style="display:none" <{/if}>>
+    <div class="home-nav-down nodisplay">
+        <table width="100%">
+            <tr>
+                <td><a href="./">首页</a></td>
+                <td><a href="<{link app=b2c ctl=wap_gallery act=cat}>" class="item bg1">商品分类</a></td>
+                <td><a href="<{link app=b2c ctl=wap_cart act=index}>" class="item bg2">购物车</a></td>
+                <td><a href="<{link app=b2c ctl=wap_member act=favorite}>" class="item bg3">收藏</a></td>
+                <td><a href="<{link app=b2c ctl=wap_member act=orders}>" class="item bg4">订单</a></td>
+                <td><a href="<{link app=b2c ctl=wap_member act=index}>" class="item bg5">会员</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="home-to-top nodisplay">
+        <a href="#" class="to-top">返回顶部</a>
+        <div id="footerlogin">
+        <a href="<{link app=b2c ctl=wap_passport act=login}>" class="lnk">登录</a> | <a href="<{link app=b2c ctl=wap_passport act=signup}>" class="lnk">注册</a>
+        </div>
+        <div id="footerlogout" style="display:none">
+        您好，<span id="footerloginuname"></span>！| <a href="<{link app=b2c ctl=wap_passport act=logout}>" class="lnk">退出</a>
+        </div>
+    </div>
+    <div class="footer nodisplay">
+        触屏版 | <a href="<{$env.pc_url}>?ignore_ua_check=1" class="lnk">电脑版</a>
+        <{wapfooter}>
+    </div>
+
+    <div class="footerbox">
+        <div class="footer-in">
+            <a href="./" class="list <{if $pageLocation=='home'}>active<{/if}>">
+                <i class="icon iconfont icon-home"></i>首页
+            </a> 
+            <a href="<{link app=b2c ctl=wap_cart act=index}>" class="list <{if $pageLocation=='cart'}>active<{/if}>">
+                <i class="icon iconfont icon-cart"></i>购物车
+            </a> 
+            <a href="<{link app=b2c ctl=wap_member act=index}>" class="list <{if $pageLocation=='my'}>active<{/if}>">
+                <i class="icon iconfont icon-my"></i>我的
+            </a>     
+        </div>
+    </div>
+</div>
+<script>
+    function togoback(){
+        var ref = document.referrer;
+        if (ref != '') {
+            history.back(-1);
+        }else{
+            location.href='./';
+        }
+    }
+</script>
+<{wap_widgets id="fb"}>

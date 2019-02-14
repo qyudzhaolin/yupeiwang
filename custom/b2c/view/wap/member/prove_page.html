@@ -1,0 +1,243 @@
+ <{css src="mobile.css" app="wap"}>
+ <{css src="fsgallery.css" app="wap"}>
+ <{css src="webuploader.css" app="wap"}>
+<div class="full-screen">
+    <header class="hide">
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>        
+        <div class="a-name top-center-box">
+            实名认证
+        </div>
+    </div>
+    </header>
+    <div class="real-name-cer">
+        <form class="form" method="post">
+            <input name="prove_id" value="<{$row.prove_id}>"  type="hidden"/>       
+            <input name="area" value="<{$row.area}>"  type="hidden"/>       
+            <input name="region_id" value="<{$row.region_id}>"  type="hidden"/>       
+            <input name="merchantName" value="<{$row.merchantName}>" type="text" class="f-form-control"  placeholder="商户名称" <{if !$isEdit}> disabled <{/if}>   />
+            <div class="yp-input-row" id="merchant-type">
+                <i class="menu-down-icon"></i>
+                <input name="merchant_type_id" value="<{$row.merchant_type_id}>"  type="hidden"/>       
+                <input name="merchant_type_name" value="<{$row.merchant_type_name}>" readonly  type="text" class="f-form-control"  placeholder="商户类型" <{if !$isEdit}> disabled <{/if}>/>       
+            </div>
+             <div class="yp-input-row">
+                <i class="menu-down-icon"></i>
+                <div id="J_Address" class="J_Address f-form-control">
+                    <{if !empty($row.area)}>
+                    <{$row.area|region}>
+                    <{else}>
+                    <a class="c999">商户所在区域</a>
+                    <{/if}>
+                </div> 
+            </div>   
+            <input name="addr" value="<{$row.addr}>" type="text" class="f-form-control"  placeholder="街道详细地址" <{if !$isEdit}> disabled <{/if}>   />
+            <input name="linkman" value="<{$row.linkman}>" type="text" class="f-form-control"  placeholder="联系人" <{if !$isEdit}> disabled <{/if}>    />
+            <input name="mobile" value="<{$row.mobile}>" type="text" class="f-form-control"  placeholder="手机号" <{if !$isEdit}> disabled <{/if}>    />
+            <input name="inviter_mobile" value="<{$row.inviter_mobile}>" type="text" class="f-form-control"  placeholder="邀请人手机号"  <{if !$isEdit}> disabled <{/if}>  />  
+            <div class="camera-item">
+                <div id="uploader-box">
+                    <div id="fileList" type="store_img" class="uploader-list"><{$row.store_img.thumbImages}></div>
+                    <div id="filesPicker" class="wapPicker <{if !empty($row.store_img)}>hide<{/if}>"></div>
+                </div>
+                <div class="c-right uploadNote">
+                    <span>上传门店照片(不超过3M)</span>
+                </div>
+            </div>    
+            
+            <div class="camera-item">
+                <div id="uploader-box">
+                    <div id="businessLicenseFileList" type="license_img" class="uploader-list"><{$row.license_img.thumbImages}></div>
+                    <div id="businessLicenseFilePicker" class="wapPicker <{if !empty($row.license_img)}>hide<{/if}>"></div>
+                </div>
+                <div class="c-right uploadNote">
+                    <span>上传营业执照(不超过3M)</span>
+                </div>
+            </div>     
+
+            <div class="camera-item">
+                <div id="uploader-box">
+                    <div id="idFrontFileList" type="id_front_img" class="uploader-list"><{$row.id_front_img.thumbImages}></div>
+                    <div id="idFrontFilePicker" class="wapPicker <{if !empty($row.id_front_img)}>hide<{/if}>"></div>
+                </div>
+                <div class="c-right uploadNote">
+                    <span>上传身份证正面(不超过3M)</span>
+                </div>
+            </div> 
+            <div class="camera-item">
+                <div id="uploader-box">
+                    <div id="idBackFileList" type="id_back_img" class="uploader-list"><{$row.id_back_img.thumbImages}></div>
+                    <div id="idBackFilePicker" class="wapPicker <{if !empty($row.id_back_img)}>hide<{/if}>"></div>
+                </div>
+                <div class="c-right uploadNote">
+                    <span>上传身份证背面(不超过3M)</span>
+                </div>
+            </div>
+            <{if $isEdit}>     
+                <button class="real-name-btn sbutton" type="button">提交</button>
+            <{else}>
+                <{if $row.status == 'nopass'}>
+                    <div class="btn-gray">审核不通过</div>
+                    <a href="<{link app=b2c ctl=wap_member act=prove_page arg0=recert}>">
+                        <div class="real-name-btn nomargin">重新认证</div>
+                    </a>
+                <{else}>
+                    <button class="real-name-btn" type="button"><{$row.status_name}></button>
+                <{/if}>
+            <{/if}>
+        </form>
+    </div>
+
+    <!--弹出框 遮罩 -->
+    <div class="yp-overlay hide">
+    </div>  
+    <!--弹出框-->
+   <div  class="ypmodal-container-02" id="modal1">  
+       <div class="m-type-head">
+         <div class="m-left" id="modal1-close">
+            <img src="/public/images/ydimg/close.png" />
+         </div>
+         <div class="m-right">商户类型</div>
+       </div>
+       <div class="merchant">
+         <ul class="merchant-type-lsit merchant-type-lists">
+            <{if !empty($merchant_type_rows)}>
+            <{foreach from=$merchant_type_rows item=item key=key}>
+            <li merchant_type_id="<{$key}>"><{$item}></li>
+            <{/foreach}>
+            <{/if}>  
+         </ul>
+       </div>
+   </div>   
+</div> 
+
+<{script src="Popt.js" app="wap"}>
+<{script src="cityJson.js" app="wap"}>
+<{script src="citySet.js" app="wap"}>
+<{script src="webuploader.min.js" app="wap"}>
+<{script src="common.js" app="wap"}>
+<{script src="fs_forse.js" app="wap"}>
+<script type="text/javascript">
+//关闭弹框
+function close_merchant_type_list() {
+    j(".yp-overlay").toggle();
+    j("#modal1").removeClass('show'); 
+}
+
+j(function(){
+    //打开类型弹出框     
+    j("#merchant-type").click(function(){
+         j(".yp-overlay").toggle();
+         j("#modal1").addClass('show')
+    })
+
+    //关闭按钮
+    j("#modal1-close").click(function(){
+        close_merchant_type_list();         
+    })
+
+    //选中
+    j(".merchant-type-lists li").click(function(){
+        j("input[name=merchant_type_name]").val(j(this).text());
+        j("input[name=merchant_type_id]").val(j(this).attr('merchant_type_id'));
+        close_merchant_type_list();
+    })
+
+
+    //点击选择地址
+    j("#J_Address").click(function (e) {
+        SelCity(this,e,function(){
+            //拼接字串提交到后台
+            var addrFormat = 'mainland:' + j('#hcity').val();
+            var dataId = j('#hcity').attr('data-id');
+            if (j('#hproper').val()) {
+                addrFormat += '/' + j('#hproper').val();
+                dataId = j('#hproper').attr('data-id');
+            }
+            if (j('#harea').val()) {
+                addrFormat += '/' + j('#harea').val();
+                dataId = j('#harea').attr('data-id');
+            }
+            addrFormat += ':' + dataId;
+            j('input[name=area]').val(addrFormat);
+            j('input[name=region_id]').val(dataId);
+        });
+        //console.log(this);
+    });
+
+
+    //提交信息
+    j(".form .sbutton").click(function(){
+        var params = j(".form").serializeArray();
+        var url = "<{link app=b2c ctl=wap_member act=do_prove}>";
+        var files = manage.getAllUpfile();
+        params.push({name:'files',value:JSON.stringify(files)});
+        // console.log(params);
+        var index = layer.load(1);
+        j.post(url,params,function(res){
+            if(res.error == 0){
+                layer.msg(res.message);
+                setTimeout("location.reload();", 2000);
+            }else{
+                layer.msg(res.message,{icon: 5});
+            }
+            layer.close(index);
+        },'json');
+    })
+
+    //图片点击放大
+    j('.file-item img').fsgallery();
+
+});
+
+//上传图片-门店
+manage.webUploader({
+    formData:{folder:'store_img'},
+    listBox:'#fileList',
+    pick:{
+        id:j("#filesPicker"),
+        multiple: false
+    },
+    thumbSize:50,
+    fileNumLimit:1
+});
+
+//上传图片-营业执照
+manage.webUploader({
+    formData:{folder:'license_img'},
+    listBox:'#businessLicenseFileList',
+    pick:{
+        id:j("#businessLicenseFilePicker"),
+        multiple: false
+    },
+    thumbSize:50,
+    fileNumLimit:1
+});
+
+//上传图片-身份证正面
+manage.webUploader({
+    formData:{folder:'id_front_img'},
+    listBox:'#idFrontFileList',
+    pick:{
+        id:j("#idFrontFilePicker"),
+        multiple: false
+    },
+    thumbSize:50,
+    fileNumLimit:1
+});
+
+//上传图片-身份证背面
+manage.webUploader({
+    formData:{folder:'id_back_img'},
+    listBox:'#idBackFileList',
+    pick:{
+        id:j("#idBackFilePicker"),
+        multiple: false
+    },
+    thumbSize:50,
+    fileNumLimit:1
+});
+</script>

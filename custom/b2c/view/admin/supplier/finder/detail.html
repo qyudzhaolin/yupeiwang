@@ -1,0 +1,73 @@
+<style>
+.mwidth{width:360px;}
+.swidth{width:360px;}
+</style>
+  <div class="tableform">
+    <div class="division">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <th><{t}>供应商简称：<{/t}></th>
+          <td><{$datas.shortname}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>供应商编号：<{/t}></th>
+          <td><{$datas.bn}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>供应商全称：<{/t}></th>
+          <td><{$datas.supplier_name}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>企业地址：<{/t}></th>
+          <td>
+              <span class="form-act"><{input type="region" name="area" required="true" value=$datas.area app="ectools" callback="selectArea"}></span>
+              <{$datas.addr}>
+          </td>
+        </tr>
+        
+        <tr>
+          <th><{t}>企业电话：<{/t}></th>
+          <td><{$datas.tel}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>企业联系人：<{/t}></th>
+          <td><{$datas.linkman}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>企业EMAIL：<{/t}></th>
+          <td><{$datas.email}></td>
+        </tr>
+        
+        <tr>
+          <th><{t}>企业账期：<{/t}></th>
+          <td><{$datas.account_period}>D</td>
+        </tr>
+        
+        <!--扩展字段 START-->
+        <!--
+        <{foreach from=$attr item=item name="item" key='row'}>
+        <tr>
+            <th><{$item.attr_name}>：</th><td><{$item.attr_value}></td>
+        </tr>
+        <{/foreach}>
+        -->
+        <!--扩展字段 END-->              
+                
+        <tr>
+          <th>企业LOGO</th>
+          <td><img src="<{$datas.logo|storager:'s'}>"></td>
+        </tr>
+        
+        <tr>
+          <th>企业营业执照</th>
+          <td><img src="<{$datas.license|storager:'s'}>"></td>
+        </tr>
+      </table>
+    </div>
+    <!--delete end--> 
+  </div>

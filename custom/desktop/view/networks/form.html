@@ -1,0 +1,60 @@
+<{css src="default/RegionalChoice.css" app="desktop"}>
+<style>span.sqrow{margin-left:25px;}</style>
+<form id="form" action="index.php?app=desktop&ctl=networks&act=save"  method="POST" >
+  <input type="hidden" name="networks_id" value="<{$row.networks_id}>">
+  <div class="tableform">
+    <div class="division">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>服务网点名称：<{/t}></th>
+          <td><{input type="text" name="networks_name" vtype="required" value=$row.networks_name}></td>
+        </tr>
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>排序：<{/t}></th>
+          <td>
+            <input class="x-input" type="number" name="ordernum" vtype="required" value="<{$row.ordernum}>"  placeholder="越小越靠前" />
+          </td>
+        </tr>
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>覆盖城市：<{/t}></th>
+          <td>
+            <{button app="desktop" onclick="region.setShipArea(this)" class="shipareaButton" shiparea=$networksarea|array_keys|implode:',' label=$___b2c="设置覆盖城市"|t:'b2c' icon="btn_edit.gif"}>
+            <{input type="hidden" class="shiparea" name="networksarea" value="" }>
+            <span class="shipareaBox networksareaBox">
+              <{if count($networksarea)}>
+                <{$networksarea|implode:'，'}>
+              <{else}>
+                暂未设置
+              <{/if}>
+            </span>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+    
+  </div>
+  <div class="table-action"> <{button type="submit"  label=$___desktop="保存"|t:'desktop'}> </div>
+</form>
+<script>
+$('form').store('target',{
+    onComplete:function(){
+    },
+    onSuccess:function(res){
+        var data = JSON.decode(res);
+        var finder = finderGroup['<{$finder_id}>'];
+        if (data.success != undefined && data.success != "")
+        {
+            if($('form').getParent('.dialog'))
+            $('form').getParent('.dialog').retrieve('instance').close();
+            window.finderGroup['<{$env.get._finder.finder_id}>'].refresh();//刷新用这个，不然会报错-无法删除
+        }
+    }
+});
+
+j(function(){
+  //动态载入js
+  var url="/public/app/desktop/statics/js/RegionalChoice.js";
+  j.get(url, undefined, function(){}, "script" );
+});
+</script> 

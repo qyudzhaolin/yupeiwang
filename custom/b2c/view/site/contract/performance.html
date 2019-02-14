@@ -1,0 +1,196 @@
+<div id="main" class="clearfix contract">
+	<!-- 履约 -->
+	<div class="floor wrap clearfix">
+
+		<div class="floor-side">
+			<img width="315px" height="315px" src="/public/files/static/images/lvyue_01.png" />
+		</div>
+		<div class="floor-main">
+			<ul>
+				<li class="bg_color_1">
+					<span>合约状态：</span>
+					<span style="display: inline-block;width: 206px;"><{$data.pay_status}></span>
+					<span>剩余时间：</span>
+					<span id="leftTime-box" class="leftTime-box" data-date="<{$stepRow.end_time|date:'Y-m-d H:i:s'}>">
+						<span class="date-tiem d">00</span>天
+						<span class="date-tiem h">00</span>时
+						<span class="date-tiem m">00</span>分
+						<span class="date-s s">00</span>秒
+					</span>
+				</li>
+				<li class="stepTitle">
+					<span>阶段名</span> <span>金额（元）</span>
+				</li>
+				<li class=""><span><{$stepsPaymentRow.title}></span><span><{$stepMoney.total|cur_odr:'':true}></span></li>
+				<{if $isout == true && $extra == '1'}>
+					<li class=""><span><{$temp_extra_charge.title}></span><span><{$temp_extra_charge.value|cur_odr:'':true}></span></li>
+				<{/if}>	
+			</ul>
+		</div>
+	</div>
+	<!--合约商品列表-->
+	<div class="pre-goods">
+		<{if $stepsPaymentRow.fee_ids != '8'}>
+		<div class="stepMoneyExp">
+			<span><{$stepMoney.detail}></span>
+		</div>
+		<{else}>
+		<div class="pre-goods-title bg_color_1">
+			<span>合约商品</span>
+			<{if $extra > 0}>
+			<span class="contract_extra <{if isset($isPayedAxtra) && $isPayedAxtra > 0}>disabled<{/if}>">
+				<input type="checkbox" <{if isset($isPayedAxtra) && $isPayedAxtra > 0}>disabled="disabled"<{/if}> name="extra" value="1" onclick="j('.outStore .contract').click();"/>支付临时附加费
+			</span>
+			<{/if}>
+		</div>
+		<div class="pre-goods-list">
+			<table>
+				<thead>
+					<tr>
+						<th>商品名称</th>
+						<th>商品货号</th>
+						<th>商品规格</th>
+						<th>单价(元)</th>
+						<th>当前库存</th>
+						<th>出库数量</th>
+					</tr>
+				</thead>
+				<tbody>
+					<{if !empty($data.products)}>
+					<{foreach from=$data.products item=item key=key}>
+					<tr product_id="<{$item.product_id}>">
+						<td><{$item.name}></td>
+						<td><{$item.bn}></td>
+						<td><{$item.spec}></td>
+						<td><{$item.price}></td>
+						<td class="store_left" store_left="<{$item.store_left}>"><{$item.store_left}></td><!-- 这里需要计算剩余库存 -->
+						<td class="">
+							<div class="product-buy-quantity">
+								<span class="p-quantity"><a href="javascript:void(0);" class="btn-decrease decrease" onclick="joop.addSub({cdom:this,numDom:'#input<{$item.product_id}>'})">-</a><input onkeyup="joop.writeOutStore(this,'<{$item.store_left}>')" type="text" name="goods[num]" id="input<{$item.product_id}>" product_id="<{$item.product_id}>"  goods_id="<{$item.goods_id}>" class="action-quantity-input outElem" value="0" min="1" max=""><a href="javascript:void(0);" class="btn-increase increase"  onclick="joop.addSub({cdom:this,numDom:'#input<{$item.product_id}>',maxNum:'<{$item.store_left}>',outNote:'剩余库存不足！'})">+</a></span>
+								<{$item.unit}>
+							</div>
+						</td>
+					</tr>
+					<{/foreach}>
+					<{/if}>			
+				</tbody>
+			</table>
+			<div class="outStore">
+					<button type="button" class="btn btn-import btn-big contract" id="outStoreButton" contract_id="<{$data.contract_id}>" step_id="<{$step_id}>" onclick="joop.getOutStoreExp(this)"><span><span>确定出库</span></span></button>
+			</div>
+
+		</div>
+		<{/if}>
+		<div class="floor wrap clearfix price-totel">
+			<div class="outStoreExpBox">
+				<div class="outStoreExp"></div>
+				<p>
+				<{if !isset($ispay)}>履约须支付金额<{else}>履约金额<{/if}>：
+				<span class="outStoreMoney"><{if !$isout}><{$stepMoney.total|cur_odr}><{else}>￥0<{/if}></span>
+				</p>
+			</div>	
+		</div>
+		
+		<{if !isset($ispay)}>	
+		<div class="floor clearfix pay contractPay">
+			<img class="payDeposit hide" contract_id="<{$data.contract_id}>" step_id="<{$step_id}>" onclick="joop.payDeposit()" src="/public/files/static/images/btn_03.png" alt="支付定金"  /> 
+			<button type="button" class="btn btn-import btn-big" contract_id="<{$data.contract_id}>" step_id="<{$step_id}>" onclick="joop.payDeposit()" ><span><span>支付</span></span></button>
+			
+			<span id="virtualGoods" class="hide"  product_id="<{$virtualGoods.product_id}>"  goods_id="<{$virtualGoods.goods_id}>">合约虚拟商品</span>
+		</div>
+		<{/if}>	
+<!--合约商品详情-->
+<div class="pre-goods-detail">
+	
+<div class="pre-goods-title bg_color_1"><span>合约详情</span></div>	
+<div class="pre-goods-title-02 bg_color_2"><span>合约基本信息</span></div>	
+<div class="floor detail">
+	 
+	<span>合约号：<{$data.contract_no}></span>
+	<span>商品总金额：<{$data.amount|cur_odr}></span>
+	<span>合约效期：<{$data.begin_time|strtotime|date:'Y.m.d'}>/<{$data.end_time|strtotime|date:'Y.m.d'}></span>
+	<span>合约服务内容：<{$data.content}></span>
+	<span>合约结算方式：<{$data.accounts}></span>
+ 
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th width="160">商品名称</th>
+			<th width="120">商品货号</th>
+			<th>重量(g)</th>
+			<th>计量单位</th>
+			<th>商品规格</th>
+			<th>商品属性</th>
+			<th>原产地</th>
+			<th>供应商</th>
+			<th>数量</th>
+			<th>单价(元)</th>
+			<th>仓库</th>
+		</tr>
+	</thead>
+	<tbody>
+		<{if !empty($data.products)}>
+		<{foreach from=$data.products item=item key=key}>
+		<tr>
+			<td><{$item.name}></td>
+			<td><{$item.bn}></td>
+			<td><{$item.weight}></td>
+			<td><{$item.unit}></td>
+			<td><{$item.spec}></td>
+			<td><{$item.attr}></td>
+			<td><{$item.area}></td>
+			<td><{$item.shortname}></td>
+			<td><{$item.num}></td>
+			<td><{$item.price}></td>
+			<td><{$item.storehouse}></td>
+		</tr>
+		<{/foreach}>
+		<{/if}>
+	</tbody>
+</table>
+<div class="pre-goods-title-02 bg_color_2"><span>出库条件</span></div>	
+<div class="floor detail">
+	<span>金额限制：每次出库合约商品总金额不能少于 <{$data.min_amount|cur_odr}>元</span>
+	<span>数量限制：每次出库合约商品总数量不能少于<{$data.min_num}></span>
+ 
+
+
+</div>
+</div>
+	</div>
+
+	<!--   </div>-->
+<script src="/public/app/site/statics/js/leftTime.js"></script>
+<script src="/public/app/site/statics/js/contract.js"></script>
+<script>
+j(function(){
+	//日期倒计时,现在距离下面的日期
+	if(j('.leftTime-box').length){
+		var data_show = j('.leftTime-box');
+		j(data_show).each(function(){
+			showLefTime(j(this).data("date"), '#' + j(this).attr("id"));
+		});
+	}
+
+	function showLefTime(time,obj) {
+		j.leftTime(time,function(d){
+			if(d.status){
+			var leftTimeBox=j(obj);
+			leftTimeBox.find(".d").html(d.d);
+			leftTimeBox.find(".h").html(d.h);
+			leftTimeBox.find(".m").html(d.m);
+			leftTimeBox.find(".s").html(d.s);
+			}
+		});
+	}
+
+
+
+
+});
+
+</script>	
+	
+</div>

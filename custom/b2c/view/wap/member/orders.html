@@ -1,0 +1,243 @@
+ <{css src="mui/mui.min.css" app="wap" }>
+<div class="full-screen">
+    <header class="hide">
+        <div class="a-bar">
+            <a href="javascript:history.back()" class="a-back">
+                <i class="arr left"></i>
+                返回
+            </a>
+            <div class="a-name">
+                我的订单
+            </div>
+        </div>
+    </header>
+    <div class="top-box">
+        <div class="common-search-box" onclick="location.href='<{link app=b2c ctl=wap_search act=searchpage}>'">
+            <i class="icon iconfont icon-search"></i>
+            <div class="search-ele">请搜索您感兴趣的商品</div>
+        </div>
+    </div> 
+
+    <div class="my-member-orders">
+        <div class="order-tab-box">
+            <div id="segmentedControl" class="mui-segmented-control">
+                <a class="mui-control-item <{if $pay_status == 'nopayed'}>mui-active<{/if}>" href="<{link app=b2c ctl='wap_member' act='orders' arg0='nopayed'}>">
+                    <span>待付款</span>
+                    <{if $member.un_pay_orders > 0}>
+                        <i><{$member.un_pay_orders_format}></i>
+                    <{/if}>
+                </a>
+                <a class="mui-control-item <{if $pay_status == 'shipped'}>mui-active<{/if}>" href="<{link app=b2c ctl='wap_member' act='orders' arg0='shipped'}>">
+                    <span>待收货</span>
+                    <{if $member.be_received_orders > 0}>
+                        <i><{$member.be_received_orders_format}></i>
+                    <{/if}>
+                </a>
+                <a class="mui-control-item <{if $pay_status == 'all'}>mui-active<{/if}>" href="<{link app=b2c ctl='wap_member' full='1' act='orders'}>">
+                    <span>全部订单</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="order-tab-content">
+            <div id="item4" class="mui-control-content mui-active">
+                <ul class="mem-order-list order-list-01">
+                    <{foreach from=$orders item="order" name=orders key="key"}>
+                    <li class="order-list-01" onclick="location.href='<{link app=b2c ctl="wap_member" act="orderdetail" arg0=$order.order_id}>'">
+                        <ul class="order-list-02">
+                            <li class="li-01">
+                                <p>
+                                    订单号:<em><{$order.order_id}></em>
+                                    <{if in_array($order.status, ['dead','finish'])}>
+                                    <span class="delOrder" order_id="<{$order.order_id}>">删除</span>
+                                    <{/if}>
+                                </p>
+                            </li>
+                            <li class="li-02">
+                                <div class="pt-table-01">
+                                    <div class="cell-item-01">
+                                        <p class="order-state">状态：
+                                            <em>
+                                                <{switch from=$order.status}>
+                                                <{case value='finish'}><{t}>已完成<{/t}>
+                                                <{case value='dead'}><{t}>已作废<{/t}>
+                                                <{case}>
+                                                <{switch from=$order.pay_status}>
+                                                <{case value='1'}>
+                                                <{switch from=$order.ship_status}>
+                                                <{case value='1'}><{t}>配送中<{/t}>
+                                                <{case value='2'}><{t}>部分发货<{/t}>
+                                                <{case value='3'}><{t}>部分退货<{/t}>
+                                                <{case value='4'}><{t}>已退货<{/t}>
+                                                <{case}><{t}>配送中<{/t}>
+                                                <{/switch}>
+                                                <{case value='2'}><{t}>已付款至担保方<{/t}>
+                                                <{case value='3'}><{t}>等待补款<{/t}>
+                                                <{switch from=$order.ship_status}>
+                                                <{case value='1'}><{t}>[已发货]<{/t}>
+                                                <{case value='2'}><{t}>[部分发货]<{/t}>
+                                                <{case value='3'}><{t}>[部分退货]<{/t}>
+                                                <{case value='4'}><{t}>[已退货]<{/t}>
+                                                <{/switch}>
+                                                <{case value='4'}><{t}>部分退款<{/t}>
+                                                <{switch from=$order.ship_status}>
+                                                <{case value='0'}><{t}>[未发货]<{/t}>
+                                                <{case value='1'}><{t}>[已发货]<{/t}>
+                                                <{case value='2'}><{t}>[部分发货]<{/t}>
+                                                <{case value='3'}><{t}>[部分退货]<{/t}>
+                                                <{case value='4'}><{t}>[已退货]<{/t}>
+                                                <{/switch}>
+                                                <{case value='5'}><{t}>已退款<{/t}>
+                                                <{switch from=$order.ship_status}>
+                                                <{case value='0'}><{t}>[未发货]<{/t}>
+                                                <{case value='1'}><{t}>[已发货]<{/t}>
+                                                <{case value='2'}><{t}>[部分发货]<{/t}>
+                                                <{case value='3'}><{t}>[部分退货]<{/t}>
+                                                <{case value='4'}><{t}>[已退货]<{/t}>
+                                                <{/switch}>
+                                                <{case value='6'}><{t}>退款申请中<{/t}>
+                                                <{case}><{t}>等待付款<{/t}>
+                                                <{switch from=$order.ship_status}>
+                                                <{case value='1'}><{t}>[已发货]<{/t}>
+                                                <{case value='2'}><{t}>[部分发货]<{/t}>
+                                                <{case value='3'}><{t}>[部分退货]<{/t}>
+                                                <{case value='4'}><{t}>[已退货]<{/t}>
+                                                <{/switch}>
+                                                <{/switch}>
+                                                <{/switch}>
+                                            </em>
+                                        </p>
+                                        <p class="order-sum">总价：<em><{$order.cur_amount|cur_odr:$order.currency:false:true}></em></p>
+                                    </div>
+
+                                    <!-- 右侧按钮START -->
+                                    <div class="cell-item-02">
+                                        <{if $order.status == 'active' && ($order.pay_status=='0' || $order.pay_status=='3')}>
+                                            <{if $order.payinfo.pay_app_id != '-1' && $order.is_pay==0 }>
+                                            <a href="<{link app=b2c ctl=wap_paycenter act=index arg0=$order.order_id}>" >
+                                                去支付
+                                            </a>
+                                            <{/if}>
+                                            <{if $order.payinfo.pay_app_id != '-1' && $order.is_pay==1 }>
+                                            <a href="javascript:void(0);" onclick="js_method()" style="color:#ccc;">
+                                                支付结果返回中
+                                            </a>
+                                            <{/if}>
+                                        <{/if}>
+                                        <{if $order.status != 'dead' && $order.ship_status =="1" && $order.received_status =='0'}>
+                                        <a class="doReceive" order_id="<{$order.order_id}>">
+                                           确认收货
+                                        </a>
+                                        <{/if}>
+
+                                        <{if $order.status != 'dead' && $order.ship_status =="2" && $order.received_status =='0'}>
+                                        <a class="doReceive" order_id="<{$order.order_id}>">
+                                           确认收货
+                                        </a>
+                                        <{/if}>
+                                        <a class="hide" href="<{link app=b2c ctl="wap_member" act="orderdetail" arg0=$order.order_id}>">
+                                            查看订单
+                                        </a>
+                                        <{if $order.pay_status == '1' && $order.ship_status == '0' && $order.cur_amount > 0}>
+                                        <a class="doReceive" order_id="<{$order.order_id}>">
+                                            确认收货
+                                        </a>
+                                        <{/if}>
+                                        <{if $order.status == 'active' && $order.pay_status == '0' && $order.ship_status == '0' &&  $order.is_pay==0 }>
+                                        <a class="hide" href="<{link app=b2c ctl="wap_member" act="cancel" arg0=$order.order_id}>">
+                                           取消订单
+                                        </a>
+                                        <{/if}>
+
+                                        <{if $order.pay_status == '1'}>
+                                        <a class="btn-rebuy" href="<{link app=b2c ctl=wap_index act=index}>">再次购买</a>
+                                        <{/if}>
+                                    </div>
+                                    <!-- 右侧按钮END -->
+
+                                </div>
+                            </li>
+                            <!-- 商品列表START -->
+                            <{if $order.goods_items}>
+                            <{foreach from=$order.goods_items item=item_goods name=goods_item}>
+                            <{if $item_goods.product}>
+                            <{assign var=product value=$item_goods.product}>
+                            <a href="<{link app=b2c ctl="wap_member" act="orderdetail" arg0=$order.order_id}>">
+                                <li class="li-03">
+                                    <div class="goods-img">
+                                        <img src='<{$product.thumbnail_pic|default:$env.conf.site.default_thumbnail_pic|storager:'s'}>' />
+                                    </div>
+                                    <div class="order-goods-detail">
+                                        <p class="goods-title" style="margin-bottom: 10px;"><{$product.name}></p>
+                                        <p class="origin hide">产地：加拿大</p>
+                                        <span class="unit-price">
+                                            <{if !empty($product.products.price.sales_price.price) && $product.products.price.sales_price.price > 0 }>
+                                                <em><{$product.products.price.sales_price.price|cur_odr}></em>／500g
+                                            <{else}>
+                                                <em><{$product.price|cur_odr}></em>
+                                                <{if !empty($product.unit)}>
+                                                    ／<{$product.unit}>
+                                                <{/if}>
+                                            <{/if}>
+
+                                        </span>
+                                        <span class="number">×<{$product.quantity}></span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </li> 
+                            </a>
+                            <{/if}>
+                            <{/foreach}>
+                            <{/if}>
+                            <!-- 商品列表END -->
+                        </ul>
+                    </li>
+                    <{/foreach}>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<{wap_pagers data=$pager}>
+<script>
+j(function(){
+    //删除订单
+    j('.delOrder').click(function(event){
+        event.stopPropagation();//阻止事件冒泡
+        var order_id = j(this).attr('order_id');
+        var url = "<{link app=b2c ctl=wap_order act=dodelete}>";
+        layer.confirm('确定要删除吗？',function(){
+            var index = layer.load(1);
+            j.getJSON(url,{order_id:order_id},function(res){
+                if(res.error == 0){
+                    layer.msg(res.message);
+                    location.href = res.data;
+                }else{
+                    layer.msg(res.message,{icon: 5});
+                }
+                layer.close(index);
+            });
+        });
+    });
+
+    //确认收货
+    j('.doReceive').click(function(event){
+        event.stopPropagation();//阻止事件冒泡
+        var order_id = j(this).attr('order_id');
+        var url = "<{link app=b2c ctl=wap_member act=doReceive}>";
+        layer.confirm('确定执行操作吗？',function(){
+            var index = layer.load(1);
+            j.getJSON(url,{order_id:order_id},function(res){
+                if(res.error == 0){
+                    layer.msg(res.message);
+                    location.reload();
+                }else{
+                    layer.msg(res.message,{icon: 5});
+                }
+                layer.close(index);
+            });
+        });
+    });
+});
+
+</script>

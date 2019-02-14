@@ -1,0 +1,37 @@
+<form id="form" action="index.php?app=b2c&ctl=admin_merchant_type&act=save"  method="POST" >
+  <input type="hidden" name="merchant_type_id" value="<{$row.merchant_type_id}>">
+  <div class="tableform">
+    <div class="division">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>商户类型：<{/t}></th>
+          <td><{input type="text" name="merchant_type" vtype="required" value=$row.merchant_type}></td>
+        </tr>
+        <tr>
+          <th><em><font color='red'>*</font></em><{t}>排序：<{/t}></th>
+          <td>
+            <input class="x-input" type="number" name="ordernum" vtype="required" value="<{$row.ordernum}>"  placeholder="越小越靠前" />
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+  <div class="table-action"> <{button type="submit"  label=$___b2c="保存"|t:'b2c'}> </div>
+</form>
+<script>
+$('form').store('target',{
+    onComplete:function(){
+    },
+    onSuccess:function(res){
+        var data = JSON.decode(res);
+        var finder = finderGroup['<{$finder_id}>'];
+        if (data.success != undefined && data.success != "")
+        {
+            if($('form').getParent('.dialog'))
+            $('form').getParent('.dialog').retrieve('instance').close();
+            window.finderGroup['<{$env.get._finder.finder_id}>'].refresh();//刷新用这个，不然会报错-无法删除
+        }
+    }
+});
+</script> 

@@ -1,0 +1,60 @@
+<{if $setting.buytarget == '2'}>
+<{assign var='buytarget' value='target="_blank_cart"'}>
+<{elseif $setting.buytarget == '3'}>
+<{assign var='buytarget' value='target="_dialog_minicart"'}>
+<{/if}>
+<form action="<{link app=b2c ctl=site_cart act=add arg0=goods}>" method="post" <{$buytarget}>>
+  <input type="hidden" name="prepare_type" value="<{$page_product_basic.promotion_type}>">
+  <input type="hidden" name="btype">
+  <input type="hidden" name="goods[goods_id]" value="<{$page_product_basic.goods_id}>">
+  <input type="hidden" name="goods[product_id]" value="<{$page_product_basic.product_id}>">
+  <div class="product-side">
+    <{include file='site/product/info/pic.html'}>
+    <!-- 分享推荐收藏 -->
+    <{include file='site/product/info/share.html'}>
+  </div>
+  <div class="product-main clearfix">
+    <!-- 商品基本信息 -->
+    <div id="product_information" class="product-information">
+        <!--商品标题-->
+        <div class="detail-title">
+             <p><{$page_product_basic.title}></p>
+             <{if $page_product_basic.brief}>
+             <span class="p-num"><{$page_product_basic.brief}></span>
+             <{/if}>
+        </div>
+
+     <{ if $page_product_basic.promotion_type != 'prepare'}>
+        <{include file='site/product/info/price.html' app=$app_name}>
+      <!-- 赠品和促销 --> 
+        <{include file='site/product/info/promotion.html'}>
+      <{else}>
+        <{include file='site/product/prepare/price.html' app=$app_name}>
+      <{/if}>
+
+      <!-- 扩展属性 -->
+      <{include file='site/product/info/props.html'}>
+      <!-- 购买区 -->
+      <div class="product-buy">
+        <!-- 商品规格 -->
+        <{if $page_product_basic.spec.goods && $page_product_basic.goods_marketable == 'true'}>
+        <{include file='site/product/info/spec.html'}>
+        <{/if}>
+        <div class="product-action">
+          <ul>
+            <{if $page_product_basic.promotion_type != 'prepare'}>
+              <!--商品库存-->
+              <{include file='site/product/info/store.html'}>
+              <!--购买按钮-->
+              <{include file='site/product/info/btn.html'}>
+            <{else}>
+               <{include file='site/product/prepare/store.html'}>
+               <{include file='site/product/prepare/btn.html'}>
+            <{/if}>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<img class="hide" src="<{link app=b2c ctl=site_product act=cron arg=$page_product_basic.goods_id }>" width="1" border="none" height="1">

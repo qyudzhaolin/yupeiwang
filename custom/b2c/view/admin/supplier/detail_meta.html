@@ -1,0 +1,67 @@
+<{foreach from=$attr item=item name="item" key='row'}>
+<tr>
+<th><{if $item.attr_required eq 'true'}><em class="red">*</em><{/if}><{$item.attr_name}>：</th>
+<td>
+    <{if $item.attr_type =='date'}>
+        <{if $item.attr_value != '0-0-0'}>
+        <{if $item.attr_required eq 'true'}>
+        <{input type='date' vtype="required&&date" name=$item.attr_column value=$item.attr_value}>
+        <{else}>
+        <{input type='date' name=$item.attr_column value=$item.attr_value}>
+        <{/if}>
+        <{else}>
+        <{if $item.attr_required eq 'true'}>
+        <{input type="date" vtype="required&&date" name=$item.attr_column}>
+        <{else}>
+        <{input type="date" vtype="date" name=$item.attr_column}>
+        <{/if}>
+        <{/if}>
+        <{/if}>
+        <!-- 增加判断如果地区是非必选就不要必须选择@lujy -->
+        <{if $item.attr_type =='region'}>
+        <{if $item.attr_required eq 'true'}>
+        <{input app=ectools type="region" name=$item.attr_column vtype='area' }>
+        <{else}>
+        <{input app=ectools type="region" name=$item.attr_column }>
+        <{/if}>
+        <{/if}>
+
+        <{if $item.attr_type =='gender'}>
+        <{input type='gender' name=$item.attr_column value=$item.attr_value }>
+        <{/if}>
+
+        <{if $item.attr_type =='select'}>
+        <select name='<{$item.attr_column}>' <{if $item.attr_required eq 'true'}>class='_x_ipt' vtype='required'<{/if}>>
+            <option value='' <{if $item.attr_value == ''}>selected='true'<{/if}>><{t}>- 请选择 -<{/t}></option>
+            <{foreach from=$item.attr_option item=option name="option"}>
+            <option value='<{$option}>' <{if $item.attr_value == $option}>selected='true'<{/if}>><{$option}></option>
+            <{/foreach}>
+        </select>
+        <{/if}>
+
+        <{if $item.attr_type =='checkbox'}>
+
+        <{foreach from=$item.attr_option item=checkbox name="checkbox" }>
+        <input type='checkbox' name=box:<{$item.attr_column}>[] value='<{$checkbox}>'><label><{$checkbox}></label><br/>
+        <{/foreach}>
+        <input type='hidden' name='<{$item.attr_column}>[]' value='%no%'>
+        <{if $item.attr_required eq 'true'}>
+        <input type='hidden' class='_x_ipt' vtype='requiredcheckbox'/>
+        <{/if}>
+        <{/if}>
+
+
+        <{if $item.attr_type == 'text'}>
+        <input class="x-input swidth" type='text' name=<{$item.attr_column}> value='<{$item.attr_value}>' vtype='<{if $item.attr_required eq 'true'}>required&&<{/if}><{$item.attr_valtype}>' />
+        <{/if}>
+
+        <{if $item.attr_type == 'number'}>
+        <input type='text' name=<{$item.attr_column}> value='<{$item.attr_value}>' vtype='<{if $item.attr_required eq 'true'}>required&&<{/if}><{$item.attr_valtype}>' />
+        <{/if}>
+
+        <{if $item.attr_type == 'alpha'}>
+        <input class="x-input swidth" type='text' name=<{$item.attr_column}> value='<{$item.attr_value}>' vtype='<{if $item.attr_required eq 'true'}>required&&<{/if}><{$item.attr_type}>' />
+        <{/if}>
+     </td>
+    </tr>
+<{/foreach}>

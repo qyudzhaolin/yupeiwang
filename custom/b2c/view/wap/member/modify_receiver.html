@@ -1,0 +1,74 @@
+<div class="full-screen">
+    <header class="hide">
+    <div class="a-bar">
+        <a href="javascript:history.back()" class="a-back">
+            <i class="arr left"></i>
+            返回
+        </a>
+        <div class="a-name">
+            <{if $addr_id}>编辑收货地址<{else}>添加收货地址<{/if}>
+        </div>
+        <div class="a-right">
+        </div>
+    </div>
+    </header>
+        <form action='<{link app=b2c ctl="wap_member" act="save_rec"}>' class="form" method="post" data-type="ajax">
+            <input type="hidden" name="addr_id" value="<{$addr_id}>">
+            <input name="area" package="mainland" id="addr" value="<{$area}>" type="hidden">
+            <div class="add-address">
+            	<div class="address-group-region">
+                    <span id="J_Address" class="J_Address">
+                        <{if !empty($area)}>
+                        <{$area|region}>
+                        <{else}>
+                        <a class="c666">省 市 区</a>
+                        <{/if}>
+                    </span>
+            	</div>
+            	<div class="address-group-multi">
+                    <textarea placeholder="详细地址，如街道、楼牌号等" name="addr" required="required" data-caution="收获地址不能为空"><{$addr}></textarea>
+            	</div>
+            	<div class="address-group">
+                    <input type="text" placeholder="姓名" name="name" value="<{$name}>" required="required" data-caution="收货人姓名不能为空" />
+            	</div>            	
+            	<div class="address-group">
+                    <input type="text"  placeholder="手机号码" name="mobile" value="<{$phone.mobile}>" vtype="mobile" data-caution="手机不能为空" />
+            	</div>            	
+
+            </div>
+            <div class="default-address">
+                <input type="checkbox" name="def_addr" value="1" id="def_addr_check" <{if $default == '1'}>checked='checked'<{/if}> />
+                <i>设为默认地址</i>
+            </div>
+            <div class="add-address-btn" >
+                <button type="submit" class="btn" rel="_request">保存</button>
+            </div>
+        </form>
+</div>
+<{script src="Popt.js" app="wap"}>
+<{script src="cityJson.js" app="wap"}>
+<{script src="citySet.js" app="wap"}>
+<script>
+j(function(){
+    //点击选择地址
+    j("#J_Address").click(function (e) {
+        SelCity(this,e,function(){
+            //拼接字串提交到后台
+            var addrFormat = 'mainland:' + j('#hcity').val();
+            var dataId = j('#hcity').attr('data-id');
+            if (j('#hproper').val()) {
+                addrFormat += '/' + j('#hproper').val();
+                dataId = j('#hproper').attr('data-id');
+            }
+            if (j('#harea').val()) {
+                addrFormat += '/' + j('#harea').val();
+                dataId = j('#harea').attr('data-id');
+            }
+            addrFormat += ':' + dataId;
+            j('#addr').val(addrFormat);
+        });
+        //console.log(this);
+    });
+});
+</script>
+  

@@ -1,0 +1,36 @@
+<span class="setBox fullTablebox">
+   <div class="top-box">
+       <input type="text" name="search-text" class="search-text x-input" value="<{$keyword}>" />
+       <span class="min-search-button"  onclick="manage.selectCloudGoods(1)">搜索</span>
+   </div>
+   <table>
+     <thead>
+       <tr>
+         <th><span>选择</span></th>
+         <th><span>商品名称</span></th>
+         <th><span>商品编号</span></th>
+         <th><span>货主编号</span></th>
+       </tr>
+     </thead>
+     <tbody>
+     <{if !empty($datas.rows)}>   
+     <{foreach from=$datas.rows item=data name="item"}>
+       <tr <{if $sku_code == $data.skuCode}>class="bkmark"<{/if}>>
+         <td width="70">
+            <span>
+                <input <{if $sku_code == $data.skuCode}>checked="checked"<{/if}> type="radio" name="cloudGoods" value="<{$data.skuCode}>" unit="<{$data.shipUomName}>" unitEn="<{$data.ship_uom}>"/>
+            </span>
+         </td>
+         <td><span><{$data.skuName}></span></td>
+         <td><span><{$data.skuCode}></span></td>
+         <td><span><{$data.ownerCode}></span></td>
+       </tr>
+      <{/foreach}>
+      <{else}>
+          <tr>
+              <td colspan="4">暂无数据</td>
+          </tr>
+      <{/if}>
+     </tbody>
+  </table>  
+</span>

@@ -1,0 +1,35 @@
+<form action="<{link app=b2c ctl=wap_wechat act=doBindMember}>" class="form"  method="post" data-type="ajax">
+  <input type="hidden" name="forward" value="<{$forward}>">
+  <div class="c-g">
+    <label class="c-l">用户名：</label>
+    <div class="c">
+      <input type="text" name="uname" value="<{$loginName}>" placeholder="用户名/邮箱/手机号" class="text a-account" required="required" data-caution="用户名不能为空">
+    </div>
+  </div>
+  <div class="c-g">
+    <label class="c-l">密码：</label>
+    <div class="c">
+      <input type="password" name="password" placeholder="填写密码" class="text" required="required" data-caution="密码不能为空">
+    </div>
+  </div>
+
+  <{if $show_varycode}>
+  <div class="c-g">
+    <label class="c-l">验证码：</label>
+    <div class="c">
+      <{input type="vcode" name="verifycode" class="verify-input" placeholder="填写验证码" key='b2c' label='换一张'}>
+    </div>
+  </div>
+  <{/if}>
+
+  <div class="btn-bar">
+    <button type="submit" class="btn orange" rel="_request">绑定我的账户</button>
+  </div>
+  <div style='margin:10px'>
+  </div>
+  <div class="btn-bar">
+    <a class='btn red' href="<{link app=b2c ctl=wap_wechat act=createNewNumber}>">
+      我是新会员
+    </a>
+  </div>
+</form>

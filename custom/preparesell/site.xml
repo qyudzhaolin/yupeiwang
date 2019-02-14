@@ -1,0 +1,15 @@
+<site>
+    <module controller='site_preparesell' >
+        <name>preparesell</name>
+        <title>预售</title>
+        <disable>false</disable>
+        <allow_menu act='index'>预售列表页</allow_menu>
+        <default_menu>
+            <title>预售</title>
+            <act>index</act>
+            <params id="type_id">1</params>
+            <display_order>2</display_order>
+            <hidden>false</hidden>
+        </default_menu>
+    </module>
+</site>

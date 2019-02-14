@@ -1,0 +1,26 @@
+<div class="top_extra">
+	<h2 class="head-title hide"><{t}><{$title}><{/t}></h2>
+    <{include file="analysis/time_header.html" app="ectools"}>
+    <{if $detail_hidden < 1}>
+	<div class="large">
+        <{include file="analysis/detail.html" app="ectools"}>
+	</div>
+    <{/if}>
+	
+</div>
+
+<script>
+	window.addEvent('domready',function(e){
+		var lazyload = new LazyLoad();
+		new ItemAgg($ES('.sort li'),$ES('.chart-view .sort-items'),{
+			activeName:'current',
+			onActive:function(tab,item){
+				lazyload.loadCustomLazyData(item,'textarea');
+				if(window.ie){
+					var itemcur=$E('.chart-view .chart-item-cur');
+					$E('iframe',itemcur).contentWindow.location.reload();
+				}
+			}
+		});
+	});
+</script>

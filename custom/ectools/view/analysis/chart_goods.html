@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>chart</title>
+<style>
+   html,body{overflow:visible;padding:0;margin:0;}
+</style>
+<{script src="highcharts6/jquery-1.8.3.min.js" app="desktop"}>
+<{script src="highcharts6/highcharts.js" app="desktop"}>
+<{script src="highcharts6/exporting.js" app="desktop"}>
+<{script src="highcharts6/highcharts-zh_CN.js" app="desktop"}>
+<{script src="global.js" app="desktop"}>
+
+<style>
+.chartContainer{height: 250px; margin: 1em auto;border:1px solid #2f7ed8;}
+.twochartsRight{float:right;}
+.twochartsLeft{float:left;}
+.showdata{text-align: right;color: #8c8c8c;font-size: 12px;margin: 5px 13px 0 0;}
+.showdata input{vertical-align:middle;margin: 0 3px 4px 0;}
+</style>
+</head>
+<body>
+<div class="showdata"><input onclick="manage.showChartsData(this,{'#container':chartConfig,'#container2':chartConfig2})" type="checkbox" name="showdata" value="" />显示数据</div>
+<div id="container" class="chartContainer"></div>
+<div id="container2" class="chartContainer" style="display:none"></div>
+<script>
+var chartConfig={};
+var chartConfig2={};
+$(function () {
+	<{if $target=='onlineGoodsNum'}>
+	$('#container').addClass('twochartsLeft').css('width','35%');
+	$('#container2').show().addClass('twochartsRight').css('width','63%');;
+	$('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+		title: {text: '一级分类商品数量'},
+        xAxis: [{
+            categories: <{$xdatas.xdata0Cates|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+		colors: ['#2f7ed8'],//定义颜色
+		series: [{
+			name: '商品数量',
+			type: 'column',
+			data: <{$datas[0]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+
+		}]
+    });
+	
+	$('#container2').highcharts(chartConfig2={
+        chart: {zoomType: 'xy'},
+		title: {text: '二级分类商品数量'},
+        xAxis: [{
+            categories: <{$xdatas.xdata1Cates|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+		colors: ['#2f7ed8'],//定义颜色
+		series: [{
+			name: '商品数量',
+			type: 'column',
+			data: <{$datas[1]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+
+		}]
+    });
+	
+	<{elseif $target=='oneCateSales'}>
+	$('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+		title: {text: ''},
+        xAxis: [{
+            categories: <{$xdatas.xdata0Cates|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '销售额'}
+        }, {
+            title: {text: '销量'},
+            labels: {format: '{value}'},
+            opposite: true
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {},
+		colors: ['#2f7ed8', '#C0504D', '#9BBB59', '#896EA8'],//定义颜色
+		series: [{
+			name: '销售额',
+			type: 'column',
+			data: <{$datas[0]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+		}, {
+			name: '销售量',
+			type: 'line',
+			yAxis: 1,
+			data: <{$datas[1]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+		},  {
+			name: '销售订单量',
+			type: 'line',
+			yAxis: 1,
+			data: <{$datas[2]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+		}]
+    });	
+	<{elseif $target=='threeCateSalesTop'}>
+	$('#container').addClass('twochartsLeft').css('width','45%');
+	$('#container2').show().addClass('twochartsRight').css('width','53%');;
+	$('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+		title: {text: '销售量'},
+        xAxis: [{
+            categories: <{$xdatas.xdata2Cates_0|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+		colors: ['#2f7ed8'],//定义颜色
+		series: [{
+			name: '商品数量',
+			type: 'column',
+			data: <{$datas[0]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+
+		}]
+    });
+	
+	$('#container2').highcharts(chartConfig2={
+        chart: {zoomType: 'xy'},
+		title: {text: '销售额'},
+        xAxis: [{
+            categories: <{$xdatas.xdata2Cates_1|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {enabled: false},
+		colors: ['#2f7ed8'],//定义颜色
+		series: [{
+			name: '商品数量',
+			type: 'column',
+			data: <{$datas[1]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+
+		}]
+    });
+	<{elseif $target=='threeCateReturnTop'}>
+	$('#container').highcharts(chartConfig={
+        chart: {zoomType: 'xy'},
+		title: {text: ''},
+        xAxis: [{
+            categories: <{$xdatas.xdata2Cates|json_encode}>,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {format: '{value}'},
+            title: {text: '数量'}
+        }, {
+            title: {text: '百分比'},
+            labels: {format: '{value}%'},
+            opposite: true
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {},
+		colors: ['#2f7ed8', '#C0504D', '#9BBB59', '#896EA8'],//定义颜色
+		series: [{
+			name: '销量',
+			type: 'column',
+			data: <{$datas[0]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+		}, {
+			name: '退换货',
+			type: 'column',
+			yAxis: 1,
+			data: <{$datas[1]|array_values|json_encode}>,
+			tooltip: {valueSuffix: ''}
+		},  {
+			name: '退换货率',
+			type: 'line',
+			yAxis: 1,
+			data: <{$datas[2]|array_values|json_encode}>,
+			tooltip: {valueSuffix: '%'}
+		}]
+    });	
+	
+	
+	<{/if}>
+});
+
+</script>
+</body>
+</html>

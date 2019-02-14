@@ -1,0 +1,7 @@
+<{capture name="listBody"}>
+<div class="objectBox contractGoods" item_id="<{$item.product_id}>" name="<{$item.name}>">
+    <input name="data[product][<{$item.product_id}>][product_id]" type="hidden" value="<{$item.product_id}>"/>
+    <input name="data[product][<{$item.product_id}>][gbn]" type="hidden" value="<{$item.bn}>"/>
+    <span class="bn t-n1"><{$item.extend.bn|default:'保存后由系统生成'}></span><span class="t-n2"><{$item.weight|default:'&nbsp;'}></span><span class="t-n2"><{$item.unit|default:'&nbsp;'}></span><span class="t-n3" title="<{$item.extend.spec}>"><{if empty($item.extend)}>保存后可见<{else}><{$item.extend.spec|default:'&nbsp;'}><{/if}></span><span class="t-n2"><{if empty($item.extend)}>保存后可见<{else}><{$item.extend.attr|default:'&nbsp;'}><{/if}></span><span class="t-n3" title="<{$item.extend.area}>"><{if empty($item.extend)}>保存后可见<{else}><{$item.extend.area|default:'&nbsp;'}><{/if}></span><span class="t-n3" title="<{$item.extend.shortname}>"><{if empty($item.extend)}>保存后可见<{else}><{$item.extend.shortname|default:'&nbsp;'}><{/if}></span><span class="t-n4"><input name="data[product][<{$item.product_id}>][num]" tag="num" placeholder="数量" value="<{$item.extend.num}>"/></span><span class="t-n4"><input name="data[product][<{$item.product_id}>][price]" tag="price" placeholder="单价" value="<{$item.extend.price}>"/></span><span class="t-n4"><input name="data[product][<{$item.product_id}>][storehouse]" tag="storehouse" placeholder="仓库" value="<{$item.extend.storehouse}>"/></span>
+</div>
+<{/capture}>

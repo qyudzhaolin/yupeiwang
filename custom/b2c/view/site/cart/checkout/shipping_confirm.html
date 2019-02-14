@@ -1,0 +1,22 @@
+<tbody>
+    <tr>
+        <td class="order-td">
+            <span><input type="hidden" name="def_addr_id" value="<{$def_addr.addr_id}>"><{$def_addr.area|ship_area}></span>
+            <span><{$def_addr.area|ship_area}><{$def_addr.addr}></span>
+            <{if $def_addr.zip}>
+            <span class="order-zip"><{$def_addr.zip}></span>
+            <{/if}>
+            <span class="order-name"><{$def_addr.name}></span>
+            <span class="order-mobile"><{$def_addr.mobile}></span>
+            <{if $def_addr.tel}>
+            <span><{$def_addr.tel}></span>
+            <{/if}>
+        </td>
+    </tr>
+
+    <{if $site_checkout_receivermore_open == 'true'}>
+    <tr>
+        <td><span>送货时间</span>：<span><{$def_addr.day}>，<{$def_addr.time}></span></td>
+    </tr>
+    <{/if}>
+</tbody>
